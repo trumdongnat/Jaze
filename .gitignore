@@ -243,3 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+#library
+.lib/
+/Jaze/lib/RCWPF/2015.2.728.45.NoXaml
