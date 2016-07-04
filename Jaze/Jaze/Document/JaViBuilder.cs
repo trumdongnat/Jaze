@@ -28,7 +28,7 @@ namespace Jaze.Document
             //build Vi mean
             if (javi.Mean != null)
             {
-                document.Blocks.Add(BuildWordMean(javi.Mean));
+                document.Blocks.Add(BuilderHelper.BuildWordMean(javi.Mean));
             }
             //TODO verd division
             
@@ -98,7 +98,7 @@ namespace Jaze.Document
                 //add example
                 if (mean.Examples != null && mean.Examples.Count > 0)
                 {
-                    var examples = BuilderHelper.BuildExamples(mean.Examples.ToArray());
+                    var examples = BuilderHelper.BuildJaViExamples(mean.Examples.ToArray());
                     examples.Padding = new Thickness(10,0,0,0);
                     item.Blocks.Add(examples);
                 }

@@ -29,7 +29,7 @@ namespace Jaze.Document
             //build document header
             document.Blocks.Add(BuildDocumentHeader(vija.Word));
             //build Vi mean
-            document.Blocks.Add(BuildWordMean(vija.Mean));
+            document.Blocks.Add(BuilderHelper.BuildWordMean(vija.Mean));
             return document;
         }
 
@@ -80,7 +80,7 @@ namespace Jaze.Document
                 //add example
                 if (mean.Examples != null && mean.Examples.Count > 0)
                 {
-                    var examples = BuilderHelper.BuildExamples(mean.Examples.ToArray());
+                    var examples = BuilderHelper.BuildJaViExamples(mean.Examples.ToArray());
                     examples.Padding = new Thickness(10, 0, 0, 0);
                     item.Blocks.Add(examples);
                 }

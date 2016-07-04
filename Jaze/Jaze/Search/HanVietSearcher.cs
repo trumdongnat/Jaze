@@ -14,7 +14,8 @@ namespace Jaze.Search
             
             if (string.IsNullOrWhiteSpace(key))
             {
-                return GetAll();
+                //return GetAll();
+                return null;
             }
 
             switch (searchArg.Type)

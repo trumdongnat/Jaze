@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Jaze.Model;
 
 namespace Jaze.Search
@@ -12,6 +13,7 @@ namespace Jaze.Search
             {
                 return null;
             }
+            arg.SearchKey = Regex.Replace(arg.SearchKey, @"\s+", " ");
             arg.SearchKey = arg.SearchKey.Trim();
             switch (dictionary)
             {

@@ -57,7 +57,7 @@ namespace Jaze.Document
             });
 
             //Grammar Examples
-            var examplesBlock = BuilderHelper.BuildExamples(detail.Examples);
+            var examplesBlock = BuilderHelper.BuildJaViExamples(detail.Examples);
             examplesBlock.Margin = new Thickness(15,10,0,0);
             section.Blocks.Add(examplesBlock);
             section.Blocks.Add(BuildAttribute("Ghi chú: ", detail.Note));

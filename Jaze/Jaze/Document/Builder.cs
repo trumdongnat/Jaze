@@ -38,7 +38,17 @@ namespace Jaze.Document
             {
                 return BuildVija(model as ViJa);
             }
+
+            if (model is JaEn)
+            {
+                return BuildJaEn(model as JaEn);
+            }
             return null;
+        }
+
+        private static FlowDocument BuildJaEn(JaEn jaEn)
+        {
+            return JaEnBuilder.Build(jaEn);
         }
 
         private static FlowDocument BuildVija(ViJa viJa)

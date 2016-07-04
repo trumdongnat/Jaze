@@ -247,3 +247,5 @@ ModelManifest.xml
 #library
 .lib/
 /Jaze/lib/RCWPF/2015.2.728.45.NoXaml
+Jaze/Jaze/Views/NewWindow.xaml
+Jaze/Jaze/Views/NewWindow.xaml.cs

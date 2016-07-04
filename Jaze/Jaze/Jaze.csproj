@@ -106,6 +106,7 @@
     <Compile Include="Document\Builder.cs" />
     <Compile Include="Document\GrammarBuilder.cs" />
     <Compile Include="Document\HanVietBuilder.cs" />
+    <Compile Include="Document\JaEnBuilder.cs" />
     <Compile Include="Document\JaViBuilder.cs" />
     <Compile Include="Document\JsonObject\GrammarDetail.cs" />
     <Compile Include="Document\JsonObject\WordMean.cs" />
@@ -232,7 +233,6 @@
     <Resource Include="Assets\find.png" />
     <Resource Include="Assets\list_bookmark.png" />
     <Resource Include="Assets\mark.png" />
-    <Resource Include="Assets\setting.png" />
     <Resource Include="Assets\setting2.png" />
     <Resource Include="Assets\table.png" />
     <Resource Include="Assets\undo.png" />
@@ -243,6 +243,9 @@
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
       <Name>HtmlConverter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

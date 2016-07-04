@@ -46,40 +46,10 @@ namespace Jaze.Document
                 }
             });
 
-            //doc.Append("<Table Margin=\"0\"><TableRowGroup>");
-            //doc.Append("<TableRow>")
-            //    .Append("<TableCell>").Append((string)BuildAttributeSet(kanji)).Append("</TableCell>")
-            //    .Append("<TableCell>")
-            //    .Append((string))
-            //    .Append("</TableCell>")
-            //    .Append("</TableRow>");
-            //doc.Append("<TableRow>")
-            //    .Append("<TableCell>").Append((string)BuildViMean(kanji.ViMean)).Append("</TableCell>")
-            //    .Append("<TableCell>").Append((string)BuildEnMean(kanji.EnMean)).Append("</TableCell>")
-            //    .Append("</TableRow>");
-            //doc.Append("</TableRowGroup></Table>");
-            //doc.Append("</FlowDocument>");
             return document;
         }
 
-        //private static string BuildInformation(Kanji kanji)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<Section>");
-        //    builder.Append("<Paragraph>Thông tin chung</Paragraph>");
-        //    builder.Append("<Table Margin=\"0\"><TableRowGroup><TableRow>");
-        //    //Attribute Set
-        //    builder.Append("<TableCell>").Append((string)BuildAttributeSet(kanji)).Append("</TableCell>");
-        //    //build kanji stroke
-        //    builder.Append("<TableCell>")
-        //        .Append((string)BuildKanjiStroke(kanji.Word, kanji.HanViet))
-        //        .Append("</TableCell>");
-
-        //    builder.Append("</TableRow></TableRowGroup></Table>");
-        //    builder.Append("</Section>");
-
-        //    return builder.ToString();
-        //}
+   
 
         private static Block BuildAttributeSet(Kanji kanji)
         {
@@ -89,7 +59,7 @@ namespace Jaze.Document
             };
 
             //add list attribute
-            list.ListItems.Add(BuildAttribute("Bộ thủ: ", kanji.Radical.Word));
+            list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
             list.ListItems.Add(BuildAttribute("Cách viết khác: ", kanji.Variant));
             list.ListItems.Add(BuildAttribute("Onyomi: ", kanji.Onyomi));
             list.ListItems.Add(BuildAttribute("Kunyomi: ", kanji.Kunyomi));
@@ -98,7 +68,7 @@ namespace Jaze.Document
                 kanji.Frequence == int.MaxValue ? "?/2500" : "" + kanji.Frequence + "/2500"));
             list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level == null ? "": kanji.Level.Name));
             list.ListItems.Add(BuildAttribute("Thành phần: ", kanji.Component));
-
+            list.ListItems.Add(BuildAttribute("Gần giống: ", kanji.Similar));
             return list;
         }
 
@@ -120,41 +90,6 @@ namespace Jaze.Document
 
             return item;
         }
-
-        //private static string BuildAttributeHyperLink(string name, string contain)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<ListItem>").Append("<Paragraph>");
-        //    builder.Append("<Run Foreground=\"Gray\" FontSize=\"14\" Text=\"").Append(name).Append(": \" />");
-        //    builder.Append(BuilderHelper.BuildJapaneseSentence(contain, "Black"));
-        //    builder.Append("</Paragraph>").Append("</ListItem>");
-        //    return builder.ToString();
-        //}
-
-        //private static string BuildKunyomiAttribute(string kunyomi)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<ListItem>").Append("<Paragraph>");
-        //    builder.Append("<Run Foreground=\"Gray\" FontSize=\"14\" Text=\"Kunyomi: \" />");
-        //    //build kunyomi
-        //    if (!string.IsNullOrWhiteSpace(kunyomi))
-        //    {
-        //        kunyomi = kunyomi.Replace(" ", "");
-        //        var arr = kunyomi.Split('、');
-        //        for (int i = 0; i < arr.Length; i++)
-        //        {
-        //            string s = arr[i];
-        //            builder.Append("<Hyperlink Foreground=\"Black\">").Append(s).Append("</Hyperlink>");
-        //            if (i < arr.Length - 1)
-        //            {
-        //                builder.Append("<Run Text=\"、 \"/>");
-        //            }
-        //        }
-        //    }
-        //    //
-        //    builder.Append("</Paragraph>").Append("</ListItem>");
-        //    return builder.ToString();
-        //}
 
         private static Block BuildKanjiStroke(string kanji, string hanviet)
         {

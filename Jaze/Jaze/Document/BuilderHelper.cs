@@ -1,53 +1,83 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Jaze.DAO;
+using Jaze.Document.JsonObject;
 using Jaze.Model;
-using Jaze.Util;
+using Newtonsoft.Json;
 
 namespace Jaze.Document
 {
     static class BuilderHelper
     {
-
-        public static string BuildJapaneseSentence(string sentence, string hyperlinkColor = "Black")
+        public static Block BuildWordMean(string json)
         {
-            if (string.IsNullOrWhiteSpace(sentence))
+
+            if (string.IsNullOrWhiteSpace(json))
             {
-                return string.Empty;
+                return new Section();
             }
-
-            //divide
-            //toCharArray not working
-            //var arr = sentence.ToCharArray();
-            //
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < sentence.Length; i++)
+            var means = JsonConvert.DeserializeObject<WordMean[]>(json);
+            //build list mean
+            List list = new List()
             {
-                //s is kanji
-                char c = sentence[i];
-                if (ConvertStringUtil.IsKanji(c))
+                MarkerStyle = TextMarkerStyle.Decimal,
+                Padding = new Thickness(20, 0, 0, 0),
+            };
+
+
+            foreach (var mean in means)
+            {
+                ListItem item = new ListItem();
+                //item.Margin = new Thickness(0);
+                list.StartIndex = 2;
+                //add mean
+                var paragragh = new Paragraph();
+                if (!string.IsNullOrWhiteSpace(mean.Kind))
                 {
-                    builder.Append("<Hyperlink Foreground=\"")
-                        .Append(hyperlinkColor)
-                        .Append("\">")
-                        .Append(c)
-                        .Append("</Hyperlink>");
+                    paragragh.Inlines.Add(new Run($"({mean.Kind})")
+                    {
+                        Foreground = Brushes.Crimson
+                    });
+                    //paragragh.Inlines.Add(new LineBreak());
                 }
-                else
+                paragragh.Inlines.Add(new Run(mean.Mean));
+                item.Blocks.Add(paragragh);
+                
+                //add example
+                if (mean.Examples != null && mean.Examples.Count > 0)
                 {
-                    builder.Append("<Run>").Append(c).Append("</Run>");
+                    var examples = BuildJaViExamples(mean.Examples.ToArray());
+                    examples.Padding = new Thickness(10, 0, 0, 0);
+                    item.Blocks.Add(examples);
                 }
+
+                list.ListItems.Add(item);
             }
-
-            return builder.ToString();
-
+            return list;
         }
 
-        private static List<JaViExample> LoadExamples(int[] ids)
+        public static Block BuildJaViExamples(int[] listExamId)
+        {
+            var list = new List();
+            
+            //load example
+            foreach (var exam in LoadJaViExamples(listExamId))
+            {
+                var example = BuildJaViExample(exam);
+                if (example != null)
+                {
+                    list.ListItems.Add(new ListItem(example));
+                }
+                
+            }
+
+            return list;
+        }
+
+        private static List<JaViExample> LoadJaViExamples(int[] ids)
         {
             if (ids == null)
             {
@@ -61,26 +91,8 @@ namespace Jaze.Document
             return examples;
         }
 
-        public static Block BuildExamples(int[] listExamId)
-        {
-            var list = new List();
-            
-            //load example
-            foreach (var exam in LoadExamples(listExamId))
-            {
-                var example = BuildExample(exam);
-                if (example != null)
-                {
-                    list.ListItems.Add(new ListItem(example));
-                }
-                
-            }
 
-            return list;
-        }
-
-
-        private static Paragraph BuildExample(JaViExample exam)
+        private static Paragraph BuildJaViExample(JaViExample exam)
         {
             
             if (string.IsNullOrWhiteSpace(exam?.Japanese))
