@@ -47,6 +47,10 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -68,16 +72,13 @@
       <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Cloud.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Cloud.Controls">
-      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Cloud.Controls.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Telerik.Windows.Controls">
       <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Windows8">
-      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Themes.Windows8.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2013, Version=2015.2.728.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -89,33 +90,111 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Control\ListDictionary.xaml.cs">
+      <DependentUpon>ListDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ListSearchHistory.xaml.cs">
+      <DependentUpon>ListSearchHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ListSearchResult.xaml.cs">
+      <DependentUpon>ListSearchResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\SearchBar.xaml.cs">
+      <DependentUpon>SearchBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Document\BuilderHelper.cs" />
+    <Compile Include="Document\Builder.cs" />
+    <Compile Include="Document\GrammarBuilder.cs" />
+    <Compile Include="Document\HanVietBuilder.cs" />
+    <Compile Include="Document\JaViBuilder.cs" />
+    <Compile Include="Document\JsonObject\GrammarDetail.cs" />
+    <Compile Include="Document\JsonObject\WordMean.cs" />
+    <Compile Include="Document\KanjiBuilder.cs" />
+    <Compile Include="Document\ViJaBuilder.cs" />
+    <Compile Include="Model\Dictionary.cs" />
+    <Compile Include="Search\GrammarSearcher.cs" />
+    <Compile Include="Search\HanVietSearcher.cs" />
+    <Compile Include="Search\JaenSearcher.cs" />
+    <Compile Include="Search\JaviSearcher.cs" />
+    <Compile Include="Search\KanjiSearcher.cs" />
+    <Compile Include="Search\SearchArg.cs" />
+    <Compile Include="Search\Searcher.cs" />
+    <Compile Include="Search\VijaSearcher.cs" />
+    <Compile Include="Util\ConvertUtil.cs" />
+    <Compile Include="Views\KanjiPanel.xaml.cs">
+      <DependentUpon>KanjiPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListBoxResultTemplateSelector.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewWindow.xaml.cs">
+      <DependentUpon>NewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuickViewWindow.xaml.cs">
+      <DependentUpon>QuickViewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DAO\DatabaseContext.cs" />
-    <Compile Include="DAO\Model\JaEnExample.cs" />
-    <Compile Include="DAO\Model\Grade.cs" />
-    <Compile Include="DAO\Model\Grammar.cs" />
-    <Compile Include="DAO\Model\HanViet.cs" />
-    <Compile Include="DAO\Model\ViJa.cs" />
-    <Compile Include="DAO\Model\JaEn.cs" />
-    <Compile Include="DAO\Model\JaVi.cs" />
-    <Compile Include="DAO\Model\Kanji.cs" />
-    <Compile Include="DAO\Model\Level.cs" />
-    <Compile Include="DAO\Model\Part.cs" />
-    <Compile Include="DAO\Model\Radical.cs" />
-    <Compile Include="DAO\Model\JaViExample.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Model\JaEnExample.cs" />
+    <Compile Include="Model\Grade.cs" />
+    <Compile Include="Model\Grammar.cs" />
+    <Compile Include="Model\HanViet.cs" />
+    <Compile Include="Model\ViJa.cs" />
+    <Compile Include="Model\JaEn.cs" />
+    <Compile Include="Model\JaVi.cs" />
+    <Compile Include="Model\Kanji.cs" />
+    <Compile Include="Model\Level.cs" />
+    <Compile Include="Model\Part.cs" />
+    <Compile Include="Model\Radical.cs" />
+    <Compile Include="Model\JaViExample.cs" />
+    <Page Include="Control\ListDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\ListSearchHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\ListSearchResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\SearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KanjiPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuickViewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -145,6 +224,25 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\about.png" />
+    <Resource Include="Assets\book-multi-size.ico" />
+    <Resource Include="Assets\book.png" />
+    <Resource Include="Assets\find.png" />
+    <Resource Include="Assets\list_bookmark.png" />
+    <Resource Include="Assets\mark.png" />
+    <Resource Include="Assets\setting.png" />
+    <Resource Include="Assets\setting2.png" />
+    <Resource Include="Assets\table.png" />
+    <Resource Include="Assets\undo.png" />
+    <Resource Include="Assets\unmark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\JaDict\JaDict\HtmlConverter\HtmlConverter.csproj">
+      <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
+      <Name>HtmlConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

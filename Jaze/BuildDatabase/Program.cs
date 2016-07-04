@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jaze;
-using Jaze.DAO.Model;
 using Jaze.DAO;
+using Jaze.Model;
 using SQLite;
-using static System.Data.SqlClient.SqlBulkCopy;
 
 namespace BuildDatabase
 {
     class Program
     {
         const int Batch = 1000;
+
         static void Main(string[] args)
         {
-            UpdateFull();
             Console.WriteLine("finish");
             Console.ReadKey();
         }
+
+        
 
         private static void Test()
         {
@@ -147,7 +142,11 @@ namespace BuildDatabase
                         Onyomi = arr[7],
                         Kunyomi = arr[8],
                         VieMeaning = arr[9],
-                        EngMeaning = arr[10]
+                        EngMeaning = arr[10],
+                        Frequence = !string.IsNullOrWhiteSpace(arr[12]) ? int.Parse(arr[12]) : int.MaxValue,
+                        StrokeOrder = string.Empty,
+                        Variant = arr[13],
+                        Component = arr[14],
                     };
 
                     //radical
@@ -180,8 +179,6 @@ namespace BuildDatabase
                         parts[p].Kanjis.Add(kanji);
                     }
 
-                    kanji.Frequence = !string.IsNullOrWhiteSpace(arr[12]) ? int.Parse(arr[12]) : int.MaxValue;
-                    kanji.StrokeOrder = string.Empty;
                     container.Kanjis.Add(kanji);
                 }
                 Console.WriteLine("write to db");
@@ -234,7 +231,6 @@ namespace BuildDatabase
                 {
                     Struct = t[1],
                     Detail = t[2],
-
                     Meaning = t[4]
                 };
                 grammar.Level = levels[t[3]];
@@ -252,20 +248,18 @@ namespace BuildDatabase
 
             var sqliteDb = new SQLiteConnection(@"C:\Users\CuHo\Desktop\Mazii\jaen.db");
             var list = sqliteDb.Table<exam>().ToList();
-            
+
             int count = 0;
             foreach (var e in list)
             {
-               
                 Console.WriteLine(e.id);
                 container.JaEnExamples.Add(new JaEnExample()
                 {
                     English = e.eng,
                     Japanese = e.jpn
-                    
                 });
                 count++;
-                if (count % Batch == 0)
+                if (count%Batch == 0)
                 {
                     Console.WriteLine("saving");
                     container.SaveChanges();
@@ -290,17 +284,15 @@ namespace BuildDatabase
             int count = 0;
             foreach (var w in list)
             {
-
                 Console.WriteLine(w.id);
                 container.JaEns.Add(new JaEn()
                 {
                     Word = w.word,
                     Kana = w.phonetic,
                     Mean = w.mean
-
                 });
                 count++;
-                if (count % Batch == 0)
+                if (count%Batch == 0)
                 {
                     Console.WriteLine("saving");
                     container.SaveChanges();
@@ -325,17 +317,15 @@ namespace BuildDatabase
             int count = 0;
             foreach (var w in list)
             {
-
                 Console.WriteLine(w.id);
                 container.JaVis.Add(new JaVi()
                 {
                     Word = w.word,
                     Kana = w.kana,
                     Mean = w.mean
-
                 });
                 count++;
-                if (count % Batch == 0)
+                if (count%Batch == 0)
                 {
                     Console.WriteLine("saving");
                     container.SaveChanges();
@@ -360,7 +350,6 @@ namespace BuildDatabase
             int count = 0;
             foreach (var e in list)
             {
-
                 Console.WriteLine(e.id);
                 container.JaViExamples.Add(new JaViExample()
                 {
@@ -369,7 +358,7 @@ namespace BuildDatabase
                     VietNamese = e.mean
                 });
                 count++;
-                if (count % Batch == 0)
+                if (count%Batch == 0)
                 {
                     Console.WriteLine("saving");
                     container.SaveChanges();
@@ -394,16 +383,14 @@ namespace BuildDatabase
             int count = 0;
             foreach (var w in list)
             {
-
                 Console.WriteLine(w.id);
                 container.ViJas.Add(new ViJa()
                 {
                     Word = w.word,
                     Mean = w.mean
-
                 });
                 count++;
-                if (count % Batch == 0)
+                if (count%Batch == 0)
                 {
                     Console.WriteLine("saving");
                     container.SaveChanges();
@@ -414,6 +401,22 @@ namespace BuildDatabase
                 }
             }
             container.SaveChanges();
+        }
+
+        private static void UpdateKanjiSimilar()
+        {
+            using (var container = new DatabaseContext())
+            {
+                var arr = System.IO.File.ReadAllLines(@"D:\kanji_similar.txt");
+                var dic = container.Kanjis.ToDictionary(k => k.Word, k => k);
+                foreach (var s in arr)
+                {
+                    string k = s.Substring(0, 1);
+                    string similar = s.Substring(1);
+                    dic[k].Similar = similar;
+                }
+                container.SaveChanges();
+            }
         }
     }
 }
