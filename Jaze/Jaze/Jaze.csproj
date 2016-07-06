@@ -239,12 +239,6 @@
     <Resource Include="Assets\unmark.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\JaDict\JaDict\HtmlConverter\HtmlConverter.csproj">
-      <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
-      <Name>HtmlConverter</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

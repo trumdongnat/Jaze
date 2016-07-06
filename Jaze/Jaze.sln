@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaze", "Jaze\Jaze.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildDatabase", "BuildDatabase\BuildDatabase.csproj", "{166123B4-84C7-4285-8D73-8403D7F374B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConverter", "..\..\JaDict\JaDict\HtmlConverter\HtmlConverter.csproj", "{E33DC949-9668-4025-8F3E-B971052126BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConverter", "HtmlConverter\HtmlConverter.csproj", "{E33DC949-9668-4025-8F3E-B971052126BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
