@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Jaze.DAO;
 using Jaze.Model;
+using Jaze.Util;
 
 namespace Jaze.Search
 {
@@ -19,6 +20,8 @@ namespace Jaze.Search
                 //return GetAll();
                 return null;
             }
+
+            key = key.Contains("-") ? ConvertStringUtil.ConvertRomaji2Katakana(key) : ConvertStringUtil.ConvertRomaji2Hiragana(key);
 
             switch (searchArg.Option)
             {

@@ -397,10 +397,9 @@ namespace Jaze.Util
             return c >= min && c <= max;
         }
 
-
-        public static bool IsJaCnSentence(string s)
+        public static bool IsContainJapaneseCharacter(string sentence)
         {
-            return s.Any(c => c >= 0x3040);
+            return sentence.Any(c => c >= 0x3040);
         }
     }
 
