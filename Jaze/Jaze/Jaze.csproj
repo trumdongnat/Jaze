@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -90,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Control\KanjiPartControl.xaml.cs">
+      <DependentUpon>KanjiPartControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\ListDictionary.xaml.cs">
       <DependentUpon>ListDictionary.xaml</DependentUpon>
     </Compile>
@@ -157,6 +163,10 @@
     <Compile Include="Model\Part.cs" />
     <Compile Include="Model\Radical.cs" />
     <Compile Include="Model\JaViExample.cs" />
+    <Page Include="Control\KanjiPartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\ListDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,7 +246,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\about.png" />
-    <Resource Include="Assets\book-multi-size.ico" />
     <Resource Include="Assets\book.png" />
     <Resource Include="Assets\find.png" />
     <Resource Include="Assets\list_bookmark.png" />
@@ -254,6 +263,9 @@
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
       <Name>HtmlConverter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

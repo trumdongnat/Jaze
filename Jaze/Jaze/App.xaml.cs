@@ -41,6 +41,7 @@ namespace Jaze
         {
             DatabaseContext.Context.Levels.Load();
             DatabaseContext.Context.Radicals.Load();
+            DatabaseContext.Context.Kanjis.Load();
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 var mainWindow = new MainWindow();

@@ -246,7 +246,23 @@ namespace Jaze.Views
 
         private void ShowKanjiPart(Kanji kanji)
         {
-            MessageBox.Show("Under working");
+            UserControl control;
+            if (kanji == null)
+            {
+                control = new KanjiPartControl();
+            }
+            else
+            {
+                control = new KanjiPartControl(kanji);
+            }
+
+            Window window = new Window
+            {
+                Content = control,
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            window.ShowDialog();
         }
 
         private void ShowKanjiPartOf(Kanji kanji)
@@ -335,12 +351,19 @@ namespace Jaze.Views
 
         #region Search Background
 
+        private void SearchBackground(object sender, DoWorkEventArgs e)
+        {
+            var arg = e.Argument as SearchArg;
+            var result = Searcher.Search(arg);
+            e.Result = result;
+        }
+
         private void SearchBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             var result = e.Result as IEnumerable<object>;
             if (result != null)
             {
-                UpdateStatus("Found: " + result.LongCount() + " result");
+                UpdateStatus("Found: " + result.Count() + " result");
             }
             else
             {
@@ -348,13 +371,6 @@ namespace Jaze.Views
             }
             listSearchResult.ItemsSource = result;
             listSearchResult.IsSearching = false;
-        }
-
-        private void SearchBackground(object sender, DoWorkEventArgs e)
-        {
-            var arg = e.Argument as SearchArg;
-            var result = Searcher.Search(arg);
-            e.Result = result;
         }
 
         #endregion Search Background
