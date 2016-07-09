@@ -59,7 +59,13 @@ namespace Jaze.Search
         private static IEnumerable<JaEn> SearchExact(string key)
         {
             var context = DatabaseContext.Context;
-            return context.JaEns.Where(o => o.Word == key || o.Kana == key).ToArray();
+            //at stat
+            var keyStart = key + " ";
+            //at middle
+            var keyMiddle = " " + key + " ";
+            //at end
+            var keyEnd = " " + key;
+            return context.JaEns.Where(o => o.Word == key || o.Kana == key || o.Kana.StartsWith(keyStart) || o.Kana.Contains(keyMiddle) || o.Kana.EndsWith(keyEnd)).ToArray();
         }
 
         private static IEnumerable<JaEn> GetAll()
