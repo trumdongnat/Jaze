@@ -6,12 +6,16 @@
              xmlns:local="clr-namespace:Jaze.Control"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}">
+        </Style>
+    </UserControl.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="58*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,5">
             <StackPanel Name="mainPanel">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
@@ -38,7 +42,7 @@
                 <ColumnDefinition Width="24*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <TextBox IsReadOnly="True" x:Name="textBox" FontSize="20" FontWeight="Normal"></TextBox>
+            <TextBox x:Name="textBox" IsReadOnly="True"  FontSize="25" FontWeight="Normal"></TextBox>
             <Button Grid.Column="1" Click="ButtonCopy_OnClick">
                 <Image Source="../Assets/copy.png" Width="30"></Image>
             </Button>

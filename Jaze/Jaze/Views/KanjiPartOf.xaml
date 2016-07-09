@@ -8,6 +8,10 @@
         Title="KanjiPartOf" Height="85" Width="400"
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="115*"/>
