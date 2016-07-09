@@ -72,25 +72,31 @@ namespace Jaze.Search
         private static IEnumerable<Kanji> SearchContain(string key)
         {
             var context = DatabaseContext.Context;
-            return context.Kanjis.Where(kanji => kanji.Word.Contains(key) || kanji.HanViet.Contains(key)).ToArray();
+            return context.Kanjis.Where(kanji => kanji.HanViet.Contains(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchEndWith(string key)
         {
             var context = DatabaseContext.Context;
-            return context.Kanjis.Where(kanji => kanji.Word.EndsWith(key) || kanji.HanViet.EndsWith(key)).ToArray();
+            return context.Kanjis.Where(kanji => kanji.HanViet.EndsWith(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchStartWith(string key)
         {
             var context = DatabaseContext.Context;
-            return context.Kanjis.Where(kanji => kanji.Word.StartsWith(key) || kanji.HanViet.StartsWith(key)).ToArray();
+            return context.Kanjis.Where(kanji => kanji.HanViet.StartsWith(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchExact(string key)
         {
             var context = DatabaseContext.Context;
-            return context.Kanjis.Where(kanji => kanji.Word == key || kanji.HanViet == key).ToArray();
+            //at stat
+            var keyStart = key + ",";
+            //at middle
+            var keyMiddle = "," + key + ",";
+            //at end
+            var keyEnd = "," + key;
+            return context.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).ToArray();
         }
 
         private static IEnumerable<Kanji> GetAll()
