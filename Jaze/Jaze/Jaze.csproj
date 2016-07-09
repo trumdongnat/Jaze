@@ -128,6 +128,9 @@
     <Compile Include="Views\KanjiPanel.xaml.cs">
       <DependentUpon>KanjiPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\KanjiPartOf.xaml.cs">
+      <DependentUpon>KanjiPartOf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListBoxResultTemplateSelector.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\KanjiPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KanjiPartOf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -251,7 +251,12 @@ namespace Jaze.Views
 
         private void ShowKanjiPartOf(Kanji kanji)
         {
-            MessageBox.Show("Under working");
+            if (kanji == null)
+            {
+                return;
+            }
+            var window = new KanjiPartOf(kanji) {Owner = this};
+            window.ShowDialog();
         }
 
         #endregion Business Logic
