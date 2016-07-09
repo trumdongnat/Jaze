@@ -17,18 +17,25 @@
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Border BorderBrush="Black" BorderThickness="1"
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0"></Condition>
+                                <Condition Binding="{Binding ElementName=searchingIndicator, Path=IsBusy}" Value="False"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="1"
                                                         Padding="10">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">No items to display</TextBlock>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">No items to display</TextBlock>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>

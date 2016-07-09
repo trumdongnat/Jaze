@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using Jaze.Control;
 using Jaze.DAO;
 using Jaze.Document;
+using Jaze.Model;
 using Jaze.Search;
 
 namespace Jaze.Views
@@ -17,7 +21,7 @@ namespace Jaze.Views
     {
         public bool IsLoading { get; set; }
 
-        private const double DOCUMENT_LINE_HEIGHT = 30;
+        //private const double DOCUMENT_LINE_HEIGHT = 30;
 
         private Popup _quickViewPopup;
 
@@ -29,7 +33,7 @@ namespace Jaze.Views
 
         private void InitializeData()
         {
-            var context = DatabaseContext.Context;
+            //var context = DatabaseContext.Context;
             //listSearchResult.ItemsSource = context.ViJas.ToList();
             //flowDoc.Document = Builder.Build(context.JaVis.Find(26462));
         }
@@ -50,41 +54,13 @@ namespace Jaze.Views
         //    }
         //}
 
-        //private void DictionaryChange()
-        //{
-        //    if (searchingIndicator.IsBusy)
-        //    {
-        //        MessageBox.Show("Đang tìm kiếm");
-        //    }
-        //    searchingIndicator.IsBusy = true;
+        
 
-        //    var searchWorker = new BackgroundWorker();
-        //    searchWorker.DoWork += SearchBackground;
-        //    searchWorker.RunWorkerCompleted += SearchBackgroundComplete;
-        //    var arg = new SearchArg(TextBoxSearch.Text, Dictionary.GetDictionarys()[ListBoxDics.SelectedIndex].Type);
-        //    UpdateStatus("Searching key = " + arg.Key + " Dictionary = " + arg.DicType);
-        //    searchWorker.RunWorkerAsync(arg);
-        //}
-        //private void ShowDocument(object o)
-        //{
-        //    if (o == null)
-        //    {
-        //        return;
-        //    }
-        //    if (loadingIndicator.IsBusy)
-        //    {
-        //        return;
-        //    }
-        //    loadingIndicator.IsBusy = true;
-
-        //    //
-        //    flowDoc.Tag = o;
-        //    //
-        //    var buildWorker = new BackgroundWorker();
-        //    buildWorker.DoWork += BuildDocumentBackground;
-        //    buildWorker.RunWorkerCompleted += BuildDocumentBackgroundComplete;
-        //    buildWorker.RunWorkerAsync(o);
-        //}
+        private void ShowDocument(object o)
+        {
+            flowDoc.Document = Builder.Build(o);
+            flowDoc.Tag = o;
+        }
 
         //private void QuickView(string text, object o)
         //{
@@ -163,7 +139,7 @@ namespace Jaze.Views
 
         //private void QuickViewJapanese(string word, string kana)
         //{
-        //    ShowQuickViewDialog(string.Format("{0}[{1}]", word, kana), Util.Builder.BuildQuickViewJaVocab(word, kana));
+        //    ShowQuickView(string.Format("{0}[{1}]", word, kana), Util.Builder.BuildQuickViewJaVocab(word, kana));
         //}
 
         //private void QuickViewHanViet(string text)
@@ -174,21 +150,17 @@ namespace Jaze.Views
         //    //    text = match.Groups[1].Value;
         //    //}
         //    //NewShowQuickViewDialog(null, null);
-        //    ShowQuickViewDialog(text, Util.Builder.BuildQuickViewHanViet(text));
+        //    ShowQuickView(text, Util.Builder.BuildQuickViewHanViet(text));
 
         //}
 
         //private void QuickViewKanji(string text)
         //{
-        //    ShowQuickViewDialog(text, Util.Builder.BuildQuickViewKanji(text));
+        //    ShowQuickView(text, Util.Builder.BuildQuickViewKanji(text));
         //}
 
-        //private void ShowQuickViewDialog(string title, string document)
+        //private void ShowQuickView(string title, string document)
         //{
-        //    //var window = new QuickViewWindow();
-        //    //window.Owner = this;
-        //    //window.SetDocument(title, document);
-        //    //window.ShowDialog();
         //    if (_quickViewPopup == null)
         //    {
         //        _quickViewPopup = new Popup()
@@ -210,6 +182,78 @@ namespace Jaze.Views
         //}
 
 
+        private void Search()
+        {
+            //listSearchResult.ItemsSource = Searcher.Search(listDictionary.CurrentDictionary.Type, searchBar.SearchArg);
+            if (listSearchResult.IsSearching)
+            {
+                MessageBox.Show("Đang tìm kiếm");
+            }
+            listSearchResult.IsSearching = true;
+
+            var searchWorker = new BackgroundWorker();
+            searchWorker.DoWork += SearchBackground;
+            searchWorker.RunWorkerCompleted += SearchBackgroundComplete;
+            var arg = searchBar.SearchArg;
+            arg.Dictionary = listDictionary.CurrentDictionary.Type;
+            UpdateStatus("Searching key = " + arg.SearchKey + " Dictionary = " + arg.Dictionary);
+            searchWorker.RunWorkerAsync(arg);
+        }
+
+        private void Copy2Clipboard()
+        {
+            //MessageBox.Show("Under working");
+            var o = flowDoc.Tag;
+            if (o == null)
+            {
+                return;
+            }
+
+            string s =string.Empty;
+            if (o is Grammar)
+            {
+                s = (o as Grammar).Struct;
+            }
+
+            if (o is HanViet)
+            {
+                s = (o as HanViet).Word;
+            }
+
+            if (o is Kanji)
+            {
+                s = (o as Kanji).Word;
+            }
+
+            if (o is JaVi)
+            {
+                s = (o as JaVi).Word;
+            }
+
+            if (o is ViJa)
+            {
+                s = (o as ViJa).Word;
+            }
+
+            if (o is JaEn)
+            {
+                s = (o as JaEn).Word;
+            }
+
+            Clipboard.SetText(s);
+            UpdateStatus($"Copied \"{s}\" to Clipboard");
+        }
+
+        private void ShowKanjiPart(Kanji kanji)
+        {
+            MessageBox.Show("Under working");
+        }
+
+        private void ShowKanjiPartOf(Kanji kanji)
+        {
+            MessageBox.Show("Under working");
+        }
+
         #endregion Business Logic
 
         #region UI event
@@ -230,47 +274,7 @@ namespace Jaze.Views
             //}
         }
 
-        private void ListBoxHistory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //ShowDocument(listBoxHistory.SelectedItem);
-        }
-
-        private void ButtonPrevious_OnClick(object sender, RoutedEventArgs e)
-        {
-            //GoPrevious();
-        }
-
-        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
-        {
-            //DictionaryChange();
-        }
-
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            //try
-            //{
-            //    var link = sender as Hyperlink;
-            //    string text = (link.Inlines.FirstInline as Run).Text;
-            //    QuickView(text, flowDoc.Tag);
-            //}
-            //catch
-            //{
-            //}
-        }
-        private void ListBoxResult_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //HistoryManager.Add(listBoxResult.SelectedItem as DataModel);
-            //ShowDocument(listBoxResult.SelectedItem);
-        }
-
-        private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //if (e.Key == Key.Enter)
-            //{
-            //    DictionaryChange();
-            //}
-        }
-
+ 
         private void FlowDocumentSelectionOnChanged(object sender, EventArgs eventArgs)
         {
             //try
@@ -283,57 +287,24 @@ namespace Jaze.Views
 
         }
 
-        #endregion UI event
-
-        #region DictionaryChange Background Worker
-
-        //private void SearchBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    var result = e.Result as List<object>;
-        //    UpdateStatus("Found: " + result.Count + " result");
-        //    listBoxResult.ItemsSource = result;
-        //    searchingIndicator.IsBusy = false;
-        //}
-
-        //private void SearchBackground(object sender, DoWorkEventArgs e)
-        //{
-        //    var arg = e.Argument as SearchArg;
-        //    var result = SearchManager.DictionaryChange(arg.Key, arg.DicType);
-        //    e.Result = result;
-        //}
-
-        //#endregion DictionaryChange Background Worker
-
-        //#region Build Document Background Worker
-
-        //private void BuildDocumentBackground(object sender, DoWorkEventArgs e)
-        //{
-        //    var arg = e.Argument;
-        //    e.Result = Util.Builder.Build(arg);
-        //}
-
-        //private void BuildDocumentBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    var s = e.Result as string;
-        //    flowDoc.Document = null;
-        //    try
-        //    {
-        //        flowDoc.Document = XamlReader.Parse(s) as FlowDocument;
-        //        flowDoc.Selection.Changed += FlowDocumentSelectionOnChanged;
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        flowDoc.Document = new FlowDocument(new Paragraph(new Run(exception.Message)));
-        //    }
-
-        //    loadingIndicator.IsBusy = false;
-        //}
-
-        #endregion Build Document Background Worker
-
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        private void ButtonCopy_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            Copy2Clipboard();
+        }
+
+        private void ButtonPart_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowKanjiPart(flowDoc.Tag as Kanji);
+        }
+
+        private void ButtonPartOf_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowKanjiPartOf(flowDoc.Tag as Kanji);
+        }
+
+        private void ListSearchResult_OnShow(object sender, RoutedEventArgs e)
+        {
+            ShowDocument(e.OriginalSource);
         }
 
         private void SearchBar_OnSearch(object sender, RoutedEventArgs e)
@@ -350,13 +321,30 @@ namespace Jaze.Views
             
         }
 
-        private void Search()
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            listSearchResult.ItemsSource = Searcher.Search(listDictionary.CurrentDictionary.Type, searchBar.SearchArg);
+            
         }
-        private void ListSearchResult_OnShow(object sender, RoutedEventArgs e)
+
+        #endregion UI event
+
+        #region Search Background
+
+        private void SearchBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            flowDoc.Document = Builder.Build(e.OriginalSource);
+            var result = e.Result as IEnumerable<object>;
+            UpdateStatus("Found: " + result.LongCount() + " result");
+            listSearchResult.ItemsSource = result;
+            listSearchResult.IsSearching = false;
         }
+
+        private void SearchBackground(object sender, DoWorkEventArgs e)
+        {
+            var arg = e.Argument as SearchArg;
+            var result = Searcher.Search(arg);
+            e.Result = result;
+        }
+
+        #endregion Search Background
     }
 }

@@ -18,15 +18,15 @@ namespace Jaze.Search
                 return null;
             }
 
-            switch (searchArg.Type)
+            switch (searchArg.Option)
             {
-                case SearchType.Exact:
+                case SearchOption.Exact:
                     return SearchExact(key);
-                case SearchType.StartWith:
+                case SearchOption.StartWith:
                     return SearchStartWith(key);
-                case SearchType.EndWith:
+                case SearchOption.EndWith:
                     return SearchEndWith(key);
-                case SearchType.Contain:
+                case SearchOption.Contain:
                     return SearchContain(key);
                 default:
                     throw new ArgumentOutOfRangeException();

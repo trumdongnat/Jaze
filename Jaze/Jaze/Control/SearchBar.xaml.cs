@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Jaze.Search;
+using SearchOption = Jaze.Search.SearchOption;
 
 namespace Jaze.Control
 {
@@ -58,53 +60,44 @@ namespace Jaze.Control
             set { TextBoxSearch.Text = value; }
         }
 
-        public SearchArg SearchArg
-        {
-            get
-            {
-                SearchArg searchArg = new SearchArg();
-                searchArg.SearchKey = TextBoxSearch.Text;
-                searchArg.Type = SearchType;
-                return searchArg;
-            }
-        }
+        public SearchArg SearchArg => new SearchArg(TextBoxSearch.Text, SearchOption);
 
-        public SearchType SearchType
+        public SearchOption SearchOption
         {
             get
             {
                 if (RadioButtonExact.IsChecked != null && (bool)RadioButtonExact.IsChecked)
                 {
-                    return SearchType.Exact;
+                    return SearchOption.Exact;
                 }
                 if (RadioButtonStart.IsChecked != null && (bool)RadioButtonStart.IsChecked)
                 {
-                    return  SearchType.StartWith;
+                    return  SearchOption.StartWith;
                 }
                 if (RadioButtonEnd.IsChecked != null && (bool)RadioButtonEnd.IsChecked)
                 {
-                    return  SearchType.EndWith;
+                    return  SearchOption.EndWith;
                 }
                 if (RadioButtonMiddle.IsChecked != null && (bool)RadioButtonMiddle.IsChecked)
                 {
-                    return SearchType.Contain;
+                    return SearchOption.Contain;
                 }
-                return SearchType.Exact;
+                return SearchOption.Exact;
             }
             set
             {
                 switch (value)
                 {
-                    case SearchType.Exact:
+                    case SearchOption.Exact:
                         RadioButtonExact.IsChecked = true;
                         break;
-                    case SearchType.StartWith:
+                    case SearchOption.StartWith:
                         RadioButtonStart.IsChecked = true;
                         break;
-                    case SearchType.EndWith:
+                    case SearchOption.EndWith:
                         RadioButtonEnd.IsChecked = true;
                         break;
-                    case SearchType.Contain:
+                    case SearchOption.Contain:
                         RadioButtonMiddle.IsChecked = true;
                         break;
                     default:
@@ -137,7 +130,7 @@ namespace Jaze.Control
             {
                 return;
             }
-            RaiseEvent(new RoutedEventArgs(SearchOptionChangeEvent, SearchType));
+            RaiseEvent(new RoutedEventArgs(SearchOptionChangeEvent, SearchOption));
         }
     }
 }

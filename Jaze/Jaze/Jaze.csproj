@@ -99,6 +99,9 @@
     <Compile Include="Control\ListSearchResult.xaml.cs">
       <DependentUpon>ListSearchResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\QuickViewControl.xaml.cs">
+      <DependentUpon>QuickViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
@@ -132,9 +135,6 @@
     <Compile Include="Views\NewWindow.xaml.cs">
       <DependentUpon>NewWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuickViewWindow.xaml.cs">
-      <DependentUpon>QuickViewWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
@@ -166,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Control\QuickViewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Control\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,10 +189,6 @@
     <Page Include="Views\NewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuickViewWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SplashWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +212,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -240,6 +241,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
+      <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
+      <Name>HtmlConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

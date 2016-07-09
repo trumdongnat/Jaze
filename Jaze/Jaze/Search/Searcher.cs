@@ -7,7 +7,7 @@ namespace Jaze.Search
 {
     public static class Searcher
     {
-        public static IEnumerable<object> Search(DictionaryType dictionary, SearchArg arg)
+        public static IEnumerable<object> Search(SearchArg arg)
         {
             if (arg == null)
             {
@@ -15,7 +15,7 @@ namespace Jaze.Search
             }
             arg.SearchKey = Regex.Replace(arg.SearchKey, @"\s+", " ");
             arg.SearchKey = arg.SearchKey.Trim();
-            switch (dictionary)
+            switch (arg.Dictionary)
             {
                 case DictionaryType.JaVi:
                     return SearchJaVi(arg);
@@ -30,7 +30,7 @@ namespace Jaze.Search
                 case DictionaryType.JaEn:
                     return SearchJaEn(arg);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(dictionary), dictionary, null);
+                    throw new ArgumentOutOfRangeException(nameof(arg.Dictionary), arg.Dictionary, null);
             }
         }
 
