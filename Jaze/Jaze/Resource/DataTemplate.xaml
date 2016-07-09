@@ -63,7 +63,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="KanjiDataTemplate" >
+    <DataTemplate x:Key="KanjiDataTemplate" DataType="model:Kanji">
         <Grid Name="grid"
                   Height="60" Margin="3">
             <Grid.RowDefinitions>
@@ -123,13 +123,13 @@
             <TextBlock Grid.Row="0"
                            VerticalAlignment="Center"
                            FontSize="15" FontWeight="SemiBold"
-                           Text="{Binding Path=Struct}" />
+                           Text="{Binding Path=Level.Name}" />
             <TextBlock Grid.Row="1"
                            VerticalAlignment="Center"
                            FontSize="17" FontStyle="Italic"
-                           Text="{Binding Path=Meaning}" />
+                           Text="{Binding Path=Struct}" />
         </Grid>
-        <DataTemplate.Triggers>
+        <!--<DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Frequence}" Value="2147483647">
                 <Setter TargetName="grid" Property="Background">
                     <Setter.Value>
@@ -138,7 +138,7 @@
                 </Setter>
 
             </DataTrigger>
-        </DataTemplate.Triggers>
+        </DataTemplate.Triggers>-->
     </DataTemplate>
 
 

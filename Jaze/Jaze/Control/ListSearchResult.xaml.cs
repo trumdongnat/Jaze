@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Jaze.Model;
 
 namespace Jaze.Control
 {
@@ -38,7 +40,21 @@ namespace Jaze.Control
         public IEnumerable ItemsSource
         {
             get { return listBoxResult.ItemsSource; }
-            set { listBoxResult.ItemsSource = value; }
+            set
+            {
+                listBoxResult.ItemsSource = value;
+                ChangeSortDesciption();
+            }
+        }
+
+        private void ChangeSortDesciption()
+        {
+            listBoxResult.Items.SortDescriptions.Clear();
+            if (listBoxResult.ItemsSource is IEnumerable<Grammar>)
+            {
+                listBoxResult.Items.SortDescriptions.Add(new SortDescription("Level.Name", ListSortDirection.Ascending));
+            }
+            //TODO config sort desciption
         }
 
         public bool IsSearching

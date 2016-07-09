@@ -399,7 +399,7 @@ namespace Jaze.Util
 
         public static bool IsContainJapaneseCharacter(string sentence)
         {
-            return sentence.Any(c => c >= 0x3040);
+            return sentence!=null && sentence.Any(c => c >= 0x3040);
         }
     }
 

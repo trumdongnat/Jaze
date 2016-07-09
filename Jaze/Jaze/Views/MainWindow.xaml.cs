@@ -333,7 +333,14 @@ namespace Jaze.Views
         private void SearchBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             var result = e.Result as IEnumerable<object>;
-            UpdateStatus("Found: " + result.LongCount() + " result");
+            if (result != null)
+            {
+                UpdateStatus("Found: " + result.LongCount() + " result");
+            }
+            else
+            {
+                UpdateStatus("Found: 0 result");
+            }
             listSearchResult.ItemsSource = result;
             listSearchResult.IsSearching = false;
         }

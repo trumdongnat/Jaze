@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using Jaze.DAO;
 using Jaze.Views;
 
 namespace Jaze
@@ -37,8 +39,8 @@ namespace Jaze
 
         private void InitData()
         {
-            //DatabaseManager.InitData();
-            //Manager.DatabaseManager.InitData();
+            DatabaseContext.Context.Levels.Load();
+            DatabaseContext.Context.Radicals.Load();
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 var mainWindow = new MainWindow();
