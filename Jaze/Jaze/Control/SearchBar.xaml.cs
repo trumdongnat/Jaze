@@ -132,5 +132,11 @@ namespace Jaze.Control
             }
             RaiseEvent(new RoutedEventArgs(SearchOptionChangeEvent, SearchOption));
         }
+
+        private void ButtonPasteSearch_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxSearch.Text = Clipboard.GetText();
+            RaiseSearchEvent();
+        }
     }
 }

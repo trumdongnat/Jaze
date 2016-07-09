@@ -51,7 +51,7 @@ namespace Jaze.Document
             if (kana != null)
             {
                 paragragh.Inlines.Add(new LineBreak());
-                paragragh.Inlines.Add(new Run(string.Concat("「", kana, "」"))
+                paragragh.Inlines.Add(new Run(string.Concat("「", kana.Replace(" ","; "), "」"))
                 {
                     FontStyle = FontStyles.Italic
                 });

@@ -15,6 +15,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
 
             <telerik:RadWatermarkTextBox Name="TextBoxSearch"
@@ -27,6 +28,11 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         Click="ButtonSearch_Click">
                 <Image Source="/Assets/find.png" />
+            </Button>
+            <Button Grid.Column="2"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Click="ButtonPasteSearch_Click">
+                <Image Source="/Assets/paste_search.png" />
             </Button>
         </Grid>
         <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Stretch" RadioButton.Checked="RadioButton_OnChecked">
