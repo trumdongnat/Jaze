@@ -54,7 +54,13 @@ namespace Jaze.Search
         private static IEnumerable<HanViet> SearchExact(string key)
         {
             var context = DatabaseContext.Context;
-            return context.HanViets.Where(hv => hv.Word == key || hv.Reading == key).ToArray();
+            //at stat
+            var keyStart = key + ", ";
+            //at middle
+            var keyMiddle = ", " + key + ",";
+            //at end
+            var keyEnd = ", " + key;
+            return context.HanViets.Where(hv => hv.Word == key || hv.Reading == key || hv.Reading.StartsWith(keyStart) || hv.Reading.Contains(keyMiddle) || hv.Reading.EndsWith(keyEnd)).ToArray();
         }
 
         private static IEnumerable<HanViet> GetAll()
