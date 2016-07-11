@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Jaze.DAO;
 using Jaze.Model;
+using Jaze.Util;
 
 namespace Jaze.Search
 {
@@ -17,25 +18,27 @@ namespace Jaze.Search
                 return GetAll();
             }
 
-            switch (searchArg.Option)
-            {
-                case SearchOption.Exact:
-                    return SearchExact(key);
-                case SearchOption.StartWith:
-                    return SearchStartWith(key);
-                case SearchOption.EndWith:
-                    return SearchEndWith(key);
-                case SearchOption.Contain:
-                    return SearchContain(key);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            //switch (searchArg.Option)
+            //{
+            //    case SearchOption.Exact:
+            //        return SearchExact(key);
+            //    case SearchOption.StartWith:
+            //        return SearchStartWith(key);
+            //    case SearchOption.EndWith:
+            //        return SearchEndWith(key);
+            //    case SearchOption.Contain:
+            //        return SearchContain(key);
+            //    default:
+            //        throw new ArgumentOutOfRangeException();
+            //}
+            return SearchContain(key);
         }
 
         private static IEnumerable<Grammar> SearchContain(string key)
         {
             var context = DatabaseContext.Context;
-            return context.Grammars.Where(o => o.Struct.Contains(key) || o.Meaning.Contains(key)).ToArray();
+            var hirakey = ConvertStringUtil.ConvertRomaji2Hiragana(key);
+            return context.Grammars.Where(o => o.Struct.Contains(hirakey) || o.Meaning.Contains(key)).ToArray();
         }
 
         private static IEnumerable<Grammar> SearchEndWith(string key)
