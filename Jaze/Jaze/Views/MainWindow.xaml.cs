@@ -58,8 +58,13 @@ namespace Jaze.Views
 
         private void ShowDocument(object o)
         {
-            flowDoc.Document = Builder.Build(o);
-            flowDoc.Tag = o;
+            var document = Builder.Build(o);
+            if (document != null)
+            {
+                flowDoc.Document = document;
+                flowDoc.Tag = o;
+            }
+            
         }
 
         //private void QuickView(string text, object o)
