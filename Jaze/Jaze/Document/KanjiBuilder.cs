@@ -4,7 +4,10 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Jaze.DAO;
+using Jaze.Document.JsonObject;
 using Jaze.Model;
+using Newtonsoft.Json;
 
 namespace Jaze.Document
 {
@@ -24,9 +27,15 @@ namespace Jaze.Document
             {
                 PagePadding = new Thickness(10)
             };
+            document.Blocks.Add(BuildGeneralInfo(kanji));
+            document.Blocks.Add(BuildWords(kanji.Word,kanji.Kunyomi));
+            return document;
+        }
 
-            Table table = new Table();
-            document.Blocks.Add(table);
+        private static Block BuildGeneralInfo(Kanji kanji)
+        {
+            Table table = new Table() {CellSpacing = 0};
+            
             table.RowGroups.Add(new TableRowGroup());
             table.RowGroups[0].Rows.Add(new TableRow()
             {
@@ -45,11 +54,80 @@ namespace Jaze.Document
                     new TableCell(BuildEnMean(kanji.EngMeaning))
                 }
             });
-
-            return document;
+            return table;
         }
 
-   
+        private static Block BuildWords(string kanji, string kunyomi)
+        {
+            if (string.IsNullOrWhiteSpace(kunyomi))
+            {
+                return new Section();
+            }
+            
+            Table table = new Table() {CellSpacing = 0};
+            table.Columns.Add(new TableColumn(){Width = new GridLength(80)});
+            table.Columns.Add(new TableColumn(){Width = new GridLength(100)});
+            table.Columns.Add(new TableColumn(){Width = GridLength.Auto});
+            table.RowGroups.Add(new TableRowGroup());
+            
+            kunyomi = kunyomi.Replace(" ", "");
+            var kuns = Regex.Split(kunyomi, "、");
+            foreach (var kun in kuns)
+            {
+                if (kun.Contains('-'))
+                {
+                    continue;
+                }
+                
+                string kana = kun.Replace(".", "");
+                var arr = kun.Split('.');
+                string word = kanji;
+                if (arr.Length == 2)
+                {
+                    word = kanji + arr[1];
+                }
+                table.RowGroups[0].Rows.Add(new TableRow()
+                {
+                    Cells =
+                    {
+                        new TableCell(new Paragraph(new Run(word))),
+                        new TableCell(new Paragraph(new Run(kana))),
+                        new TableCell(BuildJaViMean(word,kana))
+                    }
+                });
+                
+            }
+            foreach (var row in table.RowGroups[0].Rows)
+            {
+                foreach (var cell in row.Cells)
+                {
+                    cell.BorderThickness = new Thickness(1);
+                    cell.BorderBrush = Brushes.Black;
+                    cell.Padding = new Thickness(3);
+                }
+            }
+            return table;
+        }
+
+        private static Block BuildJaViMean(string word, string kana)
+        {
+            var javi = DatabaseContext.Context.JaVis.FirstOrDefault(w => w.Word == word && w.Kana.Contains(kana));
+            if (javi != null)
+            {
+                var means = JsonConvert.DeserializeObject<WordMean[]>(javi.Mean);
+                var paragraph = new Paragraph();
+                foreach (var mean in means)
+                {
+                    paragraph.Inlines.Add(new Run("- " + mean.Mean));
+                    paragraph.Inlines.Add(new LineBreak());
+                }
+                return paragraph;
+            }
+            else
+            {
+                return new Section();
+            }
+        }
 
         private static Block BuildAttributeSet(Kanji kanji)
         {
@@ -63,6 +141,7 @@ namespace Jaze.Document
             list.ListItems.Add(BuildAttribute("Cách viết khác: ", kanji.Variant));
             list.ListItems.Add(BuildAttribute("Onyomi: ", kanji.Onyomi));
             list.ListItems.Add(BuildAttribute("Kunyomi: ", kanji.Kunyomi));
+            //list.ListItems.Add(BuildKunAttribute(kanji.Kunyomi));
             list.ListItems.Add(BuildAttribute("Số nét: ", "" + kanji.Stroke));
             list.ListItems.Add(BuildAttribute("Độ phổ biến: ",
                 kanji.Frequence == int.MaxValue ? "?/2500" : "" + kanji.Frequence + "/2500"));
@@ -88,6 +167,60 @@ namespace Jaze.Document
                 }
             });
 
+            return item;
+        }
+
+        private static ListItem BuildKunAttribute(string contain)
+        {
+            ListItem item = new ListItem();
+            var paragragh = new Paragraph()
+            {
+                Inlines =
+                {
+                    new Run("Kunyomi: ")
+                    {
+                        Foreground = Brushes.Gray,
+                        FontSize = 14
+                    }
+                }
+            };
+            
+
+            //split contain
+            if (!string.IsNullOrWhiteSpace(contain))
+            {
+                var kuns = Regex.Split(contain, "、 ");
+                foreach (var s in kuns)
+                {
+                    var arr = s.Split('.');
+                    if (arr.Length == 2)
+                    {
+                        paragragh.Inlines.Add(new Run(arr[0])
+                        {
+                            Foreground =  Brushes.Blue,
+                            FontSize = 15,
+                            FontWeight = FontWeights.Bold
+                        });
+                        paragragh.Inlines.Add(new Run(arr[1])
+                        {
+                            FontSize = 15
+                        });
+                    }
+                    else
+                    {
+                        paragragh.Inlines.Add(new Run(arr[0])
+                        {
+                            FontSize = 15
+                        });
+                    }
+                    paragragh.Inlines.Add(new Run("、 ")
+                    {
+                        FontSize = 15
+                    });
+                }
+            }
+
+            item.Blocks.Add(paragragh);
             return item;
         }
 
