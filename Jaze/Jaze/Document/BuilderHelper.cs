@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Jaze.DAO;
 using Jaze.Document.JsonObject;
 using Jaze.Model;
+using Jaze.Util;
 using Newtonsoft.Json;
 
 namespace Jaze.Document
@@ -32,7 +33,6 @@ namespace Jaze.Document
             {
                 ListItem item = new ListItem();
                 //item.Margin = new Thickness(0);
-                list.StartIndex = 2;
                 //add mean
                 var paragragh = new Paragraph();
                 if (!string.IsNullOrWhiteSpace(mean.Kind))
@@ -59,7 +59,63 @@ namespace Jaze.Document
             return list;
         }
 
-        public static Block BuildJaViExamples(int[] listExamId)
+        public static Block BuildWordKanji(string word)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                return new Section();
+            }
+
+            Table table = new Table() { CellSpacing = 0 };
+            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
+            table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
+            table.RowGroups.Add(new TableRowGroup());
+
+            var kanjis = ConvertStringUtil.FilterCharsInString(word, CharSet.Kanji);
+            foreach (var c in kanjis)
+            {
+                string s = c.ToString();
+                var kanji = DatabaseContext.Context.Kanjis.FirstOrDefault(k => k.Word == s);
+                if (kanji != null)
+                {
+                    table.RowGroups[0].Rows.Add(new TableRow()
+                    {
+                        Cells =
+                        {
+                            new TableCell(new Paragraph(new Run(kanji.Word))),
+                            new TableCell(new Paragraph(new Run(kanji.HanViet))),
+                            new TableCell(KanjiBuilder.BuildListViMean(kanji.VieMeaning))
+                        }
+                    });
+                }
+                else
+                {
+                    table.RowGroups[0].Rows.Add(new TableRow()
+                    {
+                        Cells =
+                        {
+                            new TableCell(new Paragraph(new Run(s))),
+                            new TableCell(),
+                            new TableCell()
+                        }
+                    });
+                }
+            }
+
+            foreach (var row in table.RowGroups[0].Rows)
+            {
+                foreach (var cell in row.Cells)
+                {
+                    cell.BorderThickness = new Thickness(1);
+                    cell.BorderBrush = Brushes.Black;
+                    cell.Padding = new Thickness(3);
+                }
+            }
+            return table;
+        }
+
+       public static Block BuildJaViExamples(int[] listExamId)
         {
             var list = new List();
             

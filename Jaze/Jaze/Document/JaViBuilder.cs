@@ -30,6 +30,9 @@ namespace Jaze.Document
             {
                 document.Blocks.Add(BuilderHelper.BuildWordMean(javi.Mean));
             }
+
+            document.Blocks.Add(BuilderHelper.BuildWordKanji(javi.Word));
+
             //TODO verd division
             
 

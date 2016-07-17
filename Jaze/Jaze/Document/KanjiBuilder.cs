@@ -250,11 +250,18 @@ namespace Jaze.Document
             Section section = new Section();
             //title
             section.Blocks.Add(new Paragraph(new Run("Nghĩa tiếng Việt")));
-            //list mean
+            section.Blocks.Add(BuildListViMean(viMean));
+            return section;
+        }
+
+        public static Block BuildListViMean(string viMean)
+        {
             List list = new List()
             {
-                MarkerStyle =  TextMarkerStyle.Square,
-                MarkerOffset = 5
+                MarkerStyle = TextMarkerStyle.Square,
+                MarkerOffset = 5,
+                Margin = new Thickness(0),
+                Padding = new Thickness(20,0,0,0)
             };
 
             //build list hv + mean
@@ -263,25 +270,23 @@ namespace Jaze.Document
             {
                 ListItem item = new ListItem();
                 item.Blocks.Add(new Paragraph(new Run(key)));
-                
+
                 //add list mean for each key
                 List subList = new List();
-                
+
                 foreach (var mean in dic[key])
                 {
                     subList.ListItems.Add(new ListItem()
                     {
-                        Blocks = { new Paragraph(new Run(mean))}
+                        Blocks = { new Paragraph(new Run(mean)) }
                     });
-                    
+
                 }
                 item.Blocks.Add(subList);
                 list.ListItems.Add(item);
             }
-            section.Blocks.Add(list);
-            return section;
+            return list;
         }
-
         private static Dictionary<string, List<string>> AnalyseVimean(string vimean)
         {
             var result = new Dictionary<string, List<string>>();
