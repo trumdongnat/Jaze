@@ -10,35 +10,47 @@
                                       Margin="5,5,0,0"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                       BusyContent="Đang tìm kiếm" IsIndeterminate="True">
-        <ListBox Name="listBoxResult"
+        <DockPanel>
+            <Expander DockPanel.Dock="Bottom" FontSize="15" Header="Sort" BorderThickness="1,0,1,1" FontWeight="DemiBold" BorderBrush="Gray">
+                <StackPanel Orientation="Vertical" Margin="20,0,0,0" Name="sortPanel">
+                    <StackPanel.Resources>
+                        <Style TargetType="RadioButton">
+                            <Setter Property="FontSize" Value="12"></Setter>
+                            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                </StackPanel>
+            </Expander>
+            <ListBox Name="listBoxResult" 
                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                          ItemTemplateSelector="{StaticResource ResourceKey=DataTemplateSelector}"
                          SelectionChanged="ListBoxResult_SelectionChanged">
-            <ListBox.Style>
-                <Style TargetType="{x:Type ListBox}">
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0"></Condition>
-                                <Condition Binding="{Binding ElementName=searchingIndicator, Path=IsBusy}" Value="False"></Condition>
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.Setters>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="1"
+                <ListBox.Style>
+                    <Style TargetType="{x:Type ListBox}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0"></Condition>
+                                    <Condition Binding="{Binding ElementName=searchingIndicator, Path=IsBusy}" Value="False"></Condition>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="1"
                                                         Padding="10">
-                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">No items to display</TextBlock>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </MultiDataTrigger.Setters>
-                        </MultiDataTrigger>
-                        
-                    </Style.Triggers>
-                </Style>
-            </ListBox.Style>
-        </ListBox>
+                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">No items to display</TextBlock>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+            </ListBox>
+        </DockPanel>
     </telerik:RadBusyIndicator>
 </UserControl>
