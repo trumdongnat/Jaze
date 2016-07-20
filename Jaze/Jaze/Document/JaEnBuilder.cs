@@ -27,7 +27,7 @@ namespace Jaze.Document
             //build mean
             if (jaen.Mean != null)
             {
-                document.Blocks.Add(BuilderHelper.BuildWordMean(jaen.Mean));
+                document.Blocks.Add(BuilderHelper.BuildWordMean(jaen.Mean,true));
             }
 
             document.Blocks.Add(BuilderHelper.BuildWordKanji(jaen.Word));

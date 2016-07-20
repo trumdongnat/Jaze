@@ -13,9 +13,6 @@
         
         <Path x:Key="IconSearch" Data="M18,1.60000038146973L20.0153579711914,1.80316352844238 21.8924655914307,2.38584518432617 25.0710792541504,4.52892017364502 27.2141551971436,7.70753526687622 27.7968368530273,9.58464241027832 28,11.6000003814697 27.7968368530273,13.6153583526611 27.2141551971436,15.4924650192261 25.0710792541504,18.6710815429688 21.8924655914307,20.8141574859619 20.0153579711914,21.3968391418457 18,21.6000022888184 15.2680311203003,21.2273101806641 12.8000011444092,20.1940803527832 5.57991981506348,27.4142417907715 3.88284015655518,28.1171417236328 2.18576049804688,27.4142417907715 1.48286008834839,25.7171611785889 2.18576049804688,24.0200805664063 9.43768119812012,16.768798828125 8.37666034698486,14.3280696868896 8,11.6000003814697 8.20316314697266,9.58464241027832 8.78584480285645,7.70753526687622 10.9289207458496,4.52892017364502 14.1075353622437,2.38584518432617 15.9846420288086,1.80316352844238 18,1.60000038146973z M18,4.80000114440918L15.3531398773193,5.33438110351563 13.1916809082031,6.79168081283569 11.7343807220459,8.95314025878906 11.2000007629395,11.6000003814697 11.7343807220459,14.2468605041504 13.1916809082031,16.4083213806152 15.3531398773193,17.8656215667725 18,18.4000015258789 20.6468601226807,17.8656215667725 22.8083190917969,16.4083213806152 24.2656192779541,14.2468605041504 24.7999992370605,11.6000003814697 24.2656192779541,8.95314025878906 22.8083190917969,6.79168081283569 20.6468601226807,5.33438110351563 18,4.80000114440918z" />
 
-        
-        
-
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
             <!--<EventSetter Event="Click" Handler="Hyperlink_Click" />-->
@@ -202,7 +199,7 @@
             <GridSplitter Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="5"></GridSplitter>
             <!--  Toolbar Area  -->
             <StackPanel Grid.Row="1" Margin="0,5,0,0" Orientation="Horizontal">
-                <Button BorderThickness="2" Margin="5,0,5,0" Click="ButtonCopy_OnClick">
+                <Button BorderThickness="2" Margin="5,0,5,0" Click="ButtonCopyShowingModel_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Assets/copy.png" Height="16"></Image>
                         <TextBlock>Copy</TextBlock>
@@ -217,10 +214,29 @@
                                       Grid.Row="2"
                                       Margin="0,5,0,0"
                                       BusyContent="Đang lấy dữ liệu" IsIndeterminate="True">
-                <FlowDocumentReader Name="flowDoc"
+                <Grid>
+                    <Popup Name="menuPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5" IsOpen="False"
+                           Placement="MousePoint">
+                        <StackPanel Height="30" Orientation="Horizontal">
+                            <Button Click="ButtonCopySelectedText_OnClick">
+                                <Image Source="../Assets/copy.png" ></Image>
+                            </Button>
+                            <Button Click="ButtonQuickView_OnClick">
+                                <Image Source="../Assets/find.png" ></Image>
+                            </Button>
+                        </StackPanel>
+                    </Popup>
+                    <Popup Name="quickViewPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5" IsOpen="False"
+                           Placement="MousePoint">
+                       
+                    </Popup>
+                    <FlowDocumentReader Name="flowDoc"
                                     FontWeight="Normal"
                                     IsInactiveSelectionHighlightEnabled="True" ViewingMode="Scroll"
                                     Zoom="120"/>
+                </Grid>
+                
+                
             </telerik:RadBusyIndicator>
         </Grid>
         <!--slider-->

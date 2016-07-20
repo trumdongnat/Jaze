@@ -34,32 +34,32 @@ namespace Jaze.Search
             }
         }
 
-        private static IEnumerable<HanViet> SearchHanViet(SearchArg searchArg)
+        public static IEnumerable<HanViet> SearchHanViet(SearchArg searchArg)
         {
             return HanVietSearcher.Search(searchArg);
         }
 
-        private static IEnumerable<Kanji> SearchKanji(SearchArg searchArg)
+        public static IEnumerable<Kanji> SearchKanji(SearchArg searchArg)
         {
             return KanjiSearcher.Search(searchArg);
         }
 
-        private static IEnumerable<ViJa> SearchViJa(SearchArg searchArg)
+        public static IEnumerable<ViJa> SearchViJa(SearchArg searchArg)
         {
             return VijaSearcher.Search(searchArg);
         }
 
-        private static IEnumerable<Grammar> SearchGrammar(SearchArg searchArg)
+        public static IEnumerable<Grammar> SearchGrammar(SearchArg searchArg)
         {
             return GrammarSearcher.Search(searchArg);
         }
 
-        private static IEnumerable<JaEn> SearchJaEn(SearchArg searchArg)
+        public static IEnumerable<JaEn> SearchJaEn(SearchArg searchArg)
         {
             return JaenSearcher.Search(searchArg);
         }
 
-        private static IEnumerable<JaVi> SearchJaVi(SearchArg arg)
+        public static IEnumerable<JaVi> SearchJaVi(SearchArg arg)
         {
             return JaviSearcher.Search(arg);
         }

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using Jaze.Control;
 using Jaze.DAO;
 using Jaze.Document;
@@ -23,24 +26,24 @@ namespace Jaze.Views
 
         //private const double DOCUMENT_LINE_HEIGHT = 30;
 
-        private Popup _quickViewPopup;
+        private Popup _menuPopup;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeData();
+            InitializeControl();
+            
         }
 
-        private void InitializeData()
+        private void InitializeControl()
         {
-            //var context = DatabaseContext.Context;
-            //listSearchResult.ItemsSource = context.ViJas.ToList();
-            //flowDoc.Document = Builder.Build(context.JaVis.Find(26462));
+            flowDoc.PreviewMouseUp += FlowDocumentOnPreviewMouseUp;
         }
 
-        private void UpdateStatus(string status)
+        private void FlowDocumentOnPreviewMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            textBlockStatus.Text = status;
+            var s = flowDoc.Selection?.Text;
+            menuPopup.IsOpen = !string.IsNullOrWhiteSpace(s);
         }
 
         #region Business Logic
@@ -54,7 +57,11 @@ namespace Jaze.Views
         //    }
         //}
 
-        
+
+        private void UpdateStatus(string status)
+        {
+            textBlockStatus.Text = status;
+        }
 
         private void ShowDocument(object o)
         {
@@ -63,128 +70,82 @@ namespace Jaze.Views
             {
                 flowDoc.Document = document;
                 flowDoc.Tag = o;
+                if (flowDoc.Selection != null)
+                {
+                    flowDoc.Selection.Changed += FlowDocumentSelectionOnChanged;
+                }
             }
             
         }
 
-        //private void QuickView(string text, object o)
-        //{
-        //    //hide current popup
-        //    //if (_quickViewPopup != null)
-        //    //{
-        //    //    _quickViewPopup.IsOpen = false;
-        //    //}
-        //    try
-        //    {
-        //        //remove white
-        //        text = Regex.Replace(text, @"\s+", "");
-        //        text = text.Replace("•", "");
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // ignored
-        //    }
-        //    ////////////////////
-        //    if (o == null || string.IsNullOrWhiteSpace(text))
-        //    {
-        //        _quickViewPopup.IsOpen = false;
-        //        return;
-        //    }
+        private void QuickView(string text, object o)
+        {
+            if (o == null || string.IsNullOrWhiteSpace(text))
+            {
+                quickViewPopup.IsOpen = false;
+                return;
+            }
 
+            
+            //remove white
+            text = Regex.Replace(text, @"\s+", " ");
+            text = text.Replace("•", "");
+            text = text.Trim();
+           
+            //search in kanji
+            if (o is Kanji || o is JaVi || o is JaEn || o is ViJa || o is Grammar)
+            {
+                if (text.Length == 1 && Util.ConvertStringUtil.IsKanji(text[0]))
+                {
+                    var kanjis = Searcher.SearchKanji(new SearchArg(text, SearchOption.Exact)).ToArray();
+                    
+                    QuickViewKanji(kanjis.FirstOrDefault());
+                }
+                else
+                {
+                    var javis = Searcher.SearchJaVi(new SearchArg(text, SearchOption.Exact)).ToArray();
+                    QuickViewJapanese(javis.FirstOrDefault());
+                   
+                }
+            }
+            //search in hanviet
+            else if (o is HanViet)
+            {
+                var hanViets = Searcher.SearchHanViet(new SearchArg(text, SearchOption.Exact)).ToArray();
+                QuickViewHanViet(hanViets.FirstOrDefault());
+            }
+        }
 
-        //    //search in kanji
-        //    if (o is Kanji || o is JaVocab || o is ViVocab || o is Grammar)
-        //    {
-        //        if (text.Length == 1 && Util.ConvertStringUtil.IsKanji(text[0]))
-        //        {
-        //            QuickViewKanji(text);
-        //        }
-        //        else
-        //        {
-        //            if (o is Kanji)
-        //            {
-        //                //remove unnecessary symbol
-        //                string word, kana;
-        //                string kanji = (o as Kanji).Word;
-        //                int pos = text.IndexOf('.');
-        //                if (pos < 0)
-        //                {
-        //                    word = kanji;
-        //                    kana = text;
-        //                }
-        //                else
-        //                {
-        //                    word = kanji + text.Substring(pos + 1);
-        //                    kana = text.Replace(".", "");
-        //                }
-        //                QuickViewJapanese(word, kana);
-        //            }
-        //            else
-        //            {
-        //                var listJaVocab = DatabaseManager.SearchExactJaVocab(text, 1);
-        //                //tam thoi show 1 gia tri
-        //                if (listJaVocab.Count == 1)
-        //                {
-        //                    var jaVocab = listJaVocab[0];
-        //                    QuickViewJapanese(jaVocab.Word, jaVocab.Kana);
-        //                }
-        //                else
-        //                {
-        //                    QuickViewJapanese(text, text);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    //search in hanviet
-        //    else if (o is HanViet)
-        //    {
-        //        QuickViewHanViet(text);
-        //    }
-        //}
+        private void QuickViewJapanese(JaVi javi)
+        {
+            ShowQuickView(JaViBuilder.BuildQuickView(javi));
+        }
 
-        //private void QuickViewJapanese(string word, string kana)
-        //{
-        //    ShowQuickView(string.Format("{0}[{1}]", word, kana), Util.Builder.BuildQuickViewJaVocab(word, kana));
-        //}
+        private void QuickViewHanViet(HanViet hanViet)
+        {
+            
+            ShowQuickView(HanVietBuilder.BuildQuickView(hanViet));
 
-        //private void QuickViewHanViet(string text)
-        //{
-        //    //if (text.Length > 1)
-        //    //{
-        //    //    var match = Regex.Match(text, "^\\[(.*)\\]");
-        //    //    text = match.Groups[1].Value;
-        //    //}
-        //    //NewShowQuickViewDialog(null, null);
-        //    ShowQuickView(text, Util.Builder.BuildQuickViewHanViet(text));
+        }
 
-        //}
+        private void QuickViewKanji(Kanji kanji)
+        {
+            ShowQuickView(KanjiBuilder.BuildQuickView(kanji));
+        }
 
-        //private void QuickViewKanji(string text)
-        //{
-        //    ShowQuickView(text, Util.Builder.BuildQuickViewKanji(text));
-        //}
-
-        //private void ShowQuickView(string title, string document)
-        //{
-        //    if (_quickViewPopup == null)
-        //    {
-        //        _quickViewPopup = new Popup()
-        //        {
-        //            Height = Double.NaN,
-        //            Width = Double.NaN,
-        //            Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint,
-        //            StaysOpen = false,
-        //            AllowsTransparency = true,
-        //            VerticalOffset = 20,
-        //            HorizontalOffset = 20
-        //        };
-        //    }
-
-        //    var content = new QuickViewControl();
-        //    content.SetDocument(title, document);
-        //    _quickViewPopup.Child = content;
-        //    _quickViewPopup.IsOpen = true;
-        //}
+        private void ShowQuickView(FlowDocument document)
+        {
+            quickViewPopup.Child = new Border()
+            {
+                Child = new FlowDocumentScrollViewer()
+                {
+                    Document = document,
+                },
+                Background = Brushes.White
+            };            
+            
+            quickViewPopup.IsOpen = true;
+        }
 
 
         private void Search()
@@ -205,9 +166,17 @@ namespace Jaze.Views
             searchWorker.RunWorkerAsync(arg);
         }
 
-        private void Copy2Clipboard()
+        private void CopySelectedText()
         {
-            //MessageBox.Show("Under working");
+            var s = flowDoc.Selection?.Text;
+            if (s != null)
+            {
+                Clipboard.SetText(s);
+                UpdateStatus($"Copied \"{s}\" to Clipboard");
+            }
+        }
+        private void CopyShowingModel()
+        {
             var o = flowDoc.Tag;
             if (o == null)
             {
@@ -310,12 +279,12 @@ namespace Jaze.Views
 
             //}
             //catch { }
-
+            if (flowDoc.Selection != null) UpdateStatus(flowDoc.Selection.Text);
         }
 
-        private void ButtonCopy_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonCopyShowingModel_OnClick(object sender, RoutedEventArgs e)
         {
-            Copy2Clipboard();
+            CopyShowingModel();
         }
 
         private void ButtonPart_OnClick(object sender, RoutedEventArgs e)
@@ -350,6 +319,18 @@ namespace Jaze.Views
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void ButtonCopySelectedText_OnClick(object sender, RoutedEventArgs e)
+        {
+            CopySelectedText();
+        }
+
+        private void ButtonQuickView_OnClick(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("under working");
+            menuPopup.IsOpen = false;
+            QuickView(flowDoc.Selection?.Text,flowDoc.Tag);
         }
 
         #endregion UI event

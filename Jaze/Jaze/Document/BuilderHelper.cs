@@ -13,7 +13,7 @@ namespace Jaze.Document
 {
     static class BuilderHelper
     {
-        public static Block BuildWordMean(string json)
+        public static Block BuildWordMean(string json, bool buildExample)
         {
 
             if (string.IsNullOrWhiteSpace(json))
@@ -47,7 +47,7 @@ namespace Jaze.Document
                 item.Blocks.Add(paragragh);
                 
                 //add example
-                if (mean.Examples != null && mean.Examples.Count > 0)
+                if (buildExample && mean.Examples != null && mean.Examples.Count > 0)
                 {
                     var examples = BuildJaViExamples(mean.Examples.ToArray());
                     examples.Padding = new Thickness(10, 0, 0, 0);

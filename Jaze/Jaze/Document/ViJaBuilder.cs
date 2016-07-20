@@ -29,7 +29,7 @@ namespace Jaze.Document
             //build document header
             document.Blocks.Add(BuildDocumentHeader(vija.Word));
             //build Vi mean
-            document.Blocks.Add(BuilderHelper.BuildWordMean(vija.Mean));
+            document.Blocks.Add(BuilderHelper.BuildWordMean(vija.Mean,true));
             return document;
         }
 

@@ -330,57 +330,12 @@ namespace Jaze.Document
         #endregion
 
         #region Build Quick View
-
-        //public static string BuildQuickView(Kanji kanji)
-        //{
-        //    if (kanji == null)
-        //    {
-        //        return null;
-        //    }
-        //    DatabaseManager.LoadFullKanji(kanji);
-
-        //    //start build
-        //    StringBuilder doc = new StringBuilder();
-        //    doc.Append("<FlowDocument " + xmls + " PagePadding=\"10\">")
-        //        .Append(BuildQuickViewHeader(kanji.Word, kanji.HanViet))
-        //        .Append(BuildQuickViewAtributeSet(kanji))
-        //        .Append(BuildViMean(kanji.ViMean))
-        //        .Append(BuildEnMean(kanji.EnMean))
-        //        .Append("</FlowDocument>");
-        //    return doc.ToString();
-        //}
-
-        //private static string BuildQuickViewHeader(string kanji, string hanviet)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<Paragraph>")
-        //        .Append("<Run FontSize=\"20\" Foreground=\"Red\">").Append(kanji).Append("</Run>")
-        //        .Append("<Run>").Append("[" + hanviet + "]").Append("</Run>")
-        //        .Append("</Paragraph>");
-        //    return builder.ToString();
-        //}
-
-        //private static string BuildQuickViewAtributeSet(Kanji kanji)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<Paragraph>");
-        //    builder.Append((string) BuildQuickViewAtribute("Bộ thủ", kanji.Radical)).Append("<LineBreak/>");
-        //    builder.Append((string) BuildQuickViewAtribute("Onyomi", kanji.Onyomi)).Append("<LineBreak/>");
-        //    builder.Append((string) BuildQuickViewAtribute("Kunyomi", kanji.Kunyomi)).Append("<LineBreak/>");
-        //    builder.Append((string) BuildQuickViewAtribute("Trình độ", kanji.JLPT)).Append("<LineBreak/>");
-        //    builder.Append((string) BuildQuickViewAtribute("Thành phần", kanji.Component));
-        //    builder.Append("</Paragraph>");
-        //    return builder.ToString();
-        //}
-
-        //private static string BuildQuickViewAtribute(string name, string contain)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append("<Run Foreground=\"Gray\" FontSize=\"14\" Text=\"").Append(name).Append(": \" />");
-        //    builder.Append("<Run>").Append(contain).Append("</Run>");
-        //    return builder.ToString();
-        //}
-
+        public static FlowDocument BuildQuickView(Kanji kanji)
+        {
+            return Build(kanji);
+        }
         #endregion
+
+
     }
 }
