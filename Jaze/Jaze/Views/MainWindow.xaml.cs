@@ -139,7 +139,7 @@ namespace Jaze.Views
             {
                 Child = new FlowDocumentScrollViewer()
                 {
-                    Document = document,
+                    Document = document??new FlowDocument(new Paragraph(new Run("not found!")))
                 },
                 Background = Brushes.White
             };            
