@@ -93,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Control\KanjiPanel.xaml.cs">
+      <DependentUpon>KanjiPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\KanjiPartControl.xaml.cs">
       <DependentUpon>KanjiPartControl.xaml</DependentUpon>
     </Compile>
@@ -129,20 +132,12 @@
     <Compile Include="Search\KanjiSearcher.cs" />
     <Compile Include="Search\SearchArg.cs" />
     <Compile Include="Search\Searcher.cs" />
+    <Compile Include="Search\SearchHelper.cs" />
     <Compile Include="Search\VijaSearcher.cs" />
     <Compile Include="Util\ConvertUtil.cs" />
-    <Compile Include="Views\KanjiPanel.xaml.cs">
-      <DependentUpon>KanjiPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\KanjiPartOf.xaml.cs">
-      <DependentUpon>KanjiPartOf.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ListBoxResultTemplateSelector.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NewWindow.xaml.cs">
-      <DependentUpon>NewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
@@ -163,6 +158,10 @@
     <Compile Include="Model\Part.cs" />
     <Compile Include="Model\Radical.cs" />
     <Compile Include="Model\JaViExample.cs" />
+    <Page Include="Control\KanjiPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\KanjiPartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -191,21 +190,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\KanjiPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\KanjiPartOf.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\NewWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SplashWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

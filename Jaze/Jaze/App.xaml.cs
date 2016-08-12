@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Jaze.DAO;
+using Jaze.Search;
 using Jaze.Views;
 
 namespace Jaze
@@ -42,6 +43,7 @@ namespace Jaze
             DatabaseContext.Context.Levels.Load();
             DatabaseContext.Context.Radicals.Load();
             DatabaseContext.Context.Kanjis.Load();
+            SearchHelper.LoadFull();
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 var mainWindow = new MainWindow();

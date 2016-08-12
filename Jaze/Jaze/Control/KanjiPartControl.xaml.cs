@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Jaze.DAO;
 using Jaze.Model;
 
@@ -21,7 +11,7 @@ namespace Jaze.Control
     /// <summary>
     /// Interaction logic for KanjiPartControl.xaml
     /// </summary>
-    public partial class KanjiPartControl : UserControl
+    public partial class KanjiPartControl
     {
         private const int MaxPartStrock = 17;
         private List<Part> _checkedParts;
@@ -34,6 +24,7 @@ namespace Jaze.Control
             _buttons = new List<ToggleButton>();
             InitializeComponent();
             InitializeUI();
+            KanjiPanel.DocumentViewer.VerticalScrollBarVisibility=ScrollBarVisibility.Disabled;
         }
 
         public KanjiPartControl(Kanji kanji)
@@ -90,10 +81,6 @@ namespace Jaze.Control
             }
         }
 
-        private void ButtonCopy_OnClick(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(textBox.Text);
-        }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
@@ -132,15 +119,20 @@ namespace Jaze.Control
             if (_checkedParts.Count == 0)
             {
                 _kanjis.Clear();
+                UpdateResult();
             }
             else
             {
                 _kanjis = new HashSet<Kanji>(_checkedParts[0].Kanjis);
-                foreach (var part in _checkedParts)
+                //foreach (var part in _checkedParts)
+                //{
+                //    _kanjis.IntersectWith(part.Kanjis);
+                //}
+                for (int i = 1; i < _checkedParts.Count; i++)
                 {
-                    _kanjis.IntersectWith(part.Kanjis);
+                    _kanjis.IntersectWith(_checkedParts[i].Kanjis);
                 }
-                textBox.Text = string.Concat(_kanjis.Select(k => k.Word));
+                UpdateResult();
             }
             DetectCheckableButton();
         }
@@ -148,7 +140,7 @@ namespace Jaze.Control
         private void ContinueFilter(Part part)
         {
             _kanjis.IntersectWith(part.Kanjis);
-            textBox.Text = string.Concat(_kanjis.Select(k => k.Word));
+            UpdateResult();
             DetectCheckableButton();
         }
 
@@ -173,6 +165,12 @@ namespace Jaze.Control
             {
                 button.IsEnabled = checkableParts.Contains(button.Tag);
             }
+        }
+
+        private void UpdateResult()
+        {
+            KanjiPanel.ListKanji.ItemsSource = null;
+            KanjiPanel.ListKanji.ItemsSource = _kanjis;
         }
     }
 }

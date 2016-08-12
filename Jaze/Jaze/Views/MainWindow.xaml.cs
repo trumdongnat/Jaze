@@ -241,12 +241,23 @@ namespace Jaze.Views
 
         private void ShowKanjiPartOf(Kanji kanji)
         {
-            if (kanji == null)
+            if (kanji != null)
             {
-                return;
+                //var window = new KanjiPartOf(kanji) { Owner = this };
+                //window.ShowDialog();
+               
+                var panel = new Control.KanjiPanel();
+                panel.ListKanji.ItemsSource =
+                    DatabaseContext.Context.Kanjis.Where(k => k.Component.Contains(kanji.Word)).ToList();
+                var window = new Window()
+                {
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    Content = panel,
+                    Owner = this,
+                    WindowStyle = WindowStyle.ToolWindow
+                };
+                window.ShowDialog();
             }
-            var window = new KanjiPartOf(kanji) {Owner = this};
-            window.ShowDialog();
         }
 
         #endregion Business Logic
