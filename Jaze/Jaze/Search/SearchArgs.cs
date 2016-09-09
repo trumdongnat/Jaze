@@ -2,15 +2,15 @@
 
 namespace Jaze.Search
 {
-    public class SearchArg
+    public class SearchArgs
     {
-        public SearchArg(string searchKey, SearchOption option)
+        public SearchArgs(string searchKey, SearchOption option)
         {
             SearchKey = searchKey;
             Option = option;
         }
 
-        public SearchArg(string searchKey, SearchOption option, DictionaryType dictionary)
+        public SearchArgs(string searchKey, SearchOption option, DictionaryType dictionary)
         {
             SearchKey = searchKey;
             Option = option;
