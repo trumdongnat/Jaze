@@ -8,9 +8,9 @@ namespace Jaze.Search
 {
     internal class HanVietSearcher
     {
-        public static IEnumerable<HanViet> Search(SearchArg searchArg)
+        public static IEnumerable<HanViet> Search(SearchArgs searchArgs)
         {
-            var key = searchArg.SearchKey;
+            var key = searchArgs.SearchKey;
             
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -18,7 +18,7 @@ namespace Jaze.Search
                 return null;
             }
 
-            switch (searchArg.Option)
+            switch (searchArgs.Option)
             {
                 case SearchOption.Exact:
                     return SearchExact(key);

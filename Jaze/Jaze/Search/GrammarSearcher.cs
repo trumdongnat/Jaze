@@ -9,16 +9,16 @@ namespace Jaze.Search
 {
     static class GrammarSearcher
     {
-        public static IEnumerable<Grammar> Search(SearchArg searchArg)
+        public static IEnumerable<Grammar> Search(SearchArgs searchArgs)
         {
-            var key = searchArg.SearchKey;
+            var key = searchArgs.SearchKey;
 
             if (string.IsNullOrWhiteSpace(key))
             {
                 return GetAll();
             }
 
-            //switch (searchArg.Option)
+            //switch (searchArgs.Option)
             //{
             //    case SearchOption.Exact:
             //        return SearchExact(key);

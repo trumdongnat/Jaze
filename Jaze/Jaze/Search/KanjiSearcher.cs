@@ -9,9 +9,9 @@ namespace Jaze.Search
 {
     static class KanjiSearcher
     {
-        public static IEnumerable<Kanji> Search(SearchArg searchArg)
+        public static IEnumerable<Kanji> Search(SearchArgs searchArgs)
         {
-            var key = searchArg.SearchKey;
+            var key = searchArgs.SearchKey;
             //
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -29,7 +29,7 @@ namespace Jaze.Search
                 return SearchVietNameseSentence(key);
             }
             //other case
-            switch (searchArg.Option)
+            switch (searchArgs.Option)
             {
                 case SearchOption.Exact:
                     return SearchExact(key);

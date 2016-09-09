@@ -11,9 +11,9 @@ namespace Jaze.Search
 {
     static class JaviSearcher
     {
-        public static IEnumerable<JaVi> Search(SearchArg searchArg)
+        public static IEnumerable<JaVi> Search(SearchArgs searchArgs)
         {
-            var key = searchArg.SearchKey;
+            var key = searchArgs.SearchKey;
 
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -23,7 +23,7 @@ namespace Jaze.Search
 
             key = key.Contains("-") ? ConvertStringUtil.ConvertRomaji2Katakana(key) : ConvertStringUtil.ConvertRomaji2Hiragana(key);
 
-            switch (searchArg.Option)
+            switch (searchArgs.Option)
             {
                 case SearchOption.Exact:
                     return SearchExact(key);

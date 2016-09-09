@@ -10,9 +10,9 @@ namespace Jaze.Search
 {
     static class VijaSearcher
     {
-        public static IEnumerable<ViJa> Search(SearchArg searchArg)
+        public static IEnumerable<ViJa> Search(SearchArgs searchArgs)
         {
-            var key = searchArg.SearchKey;
+            var key = searchArgs.SearchKey;
 
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -20,7 +20,7 @@ namespace Jaze.Search
                 return null;
             }
 
-            switch (searchArg.Option)
+            switch (searchArgs.Option)
             {
                 case SearchOption.Exact:
                     return SearchExact(key);

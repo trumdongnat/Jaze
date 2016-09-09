@@ -7,61 +7,61 @@ namespace Jaze.Search
 {
     public static class Searcher
     {
-        public static IEnumerable<object> Search(SearchArg arg)
+        public static IEnumerable<object> Search(SearchArgs args)
         {
-            if (arg == null)
+            if (args == null)
             {
                 return null;
             }
-            arg.SearchKey = Regex.Replace(arg.SearchKey, @"\s+", " ");
-            arg.SearchKey = arg.SearchKey.Trim();
-            switch (arg.Dictionary)
+            args.SearchKey = Regex.Replace(args.SearchKey, @"\s+", " ");
+            args.SearchKey = args.SearchKey.Trim();
+            switch (args.Dictionary)
             {
                 case DictionaryType.JaVi:
-                    return SearchJaVi(arg);
+                    return SearchJaVi(args);
                 case DictionaryType.HanViet:
-                    return SearchHanViet(arg);
+                    return SearchHanViet(args);
                 case DictionaryType.Kanji:
-                    return SearchKanji(arg);
+                    return SearchKanji(args);
                 case DictionaryType.ViJa:
-                    return SearchViJa(arg);
+                    return SearchViJa(args);
                 case DictionaryType.Grammar:
-                    return SearchGrammar(arg);
+                    return SearchGrammar(args);
                 case DictionaryType.JaEn:
-                    return SearchJaEn(arg);
+                    return SearchJaEn(args);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(arg.Dictionary), arg.Dictionary, null);
+                    throw new ArgumentOutOfRangeException(nameof(args.Dictionary), args.Dictionary, null);
             }
         }
 
-        public static IEnumerable<HanViet> SearchHanViet(SearchArg searchArg)
+        public static IEnumerable<HanViet> SearchHanViet(SearchArgs searchArgs)
         {
-            return HanVietSearcher.Search(searchArg);
+            return HanVietSearcher.Search(searchArgs);
         }
 
-        public static IEnumerable<Kanji> SearchKanji(SearchArg searchArg)
+        public static IEnumerable<Kanji> SearchKanji(SearchArgs searchArgs)
         {
-            return KanjiSearcher.Search(searchArg);
+            return KanjiSearcher.Search(searchArgs);
         }
 
-        public static IEnumerable<ViJa> SearchViJa(SearchArg searchArg)
+        public static IEnumerable<ViJa> SearchViJa(SearchArgs searchArgs)
         {
-            return VijaSearcher.Search(searchArg);
+            return VijaSearcher.Search(searchArgs);
         }
 
-        public static IEnumerable<Grammar> SearchGrammar(SearchArg searchArg)
+        public static IEnumerable<Grammar> SearchGrammar(SearchArgs searchArgs)
         {
-            return GrammarSearcher.Search(searchArg);
+            return GrammarSearcher.Search(searchArgs);
         }
 
-        public static IEnumerable<JaEn> SearchJaEn(SearchArg searchArg)
+        public static IEnumerable<JaEn> SearchJaEn(SearchArgs searchArgs)
         {
-            return JaenSearcher.Search(searchArg);
+            return JaenSearcher.Search(searchArgs);
         }
 
-        public static IEnumerable<JaVi> SearchJaVi(SearchArg arg)
+        public static IEnumerable<JaVi> SearchJaVi(SearchArgs args)
         {
-            return JaviSearcher.Search(arg);
+            return JaviSearcher.Search(args);
         }
     }
 

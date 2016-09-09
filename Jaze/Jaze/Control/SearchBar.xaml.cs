@@ -60,7 +60,7 @@ namespace Jaze.Control
             set { TextBoxSearch.Text = value; }
         }
 
-        public SearchArg SearchArg => new SearchArg(TextBoxSearch.Text, SearchOption);
+        public SearchArgs SearchArgs => new SearchArgs(TextBoxSearch.Text, SearchOption);
 
         public SearchOption SearchOption
         {
@@ -108,7 +108,7 @@ namespace Jaze.Control
 
         private void RaiseSearchEvent()
         {
-            RaiseEvent(new RoutedEventArgs(SearchEvent, SearchArg));
+            RaiseEvent(new RoutedEventArgs(SearchEvent, SearchArgs));
         }
 
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
