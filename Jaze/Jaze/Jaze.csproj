@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>dictionary.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -130,7 +130,7 @@
     <Compile Include="Search\JaenSearcher.cs" />
     <Compile Include="Search\JaviSearcher.cs" />
     <Compile Include="Search\KanjiSearcher.cs" />
-    <Compile Include="Search\SearchArg.cs" />
+    <Compile Include="Search\SearchArgs.cs" />
     <Compile Include="Search\Searcher.cs" />
     <Compile Include="Search\SearchHelper.cs" />
     <Compile Include="Search\VijaSearcher.cs" />
@@ -252,10 +252,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <Resource Include="Assets\paste_search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\paste_search.png" />
+    <Resource Include="dictionary.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

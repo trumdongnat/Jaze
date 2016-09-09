@@ -97,13 +97,13 @@ namespace Jaze.Views
             {
                 if (text.Length == 1 && Util.ConvertStringUtil.IsKanji(text[0]))
                 {
-                    var kanjis = Searcher.SearchKanji(new SearchArg(text, SearchOption.Exact)).ToArray();
+                    var kanjis = Searcher.SearchKanji(new SearchArgs(text, SearchOption.Exact)).ToArray();
                     
                     QuickViewKanji(kanjis.FirstOrDefault());
                 }
                 else
                 {
-                    var javis = Searcher.SearchJaVi(new SearchArg(text, SearchOption.Exact)).ToArray();
+                    var javis = Searcher.SearchJaVi(new SearchArgs(text, SearchOption.Exact)).ToArray();
                     QuickViewJapanese(javis.FirstOrDefault());
                    
                 }
@@ -111,7 +111,7 @@ namespace Jaze.Views
             //search in hanviet
             else if (o is HanViet)
             {
-                var hanViets = Searcher.SearchHanViet(new SearchArg(text, SearchOption.Exact)).ToArray();
+                var hanViets = Searcher.SearchHanViet(new SearchArgs(text, SearchOption.Exact)).ToArray();
                 QuickViewHanViet(hanViets.FirstOrDefault());
             }
         }
@@ -150,22 +150,26 @@ namespace Jaze.Views
 
         private void Search()
         {
-            //listSearchResult.ItemsSource = Searcher.Search(listDictionary.CurrentDictionary.Type, searchBar.SearchArg);
+            var arg = searchBar.SearchArgs;
+            arg.Dictionary = listDictionary.CurrentDictionary.Type;
+            Search(arg);
+        }
+
+        private void Search(SearchArgs arg)
+        {
             if (listSearchResult.IsSearching)
             {
                 MessageBox.Show("Đang tìm kiếm");
+                return;
             }
-            listSearchResult.IsSearching = true;
 
+            listSearchResult.IsSearching = true;
             var searchWorker = new BackgroundWorker();
             searchWorker.DoWork += SearchBackground;
             searchWorker.RunWorkerCompleted += SearchBackgroundComplete;
-            var arg = searchBar.SearchArg;
-            arg.Dictionary = listDictionary.CurrentDictionary.Type;
             UpdateStatus("Searching key = " + arg.SearchKey + " Dictionary = " + arg.Dictionary);
             searchWorker.RunWorkerAsync(arg);
         }
-
         private void CopySelectedText()
         {
             var s = flowDoc.Selection?.Text;
@@ -315,7 +319,7 @@ namespace Jaze.Views
 
         private void SearchBar_OnSearch(object sender, RoutedEventArgs e)
         {
-            var arg = e.OriginalSource as SearchArg;
+            var arg = e.OriginalSource as SearchArgs;
             if (arg != null)
             {
                 Search();
@@ -344,13 +348,45 @@ namespace Jaze.Views
             QuickView(flowDoc.Selection?.Text,flowDoc.Tag);
         }
 
+        private void ButtonSearchSuggest_OnClick(object sender, RoutedEventArgs e)
+        {
+            var o = flowDoc.Tag;
+            if (o is Kanji)
+            {
+                PopupSearchSuggest.IsOpen = true;
+            }
+            
+
+        }
+
+        private void HyperlinkSearchWordStartWith_OnClick(object sender, RoutedEventArgs e)
+        {
+            PopupSearchSuggest.IsOpen = false;
+            var kanji = flowDoc.Tag as Kanji;
+            Search(new SearchArgs(kanji.Word,SearchOption.StartWith,DictionaryType.JaVi));   
+        }
+
+        private void HyperlinkSearchWordContain_OnClick(object sender, RoutedEventArgs e)
+        {
+            PopupSearchSuggest.IsOpen = false;
+            var kanji = flowDoc.Tag as Kanji;
+            Search(new SearchArgs(kanji.Word, SearchOption.Contain, DictionaryType.JaVi));
+        }
+
+        private void HyperlinkSearchWordEndWith_OnClick(object sender, RoutedEventArgs e)
+        {
+            PopupSearchSuggest.IsOpen = false;
+            var kanji = flowDoc.Tag as Kanji;
+            Search(new SearchArgs(kanji.Word, SearchOption.Contain, DictionaryType.JaVi));
+        }
+
         #endregion UI event
 
         #region Search Background
 
         private void SearchBackground(object sender, DoWorkEventArgs e)
         {
-            var arg = e.Argument as SearchArg;
+            var arg = e.Argument as SearchArgs;
             var result = Searcher.Search(arg);
             e.Result = result;
         }
