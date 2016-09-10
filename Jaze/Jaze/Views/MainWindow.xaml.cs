@@ -377,7 +377,7 @@ namespace Jaze.Views
         {
             PopupSearchSuggest.IsOpen = false;
             var kanji = flowDoc.Tag as Kanji;
-            Search(new SearchArgs(kanji.Word, SearchOption.Contain, DictionaryType.JaVi));
+            Search(new SearchArgs(kanji.Word, SearchOption.EndWith, DictionaryType.JaVi));
         }
 
         #endregion UI event
