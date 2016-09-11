@@ -238,7 +238,8 @@ namespace Jaze.Views
             {
                 Content = control,
                 Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ShowInTaskbar = false
             };
             window.ShowDialog();
         }
@@ -258,7 +259,8 @@ namespace Jaze.Views
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
                     Content = panel,
                     Owner = this,
-                    WindowStyle = WindowStyle.ToolWindow
+                    WindowStyle = WindowStyle.ToolWindow,
+                    ShowInTaskbar = false
                 };
                 window.ShowDialog();
             }
