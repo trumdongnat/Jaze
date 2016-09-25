@@ -14,10 +14,10 @@
                <ColumnDefinition Width="Auto"></ColumnDefinition>
            </Grid.ColumnDefinitions>
            <ListBox Grid.Column="0" SelectionChanged="ListKanji_OnSelectionChanged" SelectionMode="Single"
-                    Name="ListKanji">
+                    Name="ListKanji" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                <ListBox.ItemsPanel>
                    <ItemsPanelTemplate>
-                       <StackPanel Orientation="Horizontal"></StackPanel>
+                       <WrapPanel Orientation="Horizontal"></WrapPanel>
                    </ItemsPanelTemplate>
                </ListBox.ItemsPanel>
                <ListBox.ItemTemplate>
