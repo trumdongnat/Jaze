@@ -139,12 +139,8 @@ namespace Jaze.Document
             {
                 return new List<JaViExample>();
             }
-
-            var examples = new List<JaViExample>();
-
             var context = DatabaseContext.Context;
-            examples.AddRange(ids.Select(id => context.JaViExamples.Find(id)).Where(example => example != null));
-            return examples;
+            return context.JaViExamples.Where(o => ids.Contains(o.Id)).ToList();
         }
 
 
