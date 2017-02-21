@@ -15,6 +15,7 @@ namespace Jaze
     /// </summary>
     public partial class App : Application
     {
+        public static string BaseDictionary => AppDomain.CurrentDomain.BaseDirectory;
         public App()
         {
             InitializeComponent();

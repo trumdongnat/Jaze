@@ -401,6 +401,11 @@ namespace Jaze.Util
         {
             return sentence!=null && sentence.Any(c => c >= 0x3040);
         }
+
+        public static bool IsJapanese(string s)
+        {
+            return s.ToCharArray().All(c =>IsHiragana(c) || IsKatakana(c) || IsKanji(c));
+        }
     }
 
     public enum CharSet
