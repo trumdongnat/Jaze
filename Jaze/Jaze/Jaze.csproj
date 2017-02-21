@@ -64,16 +64,11 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Telerik.Windows.Cloud">
-      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Cloud.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Controls">
       <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
