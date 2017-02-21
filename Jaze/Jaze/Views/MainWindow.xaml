@@ -243,6 +243,7 @@
                 </Popup>
                 <Button BorderThickness="2" Margin="0,0,5,0" Content="Part" Click="ButtonPart_OnClick" />
                 <Button BorderThickness="2" Margin="0,0,5,0" Content="Is Part Of" Click="ButtonPartOf_OnClick" />
+                <TextBox HorizontalAlignment="Stretch" Width="200"></TextBox>
             </StackPanel>
             <!--  Result Area  -->
             <telerik:RadBusyIndicator Name="loadingIndicator"

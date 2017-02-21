@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaze", "Jaze\Jaze.csproj", "{6664FD83-5A41-4147-A520-6A6C31EBDFAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildDatabase", "BuildDatabase\BuildDatabase.csproj", "{166123B4-84C7-4285-8D73-8403D7F374B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConverter", "HtmlConverter\HtmlConverter.csproj", "{E33DC949-9668-4025-8F3E-B971052126BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JazeSqlite", "JazeSqlite\JazeSqlite.csproj", "{5DC5D7BE-A157-4995-8593-59A8E59FD754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{E33DC949-9668-4025-8F3E-B971052126BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E33DC949-9668-4025-8F3E-B971052126BC}.Release|x86.ActiveCfg = Release|Any CPU
 		{E33DC949-9668-4025-8F3E-B971052126BC}.Release|x86.Build.0 = Release|Any CPU
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Debug|x86.ActiveCfg = Debug|x86
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Debug|x86.Build.0 = Debug|x86
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Release|Any CPU.ActiveCfg = Release|x86
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Release|x86.ActiveCfg = Release|x86
+		{5DC5D7BE-A157-4995-8593-59A8E59FD754}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -250,3 +250,4 @@ ModelManifest.xml
 Jaze/Jaze/Views/NewWindow.xaml
 Jaze/Jaze/Views/NewWindow.xaml.cs
 /Jaze/BuildDatabase
+/Jaze/JazeSqlite
