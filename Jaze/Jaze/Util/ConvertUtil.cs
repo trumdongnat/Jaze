@@ -8,6 +8,8 @@ namespace Jaze.Util
     {
         //romaji - hiragana - katakana
         private static readonly List<Tuple<string, string, string>> ListTuple = new List<Tuple<string, string, string>>();
+        private static readonly char[] Vowels;
+        private static readonly char[] Consonants;
 
         static ConvertStringUtil()
         {
@@ -294,6 +296,9 @@ namespace Jaze.Util
             ListTuple.Add(t);
             t = new Tuple<string, string, string>("'", "", "");
             ListTuple.Add(t);
+            //
+            Vowels = "aăâeêioôơuưyàằầèềìòồờùừỳảẳẩẻểỉỏổởủửỷãẵẫẽễĩõỗỡũữỹáắấéếíóốớúứýạặậẹệịọộợụựỵ".ToCharArray();
+            Consonants = "bcdđghklmnpqrstvx".ToCharArray();
         }
 
         public static List<char> FilterCharsInString(string text, CharSet charSet)
@@ -405,6 +410,20 @@ namespace Jaze.Util
         public static bool IsJapanese(string s)
         {
             return s.ToCharArray().All(c =>IsHiragana(c) || IsKatakana(c) || IsKanji(c));
+        }
+
+        public static bool IsVietnamese(string s)
+        {
+            s = s.ToLower();
+            while (s.Length > 0 && Consonants.Contains(s[0]))
+            {
+                s = s.Substring(1);
+            }
+            while (s.Length > 0 && Consonants.Contains(s[s.Length-1]))
+            {
+                s = s.Substring(0,s.Length-1);
+            }
+            return s.Length > 0 && s.ToCharArray().All(c => Vowels.Contains(c));
         }
     }
 

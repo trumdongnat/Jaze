@@ -103,30 +103,18 @@ namespace Jaze.Search
                 return null;
             }
             var key = rawKey.Contains("-") ? ConvertStringUtil.ConvertRomaji2Katakana(rawKey) : ConvertStringUtil.ConvertRomaji2Hiragana(rawKey);
-            if (ConvertStringUtil.IsContainJapaneseCharacter(rawKey))
+            IEnumerable<JaVi> resultJv = new JaVi[] {};
+            IEnumerable<JaVi> resultHv = new JaVi[] { };
+            if (ConvertStringUtil.IsJapanese(key))
             {
-                if (ConvertStringUtil.IsJapanese(key))
-                {
-                    return SearchJapanese(new SearchArgs(key, searchArgs.Option));
-                }
-                else
-                {
-                    return null;
-                }
+                resultJv = SearchJapanese(new SearchArgs(key, searchArgs.Option));
             }
-            else
+
+            if (rawKey.Split(' ').All(ConvertStringUtil.IsVietnamese))
             {
-                if (ConvertStringUtil.IsJapanese(key))
-                {
-                    var result1 = SearchJapanese(new SearchArgs(key, searchArgs.Option));
-                    var result2 = SearchHanViet(searchArgs);
-                    return result1.Union(result2);
-                }
-                else
-                {
-                    return SearchHanViet(searchArgs);
-                }
+                resultHv = SearchHanViet(searchArgs);
             }
+            return resultJv.Union(resultHv);
         }
 
         private static IEnumerable<JaVi> SearchJapanese(SearchArgs searchArgs)
