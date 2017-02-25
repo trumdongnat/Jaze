@@ -72,7 +72,7 @@ namespace Jaze.Document
             table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
             table.RowGroups.Add(new TableRowGroup());
 
-            var kanjis = ConvertStringUtil.FilterCharsInString(word, CharSet.Kanji);
+            var kanjis = StringUtil.FilterCharsInString(word, CharSet.Kanji);
             foreach (var c in kanjis)
             {
                 string s = c.ToString();

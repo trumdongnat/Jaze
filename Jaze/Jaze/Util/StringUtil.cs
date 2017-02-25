@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Jaze.Util
 {
-    public static class ConvertStringUtil
+    public static class StringUtil
     {
         //romaji - hiragana - katakana
         private static readonly List<Tuple<string, string, string>> ListTuple = new List<Tuple<string, string, string>>();
         private static readonly char[] Vowels;
         private static readonly char[] Consonants;
 
-        static ConvertStringUtil()
+        static StringUtil()
         {
             Tuple<string, string, string> t;
             t = new Tuple<string, string, string>("kya", "きゃ", "キャ");

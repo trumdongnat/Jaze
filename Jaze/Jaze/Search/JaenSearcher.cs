@@ -21,7 +21,7 @@ namespace Jaze.Search
                 return null;
             }
 
-            key = key.Contains("-") ? ConvertStringUtil.ConvertRomaji2Katakana(key) : ConvertStringUtil.ConvertRomaji2Hiragana(key);
+            key = key.Contains("-") ? StringUtil.ConvertRomaji2Katakana(key) : StringUtil.ConvertRomaji2Hiragana(key);
 
             switch (searchArgs.Option)
             {

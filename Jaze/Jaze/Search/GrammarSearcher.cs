@@ -37,7 +37,7 @@ namespace Jaze.Search
         private static IEnumerable<Grammar> SearchContain(string key)
         {
             var context = DatabaseContext.Context;
-            var hirakey = ConvertStringUtil.ConvertRomaji2Hiragana(key);
+            var hirakey = StringUtil.ConvertRomaji2Hiragana(key);
             return context.Grammars.Where(o => o.Struct.Contains(hirakey) || o.Meaning.Contains(key)).ToArray();
         }
 

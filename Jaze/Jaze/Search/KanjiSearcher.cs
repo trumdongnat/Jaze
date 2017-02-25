@@ -18,7 +18,7 @@ namespace Jaze.Search
                 return GetAll();
             }
             //if search key contain multi kanji
-            var arr = ConvertStringUtil.FilterCharsInString(key, CharSet.Kanji);
+            var arr = StringUtil.FilterCharsInString(key, CharSet.Kanji);
             if (arr.Count>0)
             {
                 return LoadKanji(arr);

@@ -102,15 +102,15 @@ namespace Jaze.Search
                 //return GetAll();
                 return null;
             }
-            var key = rawKey.Contains("-") ? ConvertStringUtil.ConvertRomaji2Katakana(rawKey) : ConvertStringUtil.ConvertRomaji2Hiragana(rawKey);
+            var key = rawKey.Contains("-") ? StringUtil.ConvertRomaji2Katakana(rawKey) : StringUtil.ConvertRomaji2Hiragana(rawKey);
             IEnumerable<JaVi> resultJv = new JaVi[] {};
             IEnumerable<JaVi> resultHv = new JaVi[] { };
-            if (ConvertStringUtil.IsJapanese(key))
+            if (StringUtil.IsJapanese(key))
             {
                 resultJv = SearchJapanese(new SearchArgs(key, searchArgs.Option));
             }
 
-            if (rawKey.Split(' ').All(ConvertStringUtil.IsVietnamese))
+            if (rawKey.Split(' ').All(StringUtil.IsVietnamese))
             {
                 resultHv = SearchHanViet(searchArgs);
             }

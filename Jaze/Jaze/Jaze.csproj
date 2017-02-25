@@ -128,7 +128,7 @@
     <Compile Include="Search\SearchArgs.cs" />
     <Compile Include="Search\Searcher.cs" />
     <Compile Include="Search\VijaSearcher.cs" />
-    <Compile Include="Util\ConvertUtil.cs" />
+    <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Views\ListBoxResultTemplateSelector.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

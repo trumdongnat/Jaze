@@ -95,7 +95,7 @@ namespace Jaze.Views
             //search in kanji
             if (o is Kanji || o is JaVi || o is JaEn || o is ViJa || o is Grammar)
             {
-                if (text.Length == 1 && Util.ConvertStringUtil.IsKanji(text[0]))
+                if (text.Length == 1 && Util.StringUtil.IsKanji(text[0]))
                 {
                     var kanjis = Searcher.SearchKanji(new SearchArgs(text, SearchOption.Exact)).ToArray();
                     
