@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,13 +25,10 @@ namespace Jaze.Views
 
         //private const double DOCUMENT_LINE_HEIGHT = 30;
 
-        private Popup _menuPopup;
-
         public MainWindow()
         {
             InitializeComponent();
             InitializeControl();
-            
         }
 
         private void InitializeControl()
@@ -43,7 +39,7 @@ namespace Jaze.Views
         private void FlowDocumentOnPreviewMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             var s = flowDoc.Selection?.Text;
-            menuPopup.IsOpen = !string.IsNullOrWhiteSpace(s);
+            MenuPopup.IsOpen = !string.IsNullOrWhiteSpace(s);
         }
 
         #region Business Logic
@@ -82,11 +78,10 @@ namespace Jaze.Views
         {
             if (o == null || string.IsNullOrWhiteSpace(text))
             {
-                quickViewPopup.IsOpen = false;
+                QuickViewPopup.IsOpen = false;
                 return;
             }
 
-            
             //remove white
             text = Regex.Replace(text, @"\s+", " ");
             text = text.Replace("•", "");
@@ -123,9 +118,7 @@ namespace Jaze.Views
 
         private void QuickViewHanViet(HanViet hanViet)
         {
-            
             ShowQuickView(HanVietBuilder.BuildQuickView(hanViet));
-
         }
 
         private void QuickViewKanji(Kanji kanji)
@@ -135,7 +128,7 @@ namespace Jaze.Views
 
         private void ShowQuickView(FlowDocument document)
         {
-            quickViewPopup.Child = new Border()
+            QuickViewPopup.Child = new Border()
             {
                 Child = new FlowDocumentScrollViewer()
                 {
@@ -144,7 +137,7 @@ namespace Jaze.Views
                 Background = Brushes.White
             };            
             
-            quickViewPopup.IsOpen = true;
+            QuickViewPopup.IsOpen = true;
         }
 
 
@@ -251,7 +244,7 @@ namespace Jaze.Views
                 //var window = new KanjiPartOf(kanji) { Owner = this };
                 //window.ShowDialog();
                
-                var panel = new Control.KanjiPanel();
+                var panel = new KanjiPanel();
                 panel.ListKanji.ItemsSource =
                     DatabaseContext.Context.Kanjis.Where(k => k.Component.Contains(kanji.Word)).ToList();
                 var window = new Window()
@@ -289,14 +282,7 @@ namespace Jaze.Views
  
         private void FlowDocumentSelectionOnChanged(object sender, EventArgs eventArgs)
         {
-            //try
-            //{
-            //    var s = flowDoc.Selection.Text;
-            //    QuickView(s, flowDoc.Tag);
-
-            //}
-            //catch { }
-            if (flowDoc.Selection != null) UpdateStatus(flowDoc.Selection.Text);
+            //if (flowDoc.Selection != null) UpdateStatus(flowDoc.Selection.Text);
         }
 
         private void ButtonCopyShowingModel_OnClick(object sender, RoutedEventArgs e)
@@ -330,7 +316,6 @@ namespace Jaze.Views
             {
                 MessageBox.Show("Fail");
             }
-            
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -346,7 +331,7 @@ namespace Jaze.Views
         private void ButtonQuickView_OnClick(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("under working");
-            menuPopup.IsOpen = false;
+            MenuPopup.IsOpen = false;
             QuickView(flowDoc.Selection?.Text,flowDoc.Tag);
         }
 
@@ -357,8 +342,6 @@ namespace Jaze.Views
             {
                 PopupSearchSuggest.IsOpen = true;
             }
-            
-
         }
 
         private void HyperlinkSearchWordStartWith_OnClick(object sender, RoutedEventArgs e)

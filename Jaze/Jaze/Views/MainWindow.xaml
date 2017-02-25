@@ -251,7 +251,7 @@
                                       Margin="0,5,0,0"
                                       BusyContent="Đang lấy dữ liệu" IsIndeterminate="True">
                 <Grid>
-                    <Popup Name="menuPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5"
+                    <Popup Name="MenuPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5"
                            IsOpen="False"
                            Placement="MousePoint">
                         <StackPanel Height="30" Orientation="Horizontal">
@@ -263,7 +263,7 @@
                             </Button>
                         </StackPanel>
                     </Popup>
-                    <Popup Name="quickViewPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5"
+                    <Popup Name="QuickViewPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5"
                            IsOpen="False"
                            Placement="MousePoint" />
                     <FlowDocumentReader Name="flowDoc"
