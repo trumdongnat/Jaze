@@ -425,6 +425,11 @@ namespace Jaze.Util
             }
             return s.Length > 0 && s.ToCharArray().All(c => Vowels.Contains(c));
         }
+
+        public static bool IsContainKanji(string s)
+        {
+            return !string.IsNullOrWhiteSpace(s) && s.ToCharArray().Any(IsKanji);
+        }
     }
 
     public enum CharSet

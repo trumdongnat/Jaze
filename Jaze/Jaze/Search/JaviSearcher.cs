@@ -187,25 +187,56 @@ namespace Jaze.Search
         private static IEnumerable<JaVi> SearchContain(string key)
         {
             var context = DatabaseContext.Context;
-            return context.JaVis.Where(o => o.Word.Contains(key) || o.Kana.Contains(key)).ToArray();
+            if (StringUtil.IsContainKanji(key))
+            {
+                return context.JaVis.Where(o => o.Word.Contains(key)).ToArray();
+            }
+            else
+            {
+                return context.JaVis.Where(o => (o.Kana!=null && o.Word.Contains(key)) || o.Kana.Contains(key)).ToArray();
+            }
         }
 
         private static IEnumerable<JaVi> SearchEndWith(string key)
         {
             var context = DatabaseContext.Context;
-            return context.JaVis.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).ToArray();
+            if (StringUtil.IsContainKanji(key))
+            {
+                return context.JaVis.Where(o => o.Word.EndsWith(key)).ToArray();
+            }
+            else
+            {
+                return context.JaVis.Where(o => (o.Kana != null && o.Word.EndsWith(key)) || o.Kana.EndsWith(key)).ToArray();
+            }
+            
         }
 
         private static IEnumerable<JaVi> SearchStartWith(string key)
         {
             var context = DatabaseContext.Context;
-            return context.JaVis.Where(o => o.Word.StartsWith(key) || o.Kana.StartsWith(key)).ToArray();
+            if (StringUtil.IsContainKanji(key))
+            {
+                return context.JaVis.Where(o => o.Word.StartsWith(key)).ToArray();
+            }
+            else
+            {
+                return context.JaVis.Where(o => (o.Kana != null && o.Word.StartsWith(key)) || o.Kana.StartsWith(key)).ToArray();
+            }
+            
         }
 
         private static IEnumerable<JaVi> SearchExact(string key)
         {
             var context = DatabaseContext.Context;
-            return context.JaVis.Where(o => o.Word == key || o.Kana == key).ToArray();
+            if (StringUtil.IsContainKanji(key))
+            {
+                return context.JaVis.Where(o => o.Word == key).ToArray();
+            }
+            else
+            {
+                return context.JaVis.Where(o => o.Word == key || o.Kana == key).ToArray();
+            }
+           
         }
 
         private static IEnumerable<JaVi> GetAll()
