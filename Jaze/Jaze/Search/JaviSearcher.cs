@@ -12,13 +12,13 @@ namespace Jaze.Search
 {
     static class JaviSearcher
     {
-        private const string CACHE_FILE = "jv_hv";
+        private const string HANVIET_CACHE_FILE = "jv_hv";
         private static List<JaviHanVietCache> _javiHanVietCaches;
         static JaviSearcher()
         {
             _javiHanVietCaches = new List<JaviHanVietCache>();
             string cacheFolder = System.IO.Path.Combine(App.BaseDictionary, "Caches");
-            var cachePath = System.IO.Path.Combine(cacheFolder, CACHE_FILE);
+            var cachePath = System.IO.Path.Combine(cacheFolder, HANVIET_CACHE_FILE);
             System.IO.Directory.CreateDirectory(cacheFolder);
             if (System.IO.File.Exists(cachePath))
             {
