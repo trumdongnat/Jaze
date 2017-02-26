@@ -392,5 +392,29 @@ namespace Jaze.Views
         }
 
         #endregion Search Background
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var hyperlink = sender as Hyperlink;
+            var run = hyperlink?.Inlines.FirstInline as Run;
+            if (run != null)
+            {
+                var s = run.Text;
+                string text = s;
+                if (s.StartsWith("["))
+                {
+                    var match = Regex.Match(s, @"\[.+\]");
+                    text = match.Value;
+                    text = text.Length > 2 ? text.Substring(1, text.Length - 2) : string.Empty;
+                }
+                var o = flowDoc.Tag;
+                if (o is HanViet && !string.IsNullOrWhiteSpace(text))
+                {
+                    var hanviet = DatabaseContext.Context.HanViets.FirstOrDefault(hv => hv.Word == text);
+                    QuickViewHanViet(hanviet);
+                }
+
+            }
+        }
     }
 }

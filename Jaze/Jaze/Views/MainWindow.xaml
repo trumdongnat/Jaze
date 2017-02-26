@@ -17,7 +17,7 @@
 
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
-            <!--<EventSetter Event="Click" Handler="Hyperlink_Click" />-->
+            <EventSetter Event="Click" Handler="Hyperlink_Click" />
         </Style>
 
         <!--<Style TargetType="{x:Type FlowDocument}">
