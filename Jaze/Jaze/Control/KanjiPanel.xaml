@@ -38,8 +38,6 @@
                 <Image Source="../Assets/copy.png" Width="25"></Image>
             </Button>
        </Grid>
-       <FlowDocumentScrollViewer Name="DocumentViewer" 
-                                 VerticalScrollBarVisibility="Disabled"
-                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"></FlowDocumentScrollViewer>
+       <FlowDocumentScrollViewer Name="DocumentViewer"></FlowDocumentScrollViewer>
    </DockPanel>
 </UserControl>
