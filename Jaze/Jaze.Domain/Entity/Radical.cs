@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jaze.Model
+namespace Jaze.Domain.Entity
 {
     [Table("radical")]
     public class Radical

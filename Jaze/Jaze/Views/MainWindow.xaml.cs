@@ -9,10 +9,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Jaze.Control;
-using Jaze.DAO;
 using Jaze.Document;
-using Jaze.Model;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Search;
+using DictionaryType = Jaze.Model.DictionaryType;
 
 namespace Jaze.Views
 {
@@ -246,7 +247,7 @@ namespace Jaze.Views
                
                 var panel = new KanjiPanel();
                 panel.ListKanji.ItemsSource =
-                    DatabaseContext.Context.Kanjis.Where(k => k.Component.Contains(kanji.Word)).ToList();
+                    JazeDatabaseContext.Context.Kanjis.Where(k => k.Component.Contains(kanji.Word)).ToList();
                 var window = new Window()
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
@@ -410,7 +411,7 @@ namespace Jaze.Views
                 var o = flowDoc.Tag;
                 if (o is HanViet && !string.IsNullOrWhiteSpace(text))
                 {
-                    var hanviet = DatabaseContext.Context.HanViets.FirstOrDefault(hv => hv.Word == text);
+                    var hanviet = JazeDatabaseContext.Context.HanViets.FirstOrDefault(hv => hv.Word == text);
                     QuickViewHanViet(hanviet);
                 }
 

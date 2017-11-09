@@ -3,7 +3,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Jaze.DAO;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 
 namespace Jaze.Control
@@ -52,7 +53,7 @@ namespace Jaze.Control
         // ReSharper disable once InconsistentNaming
         private void InitializeUI()
         {
-            var parts = DatabaseContext.Context.Parts;
+            var parts = JazeDatabaseContext.Context.Parts;
             for (int i = 1; i <= MaxPartStrock; i++)
             {
                 var arr = parts.Where(p => p.Stroke == i).ToArray();
@@ -149,7 +150,7 @@ namespace Jaze.Control
             HashSet<Part> checkableParts;
             if (_checkedParts.Count == 0)
             {
-                checkableParts = new HashSet<Part>(DatabaseContext.Context.Parts);
+                checkableParts = new HashSet<Part>(JazeDatabaseContext.Context.Parts);
             }
             else
             {

@@ -1,26 +1,21 @@
-using Jaze.Model;
+using System.Data.Entity;
+using Jaze.Domain.Entity;
 
-namespace Jaze.DAO
+namespace Jaze.Domain
 {
-    using System;
-    using System.Data.Entity;
-    using System.Linq;
-
-    public class DatabaseContext : DbContext
+    public class JazeDatabaseContext : DbContext
     {
         
-        public DatabaseContext()
-            : base("name=DatabaseContext")
+        public JazeDatabaseContext()
+            : base("name=JazeDatabaseContext")
         {
         }
 
         public DbSet<JaEnExample> JaEnExamples { get; set; }
-        public DbSet<Grade> Grades { get; set; }
         public DbSet<HanViet> HanViets { get; set; }
         public DbSet<JaVi> JaVis { get; set; }
         public DbSet<JaEn> JaEns { get; set; }
         public DbSet<Kanji> Kanjis { get; set; }
-        public DbSet<Level> Levels { get; set; }
         public DbSet<Part> Parts { get; set; }
         public DbSet<Radical> Radicals { get; set; }
         public DbSet<JaViExample> JaViExamples { get; set; }
@@ -44,17 +39,17 @@ namespace Jaze.DAO
         /********************************************************************/
         /********************************************************************/
 
-        public static DatabaseContext Context { get; private set; }
+        public static JazeDatabaseContext Context { get; private set; }
 
-        static DatabaseContext()
+        static JazeDatabaseContext()
         {
-            Context = new DatabaseContext();
+            Context = new JazeDatabaseContext();
         }
 
         public static void Refresh()
         {
             Context.Dispose();
-            Context = new DatabaseContext();
+            Context = new JazeDatabaseContext();
         }
     }
 }

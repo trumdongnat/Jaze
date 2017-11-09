@@ -1,17 +1,18 @@
 ﻿using System.Windows.Documents;
 using System.Windows.Markup;
 using HTMLConverter;
+using Jaze.Domain.Entity;
 
 namespace Jaze.Document
 {
     static class HanVietBuilder
     {
-        internal static FlowDocument BuildQuickView(Model.HanViet hanViet)
+        internal static FlowDocument BuildQuickView(HanViet hanViet)
         {
             return Build(hanViet);
         }
 
-        internal static FlowDocument Build(Model.HanViet hanViet)
+        internal static FlowDocument Build(HanViet hanViet)
         {
             if (hanViet == null)
             {

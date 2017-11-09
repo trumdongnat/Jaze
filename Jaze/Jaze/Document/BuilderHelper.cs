@@ -3,8 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Jaze.DAO;
 using Jaze.Document.JsonObject;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 using Jaze.Util;
 using Newtonsoft.Json;
@@ -76,7 +77,7 @@ namespace Jaze.Document
             foreach (var c in kanjis)
             {
                 string s = c.ToString();
-                var kanji = DatabaseContext.Context.Kanjis.FirstOrDefault(k => k.Word == s);
+                var kanji = JazeDatabaseContext.Context.Kanjis.FirstOrDefault(k => k.Word == s);
                 if (kanji != null)
                 {
                     table.RowGroups[0].Rows.Add(new TableRow()
@@ -139,7 +140,7 @@ namespace Jaze.Document
             {
                 return new List<JaViExample>();
             }
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaViExamples.Where(o => ids.Contains(o.Id)).ToList();
         }
 

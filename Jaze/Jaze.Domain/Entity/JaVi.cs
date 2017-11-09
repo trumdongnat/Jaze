@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jaze.Model
+namespace Jaze.Domain.Entity
 {
     [Table("javi")]
     public class JaVi

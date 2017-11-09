@@ -148,19 +148,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DAO\DatabaseContext.cs" />
-    <Compile Include="Model\JaEnExample.cs" />
-    <Compile Include="Model\Grade.cs" />
-    <Compile Include="Model\Grammar.cs" />
-    <Compile Include="Model\HanViet.cs" />
-    <Compile Include="Model\ViJa.cs" />
-    <Compile Include="Model\JaEn.cs" />
-    <Compile Include="Model\JaVi.cs" />
-    <Compile Include="Model\Kanji.cs" />
-    <Compile Include="Model\Level.cs" />
-    <Compile Include="Model\Part.cs" />
-    <Compile Include="Model\Radical.cs" />
-    <Compile Include="Model\JaViExample.cs" />
     <Page Include="Control\KanjiPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -252,6 +239,10 @@
     <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
       <Name>HtmlConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jaze.Domain\Jaze.Domain.csproj">
+      <Project>{8bf5658a-80e1-45d3-9edc-32ebe8731feb}</Project>
+      <Name>Jaze.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

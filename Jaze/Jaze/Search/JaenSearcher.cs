@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Jaze.DAO;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 using Jaze.Util;
 
@@ -40,25 +41,25 @@ namespace Jaze.Search
 
         private static IEnumerable<JaEn> SearchContain(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaEns.Where(o => o.Word.Contains(key) || o.Kana.Contains(key)).ToArray();
         }
 
         private static IEnumerable<JaEn> SearchEndWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaEns.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).ToArray();
         }
 
         private static IEnumerable<JaEn> SearchStartWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaEns.Where(o => o.Word.StartsWith(key) || o.Kana.StartsWith(key)).ToArray();
         }
 
         private static IEnumerable<JaEn> SearchExact(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             //at stat
             var keyStart = key + " ";
             //at middle
@@ -70,7 +71,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaEn> GetAll()
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaEns.ToArray();
         }
     }

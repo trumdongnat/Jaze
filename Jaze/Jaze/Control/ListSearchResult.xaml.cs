@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 
 namespace Jaze.Control

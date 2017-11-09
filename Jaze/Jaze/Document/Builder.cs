@@ -1,5 +1,5 @@
 ﻿using System.Windows.Documents;
-using Jaze.DAO;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 
 namespace Jaze.Document

@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jaze.Model
+namespace Jaze.Domain.Entity
 {
-    [Table("level")]
-    public class Level
+    [Table("part")]
+    public class Part
     {
-        public Level()
+        public Part()
         {
             Kanjis = new HashSet<Kanji>();
-            Grammars = new HashSet<Grammar>();
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Word { get; set; }
+        public int Stroke { get; set; }
+
         public virtual ICollection<Kanji> Kanjis { get; set; }
-        public virtual ICollection<Grammar> Grammars { get; set; }
     }
 }

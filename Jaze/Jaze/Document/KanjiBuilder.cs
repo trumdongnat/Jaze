@@ -4,8 +4,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Jaze.DAO;
 using Jaze.Document.JsonObject;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 using Newtonsoft.Json;
 
@@ -111,7 +112,7 @@ namespace Jaze.Document
 
         private static Block BuildJaViMean(string word, string kana)
         {
-            var javi = DatabaseContext.Context.JaVis.FirstOrDefault(w => w.Word == word && w.Kana.Contains(kana));
+            var javi = JazeDatabaseContext.Context.JaVis.FirstOrDefault(w => w.Word == word && w.Kana.Contains(kana));
             if (javi != null)
             {
                 var means = JsonConvert.DeserializeObject<WordMean[]>(javi.Mean);
@@ -145,7 +146,7 @@ namespace Jaze.Document
             list.ListItems.Add(BuildAttribute("Số nét: ", "" + kanji.Stroke));
             list.ListItems.Add(BuildAttribute("Độ phổ biến: ",
                 kanji.Frequence == int.MaxValue ? "?/2500" : "" + kanji.Frequence + "/2500"));
-            list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level == null ? "": kanji.Level.Name));
+            list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level == null ? "": kanji.Level.ToString()));
             list.ListItems.Add(BuildAttribute("Thành phần: ", kanji.Component));
             list.ListItems.Add(BuildAttribute("Gần giống: ", kanji.Similar));
             return list;

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Jaze.Document;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 
 namespace Jaze.Control

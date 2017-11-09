@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Jaze.DAO;
+using Jaze.Domain;
+using Jaze.Domain.Entity;
 using Jaze.Model;
 using Jaze.Util;
 
@@ -49,7 +50,7 @@ namespace Jaze.Search
             else
             {
                 //read from database
-                var context = DatabaseContext.Context;
+                var context = JazeDatabaseContext.Context;
                 var hvDic = context.Kanjis.ToDictionary(kanji => kanji.Word, kanji => kanji.HanViet);
                 var javis = context.JaVis.Select(javi => new {javi.Id, javi.Word}).ToList();
                 foreach (var javi in javis)
@@ -141,7 +142,7 @@ namespace Jaze.Search
             var arr = key.Split(' ');
             var kanjiOfWord = arr.Length;
             var result = new List<JaVi>();
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             foreach (var simpleJavi in _javiHanVietCaches)
             {
                 if (simpleJavi.HanViet.Count == kanjiOfWord)
@@ -186,7 +187,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaVi> SearchContain(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             if (StringUtil.IsContainKanji(key))
             {
                 return context.JaVis.Where(o => o.Word.Contains(key)).ToArray();
@@ -199,7 +200,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaVi> SearchEndWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             if (StringUtil.IsContainKanji(key))
             {
                 return context.JaVis.Where(o => o.Word.EndsWith(key)).ToArray();
@@ -213,7 +214,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaVi> SearchStartWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             if (StringUtil.IsContainKanji(key))
             {
                 return context.JaVis.Where(o => o.Word.StartsWith(key)).ToArray();
@@ -227,7 +228,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaVi> SearchExact(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             if (StringUtil.IsContainKanji(key))
             {
                 return context.JaVis.Where(o => o.Word == key).ToArray();
@@ -241,7 +242,7 @@ namespace Jaze.Search
 
         private static IEnumerable<JaVi> GetAll()
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.JaVis.ToArray();
         }
     }

@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jaze.Model
+namespace Jaze.Domain.Entity
 {
-    [Table("jaen")]
-    public class JaEn
+    [Table("vija")]
+    public class ViJa
     {
         public int Id { get; set; }
         public string Word { get; set; }
-        public string Kana { get; set; }
         public string Mean { get; set; }
     }
 }
