@@ -2,8 +2,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Telerik.Windows.Themes.VisualStudio2013;component/Themes/System.Windows.xaml" />
-                <ResourceDictionary Source="/Telerik.Windows.Themes.VisualStudio2013;component/Themes/Telerik.Windows.Controls.xaml" />
                 <ResourceDictionary Source="Resource/DataTemplate.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

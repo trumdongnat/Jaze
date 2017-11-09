@@ -2,9 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:model="clr-namespace:Jaze.Model" xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:views="clr-namespace:Jaze.Views"
         xmlns:control="clr-namespace:Jaze.Control"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Từ điển tiếng Nhật"
         Width="800" Height="500"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
@@ -160,7 +160,7 @@
                                 <Setter Property="Height" Value="Auto" />
                                 <Setter Property="Width" Value="Auto" />
                             </Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                            <Style TargetType="Button">
                                 <Setter Property="Margin" Value="3" />
                                 <Setter Property="Width" Value="50" />
                             </Style>
@@ -246,10 +246,10 @@
                 <TextBox HorizontalAlignment="Stretch" Width="200"></TextBox>
             </StackPanel>
             <!--  Result Area  -->
-            <telerik:RadBusyIndicator Name="loadingIndicator"
+            <tk:BusyIndicator Name="loadingIndicator"
                                       Grid.Row="2"
                                       Margin="0,5,0,0"
-                                      BusyContent="Đang lấy dữ liệu" IsIndeterminate="True">
+                                      BusyContent="Đang lấy dữ liệu">
                 <Grid>
                     <Popup Name="MenuPopup" StaysOpen="False" AllowsTransparency="False" VerticalOffset="5"
                            IsOpen="False"
@@ -273,7 +273,7 @@
                 </Grid>
 
 
-            </telerik:RadBusyIndicator>
+            </tk:BusyIndicator>
         </Grid>
         <!--slider-->
         <GridSplitter Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="5" />

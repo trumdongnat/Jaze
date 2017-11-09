@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="300">
     <Grid>
@@ -18,12 +17,12 @@
                 <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
 
-            <telerik:RadWatermarkTextBox Name="TextBoxSearch"
+            <TextBox Name="TextBoxSearch"
                                              Grid.Column="0"
                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                              Panel.ZIndex="1"
                                              FontSize="18" MaxLines="1"
-                                             PreviewKeyDown="SearchBox_PreviewKeyDown" WatermarkContent="Tìm kiếm" />
+                                             PreviewKeyDown="SearchBox_PreviewKeyDown"/>
             <Button Grid.Column="1"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         Click="ButtonSearch_Click">
