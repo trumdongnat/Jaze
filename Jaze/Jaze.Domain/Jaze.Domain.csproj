@@ -57,18 +57,18 @@
   <ItemGroup>
     <Compile Include="JazeDatabaseContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Entity\Grade.cs" />
-    <Compile Include="Entity\Grammar.cs" />
-    <Compile Include="Entity\HanViet.cs" />
-    <Compile Include="Entity\JaEn.cs" />
-    <Compile Include="Entity\JaEnExample.cs" />
-    <Compile Include="Entity\JaVi.cs" />
-    <Compile Include="Entity\JaViExample.cs" />
-    <Compile Include="Entity\Kanji.cs" />
-    <Compile Include="Entity\Level.cs" />
-    <Compile Include="Entity\Part.cs" />
-    <Compile Include="Entity\Radical.cs" />
-    <Compile Include="Entity\ViJa.cs" />
+    <Compile Include="Entities\Grade.cs" />
+    <Compile Include="Entities\Grammar.cs" />
+    <Compile Include="Entities\HanViet.cs" />
+    <Compile Include="Entities\JaEn.cs" />
+    <Compile Include="Entities\JaEnExample.cs" />
+    <Compile Include="Entities\JaVi.cs" />
+    <Compile Include="Entities\JaViExample.cs" />
+    <Compile Include="Entities\Kanji.cs" />
+    <Compile Include="Entities\Level.cs" />
+    <Compile Include="Entities\Part.cs" />
+    <Compile Include="Entities\Radical.cs" />
+    <Compile Include="Entities\ViJa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

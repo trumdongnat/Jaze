@@ -97,38 +97,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Control\KanjiPanel.xaml.cs">
+    <Compile Include="Controls\KanjiPanel.xaml.cs">
       <DependentUpon>KanjiPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\KanjiPartControl.xaml.cs">
+    <Compile Include="Controls\KanjiPartControl.xaml.cs">
       <DependentUpon>KanjiPartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListDictionary.xaml.cs">
+    <Compile Include="Controls\ListDictionary.xaml.cs">
       <DependentUpon>ListDictionary.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListSearchHistory.xaml.cs">
+    <Compile Include="Controls\ListSearchHistory.xaml.cs">
       <DependentUpon>ListSearchHistory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListSearchResult.xaml.cs">
+    <Compile Include="Controls\ListSearchResult.xaml.cs">
       <DependentUpon>ListSearchResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\QuickViewControl.xaml.cs">
+    <Compile Include="Controls\QuickViewControl.xaml.cs">
       <DependentUpon>QuickViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\SearchBar.xaml.cs">
+    <Compile Include="Controls\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Document\BuilderHelper.cs" />
-    <Compile Include="Document\Builder.cs" />
-    <Compile Include="Document\GrammarBuilder.cs" />
-    <Compile Include="Document\HanVietBuilder.cs" />
-    <Compile Include="Document\JaEnBuilder.cs" />
-    <Compile Include="Document\JaViBuilder.cs" />
-    <Compile Include="Document\JsonObject\GrammarDetail.cs" />
-    <Compile Include="Document\JsonObject\WordMean.cs" />
-    <Compile Include="Document\KanjiBuilder.cs" />
-    <Compile Include="Document\ViJaBuilder.cs" />
-    <Compile Include="Model\Dictionary.cs" />
+    <Compile Include="Documents\BuilderHelper.cs" />
+    <Compile Include="Documents\Builder.cs" />
+    <Compile Include="Documents\GrammarBuilder.cs" />
+    <Compile Include="Documents\HanVietBuilder.cs" />
+    <Compile Include="Documents\JaEnBuilder.cs" />
+    <Compile Include="Documents\JaViBuilder.cs" />
+    <Compile Include="Documents\JsonObject\GrammarDetail.cs" />
+    <Compile Include="Documents\JsonObject\WordMean.cs" />
+    <Compile Include="Documents\KanjiBuilder.cs" />
+    <Compile Include="Documents\ViJaBuilder.cs" />
+    <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Search\GrammarSearcher.cs" />
     <Compile Include="Search\HanVietSearcher.cs" />
     <Compile Include="Search\JaenSearcher.cs" />
@@ -148,35 +148,35 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Page Include="Control\KanjiPanel.xaml">
+    <Page Include="Controls\KanjiPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\KanjiPartControl.xaml">
+    <Page Include="Controls\KanjiPartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListDictionary.xaml">
+    <Page Include="Controls\ListDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListSearchHistory.xaml">
+    <Page Include="Controls\ListSearchHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListSearchResult.xaml">
+    <Page Include="Controls\ListSearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\QuickViewControl.xaml">
+    <Page Include="Controls\QuickViewControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\SearchBar.xaml">
+    <Page Include="Controls\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resource\DataTemplate.xaml">
+    <Page Include="Resources\DataTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
