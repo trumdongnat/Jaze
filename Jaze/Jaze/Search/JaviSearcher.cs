@@ -5,8 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Jaze.Domain;
-using Jaze.Domain.Entity;
-using Jaze.Model;
+using Jaze.Domain.Entities;
 using Jaze.Util;
 
 namespace Jaze.Search

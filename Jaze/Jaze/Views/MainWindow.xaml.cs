@@ -9,11 +9,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Jaze.Control;
-using Jaze.Document;
+using Jaze.Documents;
 using Jaze.Domain;
-using Jaze.Domain.Entity;
+using Jaze.Domain.Entities;
 using Jaze.Search;
-using DictionaryType = Jaze.Model.DictionaryType;
+using DictionaryType = Jaze.Models.DictionaryType;
+using KanjiPanel = Jaze.Controls.KanjiPanel;
+using KanjiPartControl = Jaze.Controls.KanjiPartControl;
 
 namespace Jaze.Views
 {

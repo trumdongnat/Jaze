@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jaze.Domain;
-using Jaze.Domain.Entity;
-using Jaze.Model;
+using Jaze.Domain.Entities;
 
 namespace Jaze.Search
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Jaze.Domain.Entity;
+using Jaze.Domain.Entities;
 
 namespace Jaze.Views
 {

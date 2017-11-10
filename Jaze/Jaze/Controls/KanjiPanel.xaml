@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Jaze.Controls.KanjiPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Jaze.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+   <DockPanel>
+       <Grid DockPanel.Dock="Top">
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="*"></ColumnDefinition>
+               <ColumnDefinition Width="Auto"></ColumnDefinition>
+           </Grid.ColumnDefinitions>
+           <ListBox Grid.Column="0" SelectionChanged="ListKanji_OnSelectionChanged" SelectionMode="Single"
+                    Name="ListKanji" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled">
+               <ListBox.ItemsPanel>
+                   <ItemsPanelTemplate>
+                       <WrapPanel Orientation="Horizontal"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"></WrapPanel>
+                   </ItemsPanelTemplate>
+               </ListBox.ItemsPanel>
+               <ListBox.ItemTemplate>
+                   <DataTemplate DataType="model:Kanji">
+                       <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center">
+                           <TextBlock.Inlines>
+                               <Run Text="{Binding Word}" FontSize="20" FontWeight="Regular"></Run>
+                               <LineBreak></LineBreak>
+                                <Run Text="{Binding HanViet}" FontSize="12"></Run>
+                            </TextBlock.Inlines>
+                       </TextBlock>
+                   </DataTemplate>
+               </ListBox.ItemTemplate>
+           </ListBox>
+           <Button Grid.Column="1" Click="ButtonCopy_OnClick">
+                <Image Source="../Assets/copy.png" Width="25"></Image>
+            </Button>
+       </Grid>
+       <FlowDocumentScrollViewer Name="DocumentViewer"></FlowDocumentScrollViewer>
+   </DockPanel>
+</UserControl>

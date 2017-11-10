@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Jaze.Domain;
-using Jaze.Domain.Entity;
-using Jaze.Model;
+using Jaze.Domain.Entities;
 
 namespace Jaze.Search
 {

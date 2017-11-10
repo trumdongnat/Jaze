@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Jaze.Controls.ListDictionary"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Jaze.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Path x:Key="IconDicOpen" Data="M20,1.5L20,14.5 14.25,14.5 13.3409719467163,14.734375 12.6294746398926,15.25 12.1657409667969,15.765625 12,16 9,16 8.83425903320313,15.765625 8.37052536010742,15.25 7.65902805328369,14.734375 6.75,14.5 1,14.5 1,1.5 8.75,1.5 9.2023754119873,1.77971243858337 10.2382507324219,2.67240047454834 10.926305770874,1.99460649490356 11.5311813354492,1.64655005931854 12.125,1.5 20,1.5z M9,3.82600021362305L8.47869968414307,3.26354384422302 8,3 2.5,3 2.5,13 7,13 7.625,13.125 8.265625,13.52734375 9,14.375 9,3.82600021362305z M12,14.375L12.734375,13.52734375 13.375,13.125 14,13 18.5,13 18.5,3 13,3 12.5213003158569,3.26354384422302 12,3.82600021362305 12,14.375z" />
+        <Path x:Key="IconDicClose" Data="M1.5,4.5L12,0.5 12,2.125 3.25,5.5 4.875,6.625 14.5,2.875 14.5,15.25 4.875,19.5 1.5,17 1.5,4.5z" />
+    </UserControl.Resources>
+    <ListBox Name="ListBoxDics"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectedIndex="0" SelectionChanged="ListBoxDics_SelectionChanged"
+             SelectionMode="Single">
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ListBox.ItemTemplate>
+            <DataTemplate DataType="model:Dictionary">
+                <Grid Width="100" Height="20"
+                                  Margin="5,2,3,2"
+                                  ToolTip="{Binding Path=Description}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Path Name="DicIcon"
+                                      Grid.Column="0"
+                                      HorizontalAlignment="Center"
+                                      Data="{Binding Source={StaticResource IconDicClose}, Path=Data}"
+                                      Stroke="Black" />
+                    <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="14" FontWeight="SemiBold"
+                                           Text="{Binding Path=Name}" />
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True">
+                        <Setter TargetName="DicIcon" Property="Data" Value="{Binding Source={StaticResource IconDicOpen}, Path=Data}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

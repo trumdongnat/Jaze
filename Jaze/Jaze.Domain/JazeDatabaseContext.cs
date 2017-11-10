@@ -1,5 +1,5 @@
 using System.Data.Entity;
-using Jaze.Domain.Entity;
+using Jaze.Domain.Entities;
 
 namespace Jaze.Domain
 {

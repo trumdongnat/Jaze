@@ -1,10 +1,11 @@
 ﻿<Window x:Class="Jaze.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:model="clr-namespace:Jaze.Model" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:views="clr-namespace:Jaze.Views"
         xmlns:control="clr-namespace:Jaze.Control"
         xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:controls="clr-namespace:Jaze.Controls"
         Title="Từ điển tiếng Nhật"
         Width="800" Height="500"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
@@ -53,7 +54,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--  Search text box  -->
-            <control:SearchBar Grid.Row="0" Grid.Column="0" FontWeight="Normal"
+            <controls:SearchBar Grid.Row="0" Grid.Column="0" FontWeight="Normal"
                                Search="SearchBar_OnSearch" x:Name="searchBar" />
             <!--  Button input  -->
             <Button Grid.Row="0" Grid.Column="1"
@@ -72,7 +73,7 @@
                 <CheckBox>Chỉ hiện từ có giải thích tiếng Việt</CheckBox>
             </WrapPanel>-->
             <!--  List history is above list search result  -->
-            <control:ListSearchResult FontWeight="Normal" Grid.Column="0" Grid.Row="1" Show="ListSearchResult_OnShow"
+            <controls:ListSearchResult FontWeight="Normal" Grid.Column="0" Grid.Row="1" Show="ListSearchResult_OnShow"
                                       x:Name="listSearchResult" />
 
             <!--  Toolbar  -->
@@ -146,7 +147,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <!--  List Dictionary  -->
-                <control:ListDictionary x:Name="listDictionary" />
+                <controls:ListDictionary x:Name="listDictionary" />
                 <!--  Utilities Area  -->
                 <Border Grid.Column="1" Margin="5,0,0,0" BorderThickness="0.5" BorderBrush="Gray">
                     <StackPanel Orientation="Horizontal">
