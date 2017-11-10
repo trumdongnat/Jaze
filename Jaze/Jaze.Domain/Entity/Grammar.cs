@@ -9,8 +9,6 @@ namespace Jaze.Domain.Entity
         public string Struct { get; set; }
         public string Meaning { get; set; }
         public string Detail { get; set; }
-
-
-        public virtual Level Level { get; set; }
+        public Level Level { get; set; }
     }
 }

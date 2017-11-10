@@ -5,11 +5,6 @@ namespace Jaze.Domain.Entity
     [Table("javi")]
     public class JaVi
     {
-        //public JaVi()
-        //{
-        //    Kanjis = new HashSet<Kanji>();
-        //}
-
         public int Id { get; set; }
         public string Word { get; set; }
         public string Kana { get; set; }

@@ -6,11 +6,6 @@ namespace Jaze.Domain.Entity
     [Table("part")]
     public class Part
     {
-        public Part()
-        {
-            Kanjis = new HashSet<Kanji>();
-        }
-
         public int Id { get; set; }
         public string Value { get; set; }
         public string Word { get; set; }

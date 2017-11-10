@@ -6,12 +6,6 @@ namespace Jaze.Domain.Entity
     [Table("kanji")]
     public class Kanji
     {
-        public Kanji()
-        {
-            Stroke = 0;
-            Parts = new HashSet<Part>();
-        }
-
         public int Id { get; set; }
         public string Word { get; set; }
         public string HanViet { get; set; }
@@ -25,9 +19,9 @@ namespace Jaze.Domain.Entity
         public int Frequence { get; set; }
         public string Similar { get; set; }
         public string Component { get; set; }
+        public Level Level { get; set; }
+        public Grade Grade { get; set; }
 
-        public virtual Level Level { get; set; }
-        public virtual Grade Grade { get; set; }
         public virtual Radical Radical { get; set; }
         public virtual ICollection<Part> Parts { get; set; }        
     }

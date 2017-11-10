@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="JazeDatabaseContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Entity\Dictionary.cs" />
     <Compile Include="Entity\Grade.cs" />
     <Compile Include="Entity\Grammar.cs" />
     <Compile Include="Entity\HanViet.cs" />
