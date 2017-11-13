@@ -2,6 +2,7 @@
 {
     public enum Level
     {
+        Unknown = 0,
         Basic = 6,
         N1 = 1,
         N2 = 2,

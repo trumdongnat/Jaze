@@ -2,11 +2,12 @@
 {
     public enum Grade
     {
-        Grade_1 = 1,
-        Grade_2 = 2,
-        Grade_3 = 3,
-        Grade_4 = 4,
-        Grade_5 = 5,
-        Grade_6 = 6,
+        Unknown = 0,
+        Grade1 = 1,
+        Grade2 = 2,
+        Grade3 = 3,
+        Grade4 = 4,
+        Grade5 = 5,
+        Grade6 = 6,
     }
 }
