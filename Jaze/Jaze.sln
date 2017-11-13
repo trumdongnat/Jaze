@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConverter", "HtmlConver
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaze.Domain", "Jaze.Domain\Jaze.Domain.csproj", "{8BF5658A-80E1-45D3-9EDC-32EBE8731FEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaze.UI", "Jaze.UI\Jaze.UI.csproj", "{3D151FB2-98F6-4499-8E49-88AD46565136}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,14 @@ Global
 		{8BF5658A-80E1-45D3-9EDC-32EBE8731FEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BF5658A-80E1-45D3-9EDC-32EBE8731FEB}.Release|x86.ActiveCfg = Release|Any CPU
 		{8BF5658A-80E1-45D3-9EDC-32EBE8731FEB}.Release|x86.Build.0 = Release|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D151FB2-98F6-4499-8E49-88AD46565136}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
