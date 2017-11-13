@@ -26,9 +26,31 @@ namespace Jaze.Model
         public string Similar { get; set; }
         public string Component { get; set; }
 
-        public virtual Level Level { get; set; }
-        public virtual Grade Grade { get; set; }
+        public Level Level { get; set; }
+        public Grade Grade { get; set; }
         public virtual Radical Radical { get; set; }
         public virtual ICollection<Part> Parts { get; set; }        
+    }
+
+    public enum Grade
+    {
+        Unknown = 0,
+        Grade1 = 1,
+        Grade2 = 2,
+        Grade3 = 3,
+        Grade4 = 4,
+        Grade5 = 5,
+        Grade6 = 6
+    }
+
+    public enum Level
+    {
+        Unknown = 0,
+        N1 = 1,
+        N2 = 2,
+        N3 = 3,
+        N4 = 5,
+        N5 = 5,
+        Basic = 6,
     }
 }

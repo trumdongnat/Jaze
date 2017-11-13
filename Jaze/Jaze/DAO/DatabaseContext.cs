@@ -1,3 +1,4 @@
+using Jaze.Migrations;
 using Jaze.Model;
 
 namespace Jaze.DAO
@@ -12,15 +13,14 @@ namespace Jaze.DAO
         public DatabaseContext()
             : base("name=DatabaseContext")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>("DatabaseContext"));
         }
 
         public DbSet<JaEnExample> JaEnExamples { get; set; }
-        public DbSet<Grade> Grades { get; set; }
         public DbSet<HanViet> HanViets { get; set; }
         public DbSet<JaVi> JaVis { get; set; }
         public DbSet<JaEn> JaEns { get; set; }
         public DbSet<Kanji> Kanjis { get; set; }
-        public DbSet<Level> Levels { get; set; }
         public DbSet<Part> Parts { get; set; }
         public DbSet<Radical> Radicals { get; set; }
         public DbSet<JaViExample> JaViExamples { get; set; }

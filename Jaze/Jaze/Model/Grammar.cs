@@ -10,7 +10,7 @@ namespace Jaze.Model
         public string Meaning { get; set; }
         public string Detail { get; set; }
 
-
-        public virtual Level Level { get; set; }
+        //public Level? Level { get; set; }
+        public Level Level { get; set; }
     }
 }

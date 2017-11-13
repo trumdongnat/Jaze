@@ -128,6 +128,11 @@
     <Compile Include="Document\JsonObject\WordMean.cs" />
     <Compile Include="Document\KanjiBuilder.cs" />
     <Compile Include="Document\ViJaBuilder.cs" />
+    <Compile Include="Migrations\201711131245208_init.cs" />
+    <Compile Include="Migrations\201711131245208_init.Designer.cs">
+      <DependentUpon>201711131245208_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Dictionary.cs" />
     <Compile Include="Search\GrammarSearcher.cs" />
     <Compile Include="Search\HanVietSearcher.cs" />
@@ -150,14 +155,12 @@
     </Compile>
     <Compile Include="DAO\DatabaseContext.cs" />
     <Compile Include="Model\JaEnExample.cs" />
-    <Compile Include="Model\Grade.cs" />
     <Compile Include="Model\Grammar.cs" />
     <Compile Include="Model\HanViet.cs" />
     <Compile Include="Model\ViJa.cs" />
     <Compile Include="Model\JaEn.cs" />
     <Compile Include="Model\JaVi.cs" />
     <Compile Include="Model\Kanji.cs" />
-    <Compile Include="Model\Level.cs" />
     <Compile Include="Model\Part.cs" />
     <Compile Include="Model\Radical.cs" />
     <Compile Include="Model\JaViExample.cs" />
@@ -216,6 +219,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201711131245208_init.resx">
+      <DependentUpon>201711131245208_init.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -36,7 +36,7 @@ namespace Jaze.Control
                 CreateRadioButton("Kanji", "Word", ListSortDirection.Ascending),
                 CreateRadioButton("Hán Việt", "HanViet", ListSortDirection.Ascending),
                 CreateRadioButton("Số nét", "Stroke", ListSortDirection.Ascending),
-                CreateRadioButton("Level", "Level.Name", ListSortDirection.Descending),
+                CreateRadioButton("Level", "Level", ListSortDirection.Descending),
                 CreateRadioButton("Phổ biến", "Frequence", ListSortDirection.Ascending),
                 CreateRadioButton("Bộ thủ", "Radical.Id", ListSortDirection.Ascending)
             };
@@ -64,7 +64,7 @@ namespace Jaze.Control
 
             _grammarSortButtons = new List<RadioButton>
             {
-                CreateRadioButton("Level", "Level.Name", ListSortDirection.Ascending)
+                CreateRadioButton("Level", "Level", ListSortDirection.Ascending)
             };
         }
 

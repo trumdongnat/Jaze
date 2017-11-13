@@ -41,7 +41,6 @@ namespace Jaze
 
         private void InitData()
         {
-            DatabaseContext.Context.Levels.Load();
             DatabaseContext.Context.Radicals.Load();
             DatabaseContext.Context.Kanjis.Load();
             Current.Dispatcher.BeginInvoke(new Action(() =>

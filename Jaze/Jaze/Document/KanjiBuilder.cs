@@ -145,7 +145,7 @@ namespace Jaze.Document
             list.ListItems.Add(BuildAttribute("Số nét: ", "" + kanji.Stroke));
             list.ListItems.Add(BuildAttribute("Độ phổ biến: ",
                 kanji.Frequence == int.MaxValue ? "?/2500" : "" + kanji.Frequence + "/2500"));
-            list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level == null ? "": kanji.Level.Name));
+            list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level.ToString()));
             list.ListItems.Add(BuildAttribute("Thành phần: ", kanji.Component));
             list.ListItems.Add(BuildAttribute("Gần giống: ", kanji.Similar));
             return list;
