@@ -122,14 +122,14 @@
     <Compile Include="Models\ListBoxResultTemplateSelector.cs" />
     <Compile Include="Models\VijaModel.cs" />
     <Compile Include="Services\GrammarSearcher.cs" />
-    <Compile Include="Services\HanVietSearcher.cs" />
+    <Compile Include="Services\HanVietService.cs" />
     <Compile Include="Services\ISearchService.cs" />
-    <Compile Include="Services\JaenSearcher.cs" />
+    <Compile Include="Services\JaenService.cs" />
     <Compile Include="Services\JaviSearcher.cs" />
     <Compile Include="Services\KanjiSearcher.cs" />
     <Compile Include="Services\SearchArgs.cs" />
     <Compile Include="Services\Searcher.cs" />
-    <Compile Include="Services\SearchServiceBase.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\VijaSearcher.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

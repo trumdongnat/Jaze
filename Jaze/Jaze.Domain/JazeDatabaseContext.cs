@@ -6,7 +6,6 @@ namespace Jaze.Domain
 {
     public class JazeDatabaseContext : DbContext
     {
-        
         public JazeDatabaseContext()
             : base("name=JazeDatabaseContext")
         {
@@ -22,7 +21,8 @@ namespace Jaze.Domain
         public DbSet<Radical> Radicals { get; set; }
         public DbSet<JaViExample> JaViExamples { get; set; }
         public DbSet<Grammar> Grammars { get; set; }
-        public DbSet<ViJa> ViJas { get; set; }
+        public DbSet<ViJa> Vijas { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Kanji>().
@@ -34,7 +34,6 @@ namespace Jaze.Domain
                     m.MapRightKey("PartId ");
                     m.ToTable("Kanji_Part");
                 });
-
         }
     }
 }

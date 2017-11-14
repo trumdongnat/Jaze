@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Jaze.Domain.Entities;
-using Jaze.UI.Models;
-
-namespace Jaze.UI.Services
+﻿namespace Jaze.UI.Services
 {
     public static class Searcher
     {
@@ -65,6 +59,4 @@ namespace Jaze.UI.Services
         //    return JaviSearcher.Search(args);
         //}
     }
-
-   
 }

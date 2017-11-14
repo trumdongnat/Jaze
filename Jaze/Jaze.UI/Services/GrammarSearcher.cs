@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jaze.Domain;
-using Jaze.Domain.Entities;
 using Jaze.UI.Models;
 using Jaze.UI.Util;
 
 namespace Jaze.UI.Services
 {
-    public class GrammarSearcher: ServiceBase<GrammarModel>
+    public class GrammarSearcher : ServiceBase<GrammarModel>
     {
         //public static IEnumerable<Grammar> Search(SearchArgs searchArgs)
         //{
