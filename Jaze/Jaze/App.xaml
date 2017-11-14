@@ -2,7 +2,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resource/DataTemplate.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/DataTemplate.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

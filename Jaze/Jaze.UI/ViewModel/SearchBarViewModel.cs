@@ -4,32 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace Jaze.UI.ViewModel
 {
     class SearchBarViewModel : ViewModelBase
     {
-        /// <summary>
-        /// The <see cref="MyProperty" /> property's name.
-        /// </summary>
-        public const string MyPropertyPropertyName = "MyProperty";
-
-        private bool _myProperty = false;
+        private RelayCommand _myCommand;
 
         /// <summary>
-        /// Sets and gets the MyProperty property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// This property's value is broadcasted by the MessengerInstance when it changes.
+        /// Gets the MyCommand.
         /// </summary>
-        public bool MyProperty
+        public RelayCommand MyCommand
         {
             get
             {
-                return _myProperty;
-            }
-            set
-            {
-                Set(MyPropertyPropertyName, ref _myProperty, value, true);
+                return _myCommand
+                    ?? (_myCommand = new RelayCommand(
+                    () =>
+                    {
+
+                    },
+                    () => true));
             }
         }
     }

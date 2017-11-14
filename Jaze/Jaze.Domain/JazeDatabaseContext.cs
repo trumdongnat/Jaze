@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using Jaze.Domain.Entities;
+using Jaze.Domain.Migrations;
 
 namespace Jaze.Domain
 {
@@ -9,6 +10,7 @@ namespace Jaze.Domain
         public JazeDatabaseContext()
             : base("name=JazeDatabaseContext")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<JazeDatabaseContext, Configuration>("JazeDatabaseContext"));
         }
 
         public DbSet<JaEnExample> JaEnExamples { get; set; }
@@ -33,23 +35,6 @@ namespace Jaze.Domain
                     m.ToTable("Kanji_Part");
                 });
 
-        }
-
-        /********************************************************************/
-        /********************************************************************/
-        /********************************************************************/
-
-        public static JazeDatabaseContext Context { get; private set; }
-
-        static JazeDatabaseContext()
-        {
-            Context = new JazeDatabaseContext();
-        }
-
-        public static void Refresh()
-        {
-            Context.Dispose();
-            Context = new JazeDatabaseContext();
         }
     }
 }
