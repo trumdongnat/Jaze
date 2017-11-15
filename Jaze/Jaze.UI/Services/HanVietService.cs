@@ -1,7 +1,7 @@
-﻿using Jaze.Domain;
-using Jaze.UI.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Jaze.Domain;
+using Jaze.UI.Models;
 
 namespace Jaze.UI.Services
 {

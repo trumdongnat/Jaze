@@ -36,17 +36,17 @@
 
         //public static IEnumerable<Kanji> SearchKanji(SearchArgs searchArgs)
         //{
-        //    return KanjiSearcher.Search(searchArgs);
+        //    return KanjiService.Search(searchArgs);
         //}
 
         //public static IEnumerable<ViJa> SearchViJa(SearchArgs searchArgs)
         //{
-        //    return VijaSearcher.Search(searchArgs);
+        //    return VijaService.Search(searchArgs);
         //}
 
         //public static IEnumerable<Grammar> SearchGrammar(SearchArgs searchArgs)
         //{
-        //    return GrammarSearcher.Search(searchArgs);
+        //    return GrammarService.Search(searchArgs);
         //}
 
         //public static IEnumerable<JaEn> SearchJaEn(SearchArgs searchArgs)
@@ -56,7 +56,7 @@
 
         //public static IEnumerable<JaVi> SearchJaVi(SearchArgs args)
         //{
-        //    return JaviSearcher.Search(args);
+        //    return JaviService.Search(args);
         //}
     }
 }

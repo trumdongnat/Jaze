@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jaze.Domain;
+using Jaze.Domain.Entities;
 using Jaze.UI.Models;
+using Jaze.UI.Util;
 
 namespace Jaze.UI.Services
 {
-    public class KanjiSearcher : ServiceBase<KanjiModel>
+    public class KanjiService : ServiceBase<KanjiModel>
     {
-        //public static IEnumerable<Kanji> Search(SearchArgs searchArgs)
+        //public static IEnumerable<Word> Search(SearchArgs searchArgs)
         //{
         //    var key = searchArgs.SearchKey;
         //    //
@@ -16,7 +18,7 @@ namespace Jaze.UI.Services
         //        return GetAll();
         //    }
         //    //if search key contain multi kanji
-        //    var arr = StringUtil.FilterCharsInString(key, CharSet.Kanji);
+        //    var arr = StringUtil.FilterCharsInString(key, CharSet.Word);
         //    if (arr.Count>0)
         //    {
         //        return LoadKanji(arr);
@@ -42,11 +44,11 @@ namespace Jaze.UI.Services
         //    }
         //}
 
-        //private static IEnumerable<Kanji> SearchVietNameseSentence(string key)
+        //private static IEnumerable<Word> SearchVietNameseSentence(string key)
         //{
         //    var arr = key.Split(' ');
         //    var db = JazeDatabaseContext.Context;
-        //    var list = new List<Kanji>();
+        //    var list = new List<Word>();
         //    foreach (var s in arr)
         //    {
         //        var kanjis = db.Kanjis.Where(k => k.HanViet == s);
@@ -61,31 +63,31 @@ namespace Jaze.UI.Services
         //    return list;
         //}
 
-        //private static IEnumerable<Kanji> LoadKanji(IList<char> arr)
+        //private static IEnumerable<Word> LoadKanji(IList<char> arr)
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return arr.Select(c => "" + c).Select(s => db.Kanjis.FirstOrDefault(kanji => kanji.Word == s)).ToList();
         //}
 
-        //private static IEnumerable<Kanji> SearchContain(string key)
+        //private static IEnumerable<Word> SearchContain(string key)
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.Kanjis.Where(kanji => kanji.HanViet.Contains(key)).ToArray();
         //}
 
-        //private static IEnumerable<Kanji> SearchEndWith(string key)
+        //private static IEnumerable<Word> SearchEndWith(string key)
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.Kanjis.Where(kanji => kanji.HanViet.EndsWith(key)).ToArray();
         //}
 
-        //private static IEnumerable<Kanji> SearchStartWith(string key)
+        //private static IEnumerable<Word> SearchStartWith(string key)
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.Kanjis.Where(kanji => kanji.HanViet.StartsWith(key)).ToArray();
         //}
 
-        //private static IEnumerable<Kanji> SearchExact(string key)
+        //private static IEnumerable<Word> SearchExact(string key)
         //{
         //    var db = JazeDatabaseContext.Context;
         //    //at stat
@@ -97,11 +99,61 @@ namespace Jaze.UI.Services
         //    return db.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).ToArray();
         //}
 
-        //private static IEnumerable<Kanji> GetAll()
+        //private static IEnumerable<Word> GetAll()
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.Kanjis.ToArray();
         //}
+
+        public override List<KanjiModel> Search(SearchArgs searchArgs)
+        {
+            var key = searchArgs.SearchKey;
+            //
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                return GetAll();
+            }
+            //if search key contain multi kanji
+            var arr = StringUtil.FilterCharsInString(key, CharSet.Kanji);
+            if (arr.Count > 0)
+            {
+                return LoadKanji(arr);
+            }
+            //if search key is vietnamese sentence
+            if (key.Contains(" "))
+            {
+                return SearchVietNameseSentence(key);
+            }
+
+            return base.Search(searchArgs);
+        }
+
+        private List<KanjiModel> SearchVietNameseSentence(string key)
+        {
+            var list = new List<KanjiModel>();
+            var set = new HashSet<string>();
+            foreach (var s in key.Split(' '))
+            {
+                if (!set.Contains(s))
+                {
+                    set.Add(s);
+                    list.AddRange(SearchExact(s));
+                }
+            }
+            //filter duplicate
+            var dic = list.ToDictionary(kanji => kanji.Word, kanji => kanji);
+            return dic.Values.ToList();
+        }
+
+        private List<KanjiModel> LoadKanji(List<char> arr)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                return arr.Select(c => "" + c).Select(s => db.Kanjis.FirstOrDefault(kanji => kanji.Word == s))
+                    .Select(KanjiModel.Create).ToList();
+            }
+        }
+
         public override List<KanjiModel> SearchExact(string key)
         {
             using (var db = new JazeDatabaseContext())

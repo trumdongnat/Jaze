@@ -4,7 +4,7 @@
       <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:Jaze.UI.ViewModel"
                                    x:Key="Locator" />
   </Application.Resources>
-  
+
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
@@ -13,6 +13,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Jaze.UI.Model;
+using Jaze.UI.Models;
+using Jaze.UI.Services;
 
 namespace Jaze.UI.ViewModel
 {
@@ -36,6 +38,12 @@ namespace Jaze.UI.ViewModel
             else
             {
                 SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<ISearchService<GrammarModel>, GrammarService>();
+                SimpleIoc.Default.Register<ISearchService<HanVietModel>, HanVietService>();
+                SimpleIoc.Default.Register<ISearchService<JaenModel>, JaenService>();
+                SimpleIoc.Default.Register<ISearchService<JaviModel>, JaviService>();
+                SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
+                SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

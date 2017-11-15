@@ -5,7 +5,7 @@ using Jaze.UI.Models;
 
 namespace Jaze.UI.Services
 {
-    public class VijaSearcher : ServiceBase<VijaModel>
+    public class VijaService : ServiceBase<VijaModel>
     {
         public override List<VijaModel> SearchExact(string key)
         {

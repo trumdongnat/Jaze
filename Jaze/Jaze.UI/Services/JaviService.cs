@@ -6,11 +6,11 @@ using Jaze.UI.Util;
 
 namespace Jaze.UI.Services
 {
-    public class JaviSearcher : ServiceBase<JaviModel>
+    public class JaviService : ServiceBase<JaviModel>
     {
         //private const string HANVIET_CACHE_FILE = "jv_hv";
         //private static List<JaviHanVietCache> _javiHanVietCaches;
-        //static JaviSearcher()
+        //static JaviService()
         //{
         //    _javiHanVietCaches = new List<JaviHanVietCache>();
         //    string cacheFolder = System.IO.Path.Combine(App.BaseDictionary, "Caches");
