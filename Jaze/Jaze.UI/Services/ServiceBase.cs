@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jaze.UI.Definitions;
 
 namespace Jaze.UI.Services
 {
@@ -17,12 +18,16 @@ namespace Jaze.UI.Services
                 {
                     case SearchOption.Exact:
                         return SearchExact(searchArgs.SearchKey);
+
                     case SearchOption.StartWith:
                         return SearchStartWith(searchArgs.SearchKey);
+
                     case SearchOption.EndWith:
                         return SearchEndWith(searchArgs.SearchKey);
+
                     case SearchOption.Contain:
                         return SearchContain(searchArgs.SearchKey);
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -30,9 +35,13 @@ namespace Jaze.UI.Services
         }
 
         public abstract List<TModel> SearchExact(string key);
+
         public abstract List<TModel> SearchStartWith(string key);
+
         public abstract List<TModel> SearchEndWith(string key);
+
         public abstract List<TModel> SearchContain(string key);
+
         public abstract List<TModel> GetAll();
     }
 }

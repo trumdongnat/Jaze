@@ -4,6 +4,8 @@ namespace Jaze.UI.Services
 {
     public interface ISearchService<TModel> where TModel : new()
     {
+        List<TModel> Search(SearchArgs searchArgs);
+
         List<TModel> SearchExact(string key);
 
         List<TModel> SearchStartWith(string key);

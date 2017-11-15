@@ -78,7 +78,7 @@ namespace Jaze.UI.Services
                 //at end
                 var keyEnd = ", " + key;
                 return db.HanViets.Where(hv => hv.Word == key || hv.Reading == key || hv.Reading.StartsWith(keyStart) || hv.Reading.Contains(keyMiddle) || hv.Reading.EndsWith(keyEnd))
-                    .Select(hv => HanVietModel.Create(hv)).ToList();
+                    .ToList().Select(hv => HanVietModel.Create(hv)).ToList();
             }
         }
 
@@ -87,7 +87,7 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.HanViets.Where(hv => hv.Word.StartsWith(key) || hv.Reading.StartsWith(key))
-                    .Select(hv => HanVietModel.Create(hv)).ToList();
+                    .ToList().Select(hv => HanVietModel.Create(hv)).ToList();
             }
         }
 
@@ -96,7 +96,7 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.HanViets.Where(hv => hv.Word.EndsWith(key) || hv.Reading.EndsWith(key))
-                    .Select(hv => HanVietModel.Create(hv)).ToList();
+                    .ToList().Select(hv => HanVietModel.Create(hv)).ToList();
             }
         }
 
@@ -105,7 +105,7 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.HanViets.Where(hv => hv.Word.Contains(key) || hv.Reading.Contains(key))
-                    .Select(hv => HanVietModel.Create(hv)).ToList();
+                    .ToList().Select(hv => HanVietModel.Create(hv)).ToList();
             }
         }
 
@@ -113,7 +113,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.HanViets.Select(hv => HanVietModel.Create(hv)).ToList();
+                return db.HanViets.ToList().Select(hv => HanVietModel.Create(hv)).ToList();
             }
         }
     }

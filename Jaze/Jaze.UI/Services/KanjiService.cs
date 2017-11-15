@@ -164,7 +164,7 @@ namespace Jaze.UI.Services
                 var keyMiddle = "," + key + ",";
                 //at end
                 var keyEnd = "," + key;
-                return db.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).Select(entity => KanjiModel.Create(entity)).ToList();
+                return db.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
 
@@ -172,7 +172,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Kanjis.Where(kanji => kanji.HanViet.StartsWith(key)).Select(entity => KanjiModel.Create(entity)).ToList();
+                return db.Kanjis.Where(kanji => kanji.HanViet.StartsWith(key)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
 
@@ -180,7 +180,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Kanjis.Where(kanji => kanji.HanViet.EndsWith(key)).Select(entity => KanjiModel.Create(entity)).ToList();
+                return db.Kanjis.Where(kanji => kanji.HanViet.EndsWith(key)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
 
@@ -188,7 +188,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Kanjis.Where(kanji => kanji.HanViet.Contains(key)).Select(entity => KanjiModel.Create(entity)).ToList();
+                return db.Kanjis.Where(kanji => kanji.HanViet.Contains(key)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
 
@@ -196,7 +196,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Kanjis.Select(entity => KanjiModel.Create(entity)).ToList();
+                return db.Kanjis.ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
     }

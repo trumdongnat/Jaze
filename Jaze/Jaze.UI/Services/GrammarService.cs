@@ -68,7 +68,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Grammars.Where(o => o.Struct == key || o.Meaning == key).Select(o => GrammarModel.Create(o))
+                return db.Grammars.Where(o => o.Struct == key || o.Meaning == key).ToList().Select(o => GrammarModel.Create(o))
                     .ToList();
             }
         }
@@ -88,7 +88,7 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 var hirakey = StringUtil.ConvertRomaji2Hiragana(key);
-                return db.Grammars.Where(o => o.Struct.Contains(hirakey) || o.Meaning.Contains(key)).Select(o => GrammarModel.Create(o))
+                return db.Grammars.Where(o => o.Struct.Contains(hirakey) || o.Meaning.Contains(key)).ToList().Select(o => GrammarModel.Create(o))
                     .ToList();
             }
         }
@@ -97,7 +97,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.Grammars.Select(o => GrammarModel.Create(o)).ToList();
+                return db.Grammars.ToList().Select(o => GrammarModel.Create(o)).ToList();
             }
         }
     }

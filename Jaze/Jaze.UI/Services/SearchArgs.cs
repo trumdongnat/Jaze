@@ -1,4 +1,5 @@
-﻿using Jaze.UI.Models;
+﻿using Jaze.UI.Definitions;
+using Jaze.UI.Models;
 
 namespace Jaze.UI.Services
 {
@@ -20,13 +21,5 @@ namespace Jaze.UI.Services
         public string SearchKey { get; set; }
         public SearchOption Option { get; set; }
         public DictionaryType Dictionary { get; set; }
-    }
-
-    public enum SearchOption
-    {
-        Exact,
-        StartWith,
-        EndWith,
-        Contain
     }
 }

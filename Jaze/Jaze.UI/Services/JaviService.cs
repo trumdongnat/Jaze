@@ -243,11 +243,11 @@ namespace Jaze.UI.Services
             {
                 if (StringUtil.IsContainKanji(key))
                 {
-                    return db.JaVis.Where(o => o.Word == key).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word == key).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
                 else
                 {
-                    return db.JaVis.Where(o => o.Word == key || o.Kana == key).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word == key || o.Kana == key).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -258,11 +258,11 @@ namespace Jaze.UI.Services
             {
                 if (StringUtil.IsContainKanji(key))
                 {
-                    return db.JaVis.Where(o => o.Word.StartsWith(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.StartsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.StartsWith(key)) || o.Kana.StartsWith(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => (o.Kana != null && o.Word.StartsWith(key)) || o.Kana.StartsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -273,11 +273,11 @@ namespace Jaze.UI.Services
             {
                 if (StringUtil.IsContainKanji(key))
                 {
-                    return db.JaVis.Where(o => o.Word.EndsWith(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.EndsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.EndsWith(key)) || o.Kana.EndsWith(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => (o.Kana != null && o.Word.EndsWith(key)) || o.Kana.EndsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -288,11 +288,11 @@ namespace Jaze.UI.Services
             {
                 if (StringUtil.IsContainKanji(key))
                 {
-                    return db.JaVis.Where(o => o.Word.Contains(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.Contains(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.Contains(key)) || o.Kana.Contains(key)).Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => (o.Kana != null && o.Word.Contains(key)) || o.Kana.Contains(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -301,7 +301,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.JaVis.Select(o => JaviModel.Create(o)).ToList();
+                return db.JaVis.ToList().Select(o => JaviModel.Create(o)).ToList();
             }
         }
     }

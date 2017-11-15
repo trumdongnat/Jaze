@@ -94,7 +94,7 @@ namespace Jaze.UI.Services
                 //at end
                 var keyEnd = " " + key;
                 return db.JaEns.Where(o => o.Word == key || o.Kana == key || o.Kana.StartsWith(keyStart) || o.Kana.Contains(keyMiddle) || o.Kana.EndsWith(keyEnd))
-                    .Select(entity => JaenModel.Create(entity)).ToList();
+                    .ToList().Select(entity => JaenModel.Create(entity)).ToList();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.JaEns.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).Select(entity => JaenModel.Create(entity)).ToList();
+                return db.JaEns.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).ToList().Select(entity => JaenModel.Create(entity)).ToList();
             }
         }
 
@@ -110,7 +110,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.JaEns.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).Select(entity => JaenModel.Create(entity)).ToList();
+                return db.JaEns.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).ToList().Select(entity => JaenModel.Create(entity)).ToList();
             }
         }
 
@@ -118,7 +118,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.JaEns.Where(o => o.Word.Contains(key) || o.Kana.Contains(key)).Select(entity => JaenModel.Create(entity)).ToList();
+                return db.JaEns.Where(o => o.Word.Contains(key) || o.Kana.Contains(key)).ToList().Select(entity => JaenModel.Create(entity)).ToList();
             }
         }
 
@@ -126,7 +126,7 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.JaEns.Select(entity => JaenModel.Create(entity)).ToList();
+                return db.JaEns.ToList().Select(entity => JaenModel.Create(entity)).ToList();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Jaze.UI.Definitions;
 
 namespace Jaze.UI.Models
 {
@@ -40,15 +41,5 @@ namespace Jaze.UI.Models
         {
             return LsDics;
         }
-    }
-
-    public enum DictionaryType
-    {
-        JaVi,
-        HanViet,
-        Kanji,
-        ViJa,
-        Grammar,
-        JaEn
     }
 }
