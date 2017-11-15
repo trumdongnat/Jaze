@@ -5,9 +5,18 @@ namespace Jaze.UI.Models
 {
     public class VijaModel
     {
-        public static VijaModel Create(ViJa vija)
+        public int Id { get; set; }
+        public string Word { get; set; }
+        public string Mean { get; set; }
+
+        public static VijaModel Create(ViJa entity)
         {
-            throw new NotImplementedException();
+            return new VijaModel
+            {
+                Id = entity.Id,
+                Word = entity.Word,
+                Mean = entity.Mean,
+            };
         }
     }
 }

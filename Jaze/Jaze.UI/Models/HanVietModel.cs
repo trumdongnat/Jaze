@@ -5,9 +5,20 @@ namespace Jaze.UI.Models
 {
     public class HanVietModel
     {
+        public int Id { get; set; }
+        public string Word { get; set; }
+        public string Reading { get; set; }
+        public string Content { get; set; }
+
         public static HanVietModel Create(HanViet hanViet)
         {
-            throw new NotImplementedException();
+            return new HanVietModel
+            {
+                Id = hanViet.Id,
+                Word = hanViet.Word,
+                Reading = hanViet.Reading,
+                Content = hanViet.Content
+            };
         }
     }
 }

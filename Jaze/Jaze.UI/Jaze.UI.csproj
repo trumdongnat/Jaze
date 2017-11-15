@@ -120,6 +120,8 @@
     <Compile Include="Models\JaviModel.cs" />
     <Compile Include="Models\KanjiModel.cs" />
     <Compile Include="Models\ListBoxResultTemplateSelector.cs" />
+    <Compile Include="Models\PartModel.cs" />
+    <Compile Include="Models\RadicalModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
     <Compile Include="Services\GrammarService.cs" />
     <Compile Include="Services\HanVietService.cs" />
@@ -258,7 +260,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messages\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
