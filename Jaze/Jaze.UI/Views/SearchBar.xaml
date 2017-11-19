@@ -4,14 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Jaze.UI.Views"
+             xmlns:definition="clr-namespace:Jaze.UI.Definitions"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="500">
+             d:DesignHeight="300" d:DesignWidth="500"
+             DataContext="{Binding Source={StaticResource Locator}, Path=SearchBar}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -25,7 +27,7 @@
                      Panel.ZIndex="1"
                      MaxLines="1"
                      FontSize="18"
-                     controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonCmdWithParameter, Mode=OneWay}"
+                     controls:TextBoxHelper.ButtonCommand="{Binding SearchCommand, Mode=OneWay}"
                      controls:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=TextBoxSearch, Path=Text}"
                      controls:TextBoxHelper.Watermark="Enter 漢字、かな、Romaji"
                      controls:TextBoxHelper.SelectAllOnFocus="True"
@@ -35,20 +37,21 @@
                 <iconPacks:PackIconFontAwesome Kind="Clipboard" ></iconPacks:PackIconFontAwesome>
             </Button>
         </Grid>
-        <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Stretch" >
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <StackPanel.Resources>
                 <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
                     <Style.Setters>
                         <Setter Property="Width" Value="40" />
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="Margin" Value="5,0,0,0"></Setter>
+                        <Setter Property="Command" Value="{Binding ChangeSearchOptionCommand, Mode=OneWay}"></Setter>
                     </Style.Setters>
                 </Style>
             </StackPanel.Resources>
-            <RadioButton Content="A" GroupName="SearchOption" IsChecked="True" ToolTip="Search exact word" Name="RadioButtonExact"></RadioButton>
-            <RadioButton Content="A+" GroupName="SearchOption" ToolTip="Search word start with ..." Name="RadioButtonStart"></RadioButton>
-            <RadioButton Content="+A" GroupName="SearchOption" ToolTip="Search word end with ..." Name="RadioButtonEnd"></RadioButton>
-            <RadioButton Content="+A+" GroupName="SearchOption" Width="50" ToolTip="Search word contain ..." Name="RadioButtonMiddle"></RadioButton>
+            <RadioButton Content="A" GroupName="SearchOption" IsChecked="True" ToolTip="Search exact word" CommandParameter="{x:Static definition:SearchOption.Exact}"></RadioButton>
+            <RadioButton Content="A+" GroupName="SearchOption" ToolTip="Search word start with ..." CommandParameter="{x:Static definition:SearchOption.StartWith}"></RadioButton>
+            <RadioButton Content="+A" GroupName="SearchOption" ToolTip="Search word end with ..." CommandParameter="{x:Static definition:SearchOption.EndWith}"></RadioButton>
+            <RadioButton Content="+A+" GroupName="SearchOption" Width="50" ToolTip="Search word contain ..." CommandParameter="{x:Static definition:SearchOption.Contain}"></RadioButton>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -15,6 +15,7 @@ using Microsoft.Practices.ServiceLocation;
 using Jaze.UI.Model;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Jaze.UI.ViewModel
 {
@@ -31,37 +32,24 @@ namespace Jaze.UI.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-                SimpleIoc.Default.Register<ISearchService<GrammarModel>, GrammarService>();
-                SimpleIoc.Default.Register<ISearchService<HanVietModel>, HanVietService>();
-                SimpleIoc.Default.Register<ISearchService<JaenModel>, JaenService>();
-                SimpleIoc.Default.Register<ISearchService<JaviModel>, JaviService>();
-                SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
-                SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
-            }
+            //services
+            SimpleIoc.Default.Register<IMessenger>(() => Messenger.Default);
+            SimpleIoc.Default.Register<IDataService, DataService>();
+            SimpleIoc.Default.Register<ISearchService<GrammarModel>, GrammarService>();
+            SimpleIoc.Default.Register<ISearchService<HanVietModel>, HanVietService>();
+            SimpleIoc.Default.Register<ISearchService<JaenModel>, JaenService>();
+            SimpleIoc.Default.Register<ISearchService<JaviModel>, JaviService>();
+            SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
+            SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
 
+            //view model
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<SearchBarViewModel>();
         }
 
-        /// <summary>
-        /// Gets the Main property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+
+        public SearchBarViewModel SearchBar => ServiceLocator.Current.GetInstance<SearchBarViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.
