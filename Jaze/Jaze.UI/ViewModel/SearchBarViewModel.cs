@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -8,12 +7,13 @@ using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
+using System.Linq;
 
 namespace Jaze.UI.ViewModel
 {
     public class SearchBarViewModel : ViewModelBase
     {
-        private DictionaryType _dictionaryType;
+        private DictionaryType _dictionaryType = DictionaryType.Kanji;
 
         #region ----- Services -----
 
@@ -47,7 +47,8 @@ namespace Jaze.UI.ViewModel
 
         private void ExecuteSearchCommand(string key)
         {
-            _isSearching = false;
+            _isSearching = true;
+            _messenger.Send(new SearchMessage(SearchStates.Searching, _dictionaryType, null));
             SearchAsync(key, _dictionaryType, _searchOption);
         }
 
@@ -63,27 +64,27 @@ namespace Jaze.UI.ViewModel
                 switch (dictionaryType)
                 {
                     case DictionaryType.JaVi:
-                        _messenger.Send(new SearchResultMessage(_javiService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _javiService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     case DictionaryType.HanViet:
-                        _messenger.Send(new SearchResultMessage(_hanvietService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _hanvietService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     case DictionaryType.Kanji:
-                        _messenger.Send(new SearchResultMessage(_kanjiService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _kanjiService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     case DictionaryType.ViJa:
-                        _messenger.Send(new SearchResultMessage(_vijaService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _vijaService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     case DictionaryType.Grammar:
-                        _messenger.Send(new SearchResultMessage(_grammarService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _grammarService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     case DictionaryType.JaEn:
-                        _messenger.Send(new SearchResultMessage(_jaenService.Search(new SearchArgs(key, searchOption))));
+                        _messenger.Send(new SearchMessage(SearchStates.Success, dictionaryType, _jaenService.Search(new SearchArgs(key, searchOption))));
                         break;
 
                     default:
@@ -115,7 +116,6 @@ namespace Jaze.UI.ViewModel
         private void ExecuteMyCommand(SearchOption option)
         {
             _searchOption = option;
-            MessageBox.Show(option.ToString());
         }
 
         #endregion ----- Change Search Option -----
