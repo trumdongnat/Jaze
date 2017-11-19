@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jaze.Domain.Entities;
 
 namespace Jaze.UI.Models
@@ -7,7 +8,8 @@ namespace Jaze.UI.Models
     {
         public int Id { get; set; }
         public string Word { get; set; }
-        public string Mean { get; set; }
+        public string MeanText { get; set; }
+        public List<WordMean> Means { get; set; }
 
         public static VijaModel Create(ViJa entity)
         {
@@ -15,7 +17,7 @@ namespace Jaze.UI.Models
             {
                 Id = entity.Id,
                 Word = entity.Word,
-                Mean = entity.Mean,
+                MeanText = entity.Mean,
             };
         }
     }

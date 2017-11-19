@@ -55,6 +55,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="LoadingIndicators.WPF, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LoadingIndicators.WPF.0.0.1\lib\LoadingIndicators.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -63,6 +66,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -111,8 +117,11 @@
     </ApplicationDefinition>
     <Compile Include="Definitions\DictionaryType.cs" />
     <Compile Include="Definitions\SearchOption.cs" />
+    <Compile Include="Definitions\SearchStates.cs" />
     <Compile Include="Design\DesignDataService.cs" />
-    <Compile Include="Messages\SearchResultMessage.cs" />
+    <Compile Include="Helper\RichTextBoxHelper.cs" />
+    <Compile Include="Messages\SearchMessage.cs" />
+    <Compile Include="Messages\ShowItemMessage.cs" />
     <Compile Include="Models\DataItem.cs" />
     <Compile Include="Models\DataService.cs" />
     <Compile Include="Models\Dictionary.cs" />
@@ -120,12 +129,23 @@
     <Compile Include="Models\HanVietModel.cs" />
     <Compile Include="Models\IDataService.cs" />
     <Compile Include="Models\JaenModel.cs" />
+    <Compile Include="Models\ExampleModel.cs" />
     <Compile Include="Models\JaviModel.cs" />
     <Compile Include="Models\KanjiModel.cs" />
     <Compile Include="Models\ListBoxResultTemplateSelector.cs" />
     <Compile Include="Models\PartModel.cs" />
     <Compile Include="Models\RadicalModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
+    <Compile Include="Models\WordMean.cs" />
+    <Compile Include="Services\Documents\Builder.cs" />
+    <Compile Include="Services\Documents\BuilderBase.cs" />
+    <Compile Include="Services\Documents\GrammarBuilder.cs" />
+    <Compile Include="Services\Documents\HanVietBuilder.cs" />
+    <Compile Include="Services\Documents\IBuilder.cs" />
+    <Compile Include="Services\Documents\JaenBuilder.cs" />
+    <Compile Include="Services\Documents\JaviBuilder.cs" />
+    <Compile Include="Services\Documents\KanjiBuilder.cs" />
+    <Compile Include="Services\Documents\VijaBuilder.cs" />
     <Compile Include="Services\GrammarService.cs" />
     <Compile Include="Services\HanVietService.cs" />
     <Compile Include="Services\ISearchService.cs" />
@@ -137,9 +157,14 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\VijaService.cs" />
     <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SearchBarViewModel.cs" />
+    <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\ItemDisplayView.xaml.cs">
+      <DependentUpon>ItemDisplayView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GrammarViewer.xaml.cs">
       <DependentUpon>GrammarViewer.xaml</DependentUpon>
     </Compile>
@@ -178,37 +203,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Metro\Dark\MetroDark.MSControls.Core.Implicit.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\ItemDisplayView.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Dark\Styles.Shared.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Dark\Styles.WPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Dark\Theme.Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Light\Metro.MSControls.Core.Implicit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Light\Styles.Shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Light\Styles.WPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Metro\Light\Theme.Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GrammarViewer.xaml">
       <SubType>Designer</SubType>
