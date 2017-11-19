@@ -45,11 +45,17 @@ namespace Jaze.UI.ViewModel
             //view model
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<SearchBarViewModel>();
+            SimpleIoc.Default.Register<SearchResultViewModel>();
+            SimpleIoc.Default.Register<ItemDisplayViewModel>();
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
 
         public SearchBarViewModel SearchBar => ServiceLocator.Current.GetInstance<SearchBarViewModel>();
+
+        public SearchResultViewModel SearchResult => ServiceLocator.Current.GetInstance<SearchResultViewModel>();
+
+        public ItemDisplayViewModel ItemDisplay => ServiceLocator.Current.GetInstance<ItemDisplayViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.

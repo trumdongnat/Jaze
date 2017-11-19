@@ -1,22 +1,25 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:entities="clr-namespace:Jaze.Domain.Entities;assembly=Jaze.Domain"
-                    xmlns:models="clr-namespace:Jaze.UI.Models">
-    
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="clr-namespace:Jaze.UI.Models">
+
     <DataTemplate x:Key="JapaneseDataTemplate">
         <Grid Height="60" Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                           VerticalAlignment="Center"
-                           FontSize="20" 
-                           Text="{Binding Path=Word}" />
-            <TextBlock Grid.Row="1"
-                           VerticalAlignment="Center"
-                           FontSize="14" FontStyle="Italic"
-                           Text="{Binding Path=Kana}">
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="{Binding Path=Word}" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                FontSize="14"
+                FontStyle="Italic"
+                Text="{Binding Path=Kana}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
@@ -33,20 +36,23 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="HanVietDataTemplate" DataType="entities:HanViet">
+    <DataTemplate x:Key="HanVietDataTemplate" DataType="models:HanVietModel">
         <Grid Height="60" Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                           VerticalAlignment="Top"
-                           FontSize="20" 
-                           Text="{Binding Path=Word}" />
-            <TextBlock Grid.Row="1"
-                           VerticalAlignment="Top"
-                           FontSize="17" FontStyle="Italic"
-                           Text="{Binding Path=Reading}">
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Top"
+                FontSize="20"
+                Text="{Binding Path=Word}" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                FontSize="17"
+                FontStyle="Italic"
+                Text="{Binding Path=Reading}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
@@ -63,21 +69,26 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="KanjiDataTemplate" DataType="entities:Kanji">
-        <Grid Name="grid"
-                  Height="60" Margin="3">
+    <DataTemplate x:Key="KanjiDataTemplate" DataType="models:KanjiModel">
+        <Grid
+            Name="grid"
+            Height="60"
+            Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                           VerticalAlignment="Center"
-                           FontSize="20" 
-                           Text="{Binding Path=Word}" />
-            <TextBlock Grid.Row="1"
-                           VerticalAlignment="Center"
-                           FontSize="17" FontStyle="Italic"
-                           Text="{Binding Path=HanViet}">
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="{Binding Path=Word}" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                FontSize="17"
+                FontStyle="Italic"
+                Text="{Binding Path=HanViet}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
@@ -99,35 +110,40 @@
                         <SolidColorBrush Opacity=".1" Color="Gray" />
                     </Setter.Value>
                 </Setter>
-
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="VijaDataTemplate" DataType="entities:ViJa">
-        <TextBlock Grid.Row="0"
-                       Height="40"
-                       VerticalAlignment="Center"
-                       FontSize="18"
-                       Text="{Binding Path=Word}" />
-
+    <DataTemplate x:Key="VijaDataTemplate" DataType="models:VijaModel">
+        <TextBlock
+            Grid.Row="0"
+            Height="40"
+            VerticalAlignment="Center"
+            FontSize="18"
+            Text="{Binding Path=Word}" />
     </DataTemplate>
 
-    <DataTemplate x:Key="GrammarDataTemplate" DataType="entities:Grammar">
-        <Grid Name="grid"
-                  Height="60" Margin="3">
+    <DataTemplate x:Key="GrammarDataTemplate" DataType="models:GrammarModel">
+        <Grid
+            Name="grid"
+            Height="60"
+            Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                           VerticalAlignment="Center"
-                           FontSize="15" FontWeight="SemiBold"
-                           Text="{Binding Path=Level}" />
-            <TextBlock Grid.Row="1"
-                           VerticalAlignment="Center"
-                           FontSize="17" FontStyle="Italic"
-                           Text="{Binding Path=Struct}" />
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                FontSize="15"
+                FontWeight="SemiBold"
+                Text="{Binding Path=Level}" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                FontSize="17"
+                FontStyle="Italic"
+                Text="{Binding Path=Struct}" />
         </Grid>
         <!--<DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Frequence}" Value="2147483647">
@@ -136,17 +152,15 @@
                         <SolidColorBrush Opacity=".1" Color="Gray" />
                     </Setter.Value>
                 </Setter>
-
             </DataTrigger>
         </DataTemplate.Triggers>-->
     </DataTemplate>
 
-
-    <models:ListBoxResultTemplateSelector x:Key="DataTemplateSelector"
-                                          GrammarDataTemplate="{StaticResource GrammarDataTemplate}"
-                                          HanVietDataTemplate="{StaticResource HanVietDataTemplate}"
-                                          JapaneseDataTemplate="{StaticResource JapaneseDataTemplate}"
-                                          KanjiDataTemplate="{StaticResource KanjiDataTemplate}"
-                                          ViJaTemplate="{StaticResource VijaDataTemplate}">
-        </models:ListBoxResultTemplateSelector>
+    <models:ListBoxResultTemplateSelector
+        x:Key="DataTemplateSelector"
+        GrammarDataTemplate="{StaticResource GrammarDataTemplate}"
+        HanVietDataTemplate="{StaticResource HanVietDataTemplate}"
+        JapaneseDataTemplate="{StaticResource JapaneseDataTemplate}"
+        KanjiDataTemplate="{StaticResource KanjiDataTemplate}"
+        ViJaTemplate="{StaticResource VijaDataTemplate}" />
 </ResourceDictionary>

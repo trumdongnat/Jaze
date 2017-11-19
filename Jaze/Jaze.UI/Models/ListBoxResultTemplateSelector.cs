@@ -1,10 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Jaze.Domain.Entities;
 
 namespace Jaze.UI.Models
 {
-    class ListBoxResultTemplateSelector : DataTemplateSelector
+    internal class ListBoxResultTemplateSelector : DataTemplateSelector
     {
         public DataTemplate JapaneseDataTemplate { get; set; }
         public DataTemplate HanVietDataTemplate { get; set; }
@@ -15,23 +14,23 @@ namespace Jaze.UI.Models
         public override DataTemplate SelectTemplate(object item,
                    DependencyObject container)
         {
-            if (item is JaVi || item is JaEn)
+            if (item is JaviModel || item is JaenModel)
             {
                 return JapaneseDataTemplate;
             }
-            if (item is HanViet)
+            if (item is HanVietModel)
             {
                 return HanVietDataTemplate;
             }
-            if (item is Kanji)
+            if (item is KanjiModel)
             {
                 return KanjiDataTemplate;
             }
-            if (item is ViJa)
+            if (item is VijaModel)
             {
                 return ViJaTemplate;
             }
-            if (item is Grammar)
+            if (item is GrammarModel)
             {
                 return GrammarDataTemplate;
             }
