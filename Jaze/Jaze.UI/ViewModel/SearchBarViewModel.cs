@@ -7,7 +7,6 @@ using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
-using System.Linq;
 
 namespace Jaze.UI.ViewModel
 {

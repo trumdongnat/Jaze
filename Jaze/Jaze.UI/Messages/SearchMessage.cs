@@ -1,10 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using Jaze.UI.Definitions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Jaze.UI.Definitions;
 
 namespace Jaze.UI.Messages
 {

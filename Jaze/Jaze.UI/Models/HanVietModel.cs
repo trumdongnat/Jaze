@@ -1,5 +1,4 @@
-﻿using System;
-using Jaze.Domain.Entities;
+﻿using Jaze.Domain.Entities;
 
 namespace Jaze.UI.Models
 {

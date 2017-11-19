@@ -1,5 +1,4 @@
 ﻿using Jaze.UI.Definitions;
-using Jaze.UI.Models;
 
 namespace Jaze.UI.Services
 {

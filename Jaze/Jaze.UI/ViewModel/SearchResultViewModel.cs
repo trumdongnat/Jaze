@@ -2,12 +2,8 @@
 using GalaSoft.MvvmLight.Messaging;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
-using Jaze.UI.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jaze.UI.ViewModel
 {
