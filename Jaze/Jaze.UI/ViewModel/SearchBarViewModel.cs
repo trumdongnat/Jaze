@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -12,7 +13,65 @@ namespace Jaze.UI.ViewModel
 {
     public class SearchBarViewModel : ViewModelBase
     {
-        private DictionaryType _dictionaryType = DictionaryType.Kanji;
+        #region ----- Properties -----
+
+        //private DictionaryType _dictionaryType = DictionaryType.HanViet;
+
+        #endregion ----- Properties -----
+
+        #region ----- List Dictionary -----
+
+        /// <summary>
+        /// The <see cref="ListDictionary" /> property's name.
+        /// </summary>
+        public const string ListDictionaryPropertyName = "ListDictionary";
+
+        private List<Dictionary> _listDictionary = null;
+
+        /// <summary>
+        /// Sets and gets the ListDictionary property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public List<Dictionary> ListDictionary
+        {
+            get
+            {
+                return _listDictionary;
+            }
+            set
+            {
+                Set(ListDictionaryPropertyName, ref _listDictionary, value);
+            }
+        }
+
+        #endregion ----- List Dictionary -----
+
+        #region ----- Selected Dictionary -----
+
+        /// <summary>
+        /// The <see cref="SelectedDictionary" /> property's name.
+        /// </summary>
+        public const string SelectedDictionaryPropertyName = "SelectedDictionary";
+
+        private Dictionary _selectedDictionary;
+
+        /// <summary>
+        /// Sets and gets the SelectedDictionary property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public Dictionary SelectedDictionary
+        {
+            get
+            {
+                return _selectedDictionary;
+            }
+            set
+            {
+                Set(SelectedDictionaryPropertyName, ref _selectedDictionary, value);
+            }
+        }
+
+        #endregion ----- Selected Dictionary -----
 
         #region ----- Services -----
 
@@ -47,8 +106,9 @@ namespace Jaze.UI.ViewModel
         private void ExecuteSearchCommand(string key)
         {
             _isSearching = true;
-            _messenger.Send(new SearchMessage(SearchStates.Searching, _dictionaryType, null));
-            SearchAsync(key, _dictionaryType, _searchOption);
+            var dictionaryType = SelectedDictionary.Type;
+            _messenger.Send(new SearchMessage(SearchStates.Searching, dictionaryType, null));
+            SearchAsync(key, dictionaryType, _searchOption);
         }
 
         private bool CanExecuteSearchCommand(string key)
@@ -130,6 +190,8 @@ namespace Jaze.UI.ViewModel
             _javiService = javiService;
             _kanjiService = kanjiService;
             _vijaService = vijaService;
+            ListDictionary = Dictionary.GetDictionarys();
+            SelectedDictionary = ListDictionary[0];
         }
 
         #endregion ----- Contructor -----
