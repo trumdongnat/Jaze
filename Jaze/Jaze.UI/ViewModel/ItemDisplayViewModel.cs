@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Documents;
 using Jaze.UI.Messages;
@@ -59,6 +60,33 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Item Document -----
 
+        #region ----- Is Loading -----
+
+        /// <summary>
+        /// The <see cref="IsLoading" /> property's name.
+        /// </summary>
+        public const string IsLoadingPropertyName = "IsLoading";
+
+        private bool _isLoading = false;
+
+        /// <summary>
+        /// Sets and gets the IsLoading property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                Set(IsLoadingPropertyName, ref _isLoading, value);
+            }
+        }
+
+        #endregion ----- Is Loading -----
+
         #region ----- Contructor -----
 
         public ItemDisplayViewModel(IMessenger messenger, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
@@ -91,41 +119,75 @@ namespace Jaze.UI.ViewModel
             {
                 return;
             }
+            IsLoading = true;
 
-            if (message.Item is KanjiModel kanji)
+            switch (message.Item)
             {
-                _kanjiService.LoadFull(kanji);
-                ItemDocument = _kanjiBuilder.Build(kanji);
-            }
+                case KanjiModel kanji:
+                    Task.Run(() =>
+                    {
+                        _kanjiService.LoadFull(kanji);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _kanjiBuilder.Build(kanji);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
 
-            if (message.Item is GrammarModel grammar)
-            {
-                _grammarService.LoadFull(grammar);
-                ItemDocument = _grammarBuilder.Build(grammar);
-            }
+                case GrammarModel grammar:
+                    Task.Run(() =>
+                    {
+                        _grammarService.LoadFull(grammar);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _grammarBuilder.Build(grammar);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
 
-            if (message.Item is HanVietModel hanviet)
-            {
-                _hanvietService.LoadFull(hanviet);
-                ItemDocument = _hanvietBuilder.Build(hanviet);
-            }
+                case HanVietModel hanviet:
+                    Task.Run(() =>
+                    {
+                        _hanvietService.LoadFull(hanviet);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _hanvietBuilder.Build(hanviet);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
 
-            if (message.Item is JaenModel jaen)
-            {
-                _jaenService.LoadFull(jaen);
-                ItemDocument = _jaenBuilder.Build(jaen);
-            }
+                case JaenModel jaen:
+                    Task.Run(() =>
+                    {
+                        _jaenService.LoadFull(jaen);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _jaenBuilder.Build(jaen);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
 
-            if (message.Item is JaviModel javi)
-            {
-                _javiService.LoadFull(javi);
-                ItemDocument = _javiBuilder.Build(javi);
-            }
+                case JaviModel javi:
+                    Task.Run(() =>
+                    {
+                        _javiService.LoadFull(javi);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _javiBuilder.Build(javi);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
 
-            if (message.Item is VijaModel vija)
-            {
-                _vijaService.LoadFull(vija);
-                ItemDocument = _vijaBuilder.Build(vija);
+                case VijaModel vija:
+                    Task.Run(() =>
+                    {
+                        _vijaService.LoadFull(vija);
+                    }).ContinueWith(previous =>
+                    {
+                        ItemDocument = _vijaBuilder.Build(vija);
+                        IsLoading = false;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    break;
             }
         }
 

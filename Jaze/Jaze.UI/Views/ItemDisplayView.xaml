@@ -6,9 +6,12 @@
     xmlns:helper="clr-namespace:Jaze.UI.Helper"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
     d:DesignHeight="300"
     d:DesignWidth="300"
     DataContext="{Binding Source={StaticResource Locator}, Path=ItemDisplay}"
     mc:Ignorable="d">
-    <FlowDocumentScrollViewer helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsToolBarVisible="True" />
+    <tk:BusyIndicator IsBusy="{Binding IsLoading}">
+        <FlowDocumentScrollViewer helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsToolBarVisible="True" />
+    </tk:BusyIndicator>
 </UserControl>
