@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Jaze.UI.Models;
 
 namespace Jaze.UI.Services
 {
@@ -15,5 +16,7 @@ namespace Jaze.UI.Services
         List<TModel> SearchContain(string key);
 
         List<TModel> GetAll();
+
+        void LoadFull(TModel model);
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Jaze.Domain;
 using Jaze.UI.Models;
 using Jaze.UI.Util;
+using Newtonsoft.Json;
 
 namespace Jaze.UI.Services
 {
@@ -98,6 +99,33 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.Grammars.ToList().Select(o => GrammarModel.Create(o)).ToList();
+            }
+        }
+
+        public override void LoadFull(GrammarModel model)
+        {
+            if (!model.IsLoadFull)
+            {
+                using (var db = new JazeDatabaseContext())
+                {
+                    model.Detail = JsonConvert.DeserializeObject<GrammarDetail[]>(model.DetailText);
+                    foreach (var detail in model.Detail)
+                    {
+                        if (detail.ExampleIds != null)
+                        {
+                            detail.Examples = new List<ExampleModel>();
+                            foreach (var exampleId in detail.ExampleIds)
+                            {
+                                var example = db.JaViExamples.Find(exampleId);
+                                if (example != null)
+                                {
+                                    detail.Examples.Add(ExampleModel.Create(example));
+                                }
+                            }
+                        }
+                    }
+                    model.IsLoadFull = true;
+                }
             }
         }
     }

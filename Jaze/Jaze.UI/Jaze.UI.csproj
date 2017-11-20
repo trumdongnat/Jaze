@@ -118,26 +118,22 @@
     <Compile Include="Definitions\DictionaryType.cs" />
     <Compile Include="Definitions\SearchOption.cs" />
     <Compile Include="Definitions\SearchStates.cs" />
-    <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Helper\RichTextBoxHelper.cs" />
     <Compile Include="Messages\SearchMessage.cs" />
     <Compile Include="Messages\ShowItemMessage.cs" />
-    <Compile Include="Models\DataItem.cs" />
-    <Compile Include="Models\DataService.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\GrammarModel.cs" />
     <Compile Include="Models\HanVietModel.cs" />
-    <Compile Include="Models\IDataService.cs" />
     <Compile Include="Models\JaenModel.cs" />
     <Compile Include="Models\ExampleModel.cs" />
     <Compile Include="Models\JaviModel.cs" />
     <Compile Include="Models\KanjiModel.cs" />
     <Compile Include="Models\ListBoxResultTemplateSelector.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PartModel.cs" />
     <Compile Include="Models\RadicalModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
     <Compile Include="Models\WordMean.cs" />
-    <Compile Include="Services\Documents\Builder.cs" />
     <Compile Include="Services\Documents\BuilderBase.cs" />
     <Compile Include="Services\Documents\GrammarBuilder.cs" />
     <Compile Include="Services\Documents\HanVietBuilder.cs" />
@@ -152,8 +148,7 @@
     <Compile Include="Services\JaenService.cs" />
     <Compile Include="Services\JaviService.cs" />
     <Compile Include="Services\KanjiService.cs" />
-    <Compile Include="Services\SearchArgs.cs" />
-    <Compile Include="Services\Searcher.cs" />
+    <Compile Include="Models\SearchArgs.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\VijaService.cs" />
     <Compile Include="Util\StringUtil.cs" />
@@ -173,6 +168,9 @@
     </Compile>
     <Compile Include="Views\KanjiViewer.xaml.cs">
       <DependentUpon>KanjiViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListDictionary.xaml.cs">
+      <DependentUpon>ListDictionary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
@@ -219,6 +217,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ListDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,7 +262,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Design\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>

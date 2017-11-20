@@ -20,7 +20,7 @@ namespace Jaze.UI.Services.Documents
             foreach (var example in examples)
             {
                 var exampleView = BuildJaviExample(example);
-                if (example != null)
+                if (exampleView != null)
                 {
                     list.ListItems.Add(new ListItem(exampleView));
                 }

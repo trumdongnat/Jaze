@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Jaze.UI.Models
 {
-    public class GrammarModel
+    public class GrammarModel : ModelBase
     {
         public int Id { get; set; }
         public string Struct { get; set; }

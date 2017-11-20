@@ -198,5 +198,9 @@ namespace Jaze.UI.Services
                 return db.Kanjis.ToList().Select(entity => KanjiModel.Create(entity)).ToList();
             }
         }
+
+        public override void LoadFull(KanjiModel model)
+        {
+        }
     }
 }

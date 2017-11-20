@@ -3,6 +3,7 @@ using System.Linq;
 using Jaze.Domain;
 using Jaze.UI.Models;
 using Jaze.UI.Util;
+using Newtonsoft.Json;
 
 namespace Jaze.UI.Services
 {
@@ -127,6 +128,33 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.JaEns.ToList().Select(entity => JaenModel.Create(entity)).ToList();
+            }
+        }
+
+        public override void LoadFull(JaenModel model)
+        {
+            if (!model.IsLoadFull)
+            {
+                using (var db = new JazeDatabaseContext())
+                {
+                    model.Means = JsonConvert.DeserializeObject<List<WordMean>>(model.MeanText);
+                    foreach (var mean in model.Means)
+                    {
+                        if (mean.ExampleIds != null)
+                        {
+                            mean.Examples = new List<ExampleModel>();
+                            foreach (var exampleId in mean.ExampleIds)
+                            {
+                                var example = db.JaEnExamples.Find(exampleId);
+                                if (example != null)
+                                {
+                                    mean.Examples.Add(ExampleModel.Create(example));
+                                }
+                            }
+                        }
+                    }
+                    model.IsLoadFull = true;
+                }
             }
         }
     }

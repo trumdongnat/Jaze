@@ -113,7 +113,17 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                return db.HanViets.ToList().Select(hv => HanVietModel.Create(hv)).ToList();
+                //return db.HanViets.ToList().Select(hv => HanVietModel.Create(hv)).ToList();
+                return db.HanViets.Select(hv => new HanVietModel { Id = hv.Id, Word = hv.Word, Reading = hv.Reading }).ToList();
+            }
+        }
+
+        public override void LoadFull(HanVietModel model)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                model.Content = db.HanViets.Find(model.Id)?.Content;
+                model.IsLoadFull = true;
             }
         }
     }

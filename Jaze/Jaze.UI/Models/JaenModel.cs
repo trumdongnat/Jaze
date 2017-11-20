@@ -3,7 +3,7 @@ using Jaze.Domain.Entities;
 
 namespace Jaze.UI.Models
 {
-    public class JaenModel
+    public class JaenModel : ModelBase
     {
         public int Id { get; set; }
         public string Word { get; set; }

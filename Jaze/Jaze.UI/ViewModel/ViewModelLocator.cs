@@ -9,13 +9,12 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Jaze.UI.Model;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
 using GalaSoft.MvvmLight.Messaging;
+using Jaze.UI.Services.Documents;
 
 namespace Jaze.UI.ViewModel
 {
@@ -34,13 +33,20 @@ namespace Jaze.UI.ViewModel
 
             //services
             SimpleIoc.Default.Register<IMessenger>(() => Messenger.Default);
-            SimpleIoc.Default.Register<IDataService, DataService>();
             SimpleIoc.Default.Register<ISearchService<GrammarModel>, GrammarService>();
             SimpleIoc.Default.Register<ISearchService<HanVietModel>, HanVietService>();
             SimpleIoc.Default.Register<ISearchService<JaenModel>, JaenService>();
             SimpleIoc.Default.Register<ISearchService<JaviModel>, JaviService>();
             SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
             SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
+
+            //document builder
+            SimpleIoc.Default.Register<IBuilder<GrammarModel>, GrammarBuilder>();
+            SimpleIoc.Default.Register<IBuilder<HanVietModel>, HanVietBuilder>();
+            SimpleIoc.Default.Register<IBuilder<JaenModel>, JaenBuilder>();
+            SimpleIoc.Default.Register<IBuilder<JaviModel>, JaviBuilder>();
+            SimpleIoc.Default.Register<IBuilder<KanjiModel>, KanjiBuilder>();
+            SimpleIoc.Default.Register<IBuilder<VijaModel>, VijaBuilder>();
 
             //view model
             SimpleIoc.Default.Register<MainViewModel>();

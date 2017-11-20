@@ -3,7 +3,7 @@ using Jaze.Domain.Entities;
 
 namespace Jaze.UI.Models
 {
-    public class RadicalModel
+    public class RadicalModel : ModelBase
     {
         public int Id { get; set; }
         public string Word { get; set; }

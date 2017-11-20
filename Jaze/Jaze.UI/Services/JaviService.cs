@@ -3,6 +3,7 @@ using System.Linq;
 using Jaze.Domain;
 using Jaze.UI.Models;
 using Jaze.UI.Util;
+using Newtonsoft.Json;
 
 namespace Jaze.UI.Services
 {
@@ -237,6 +238,30 @@ namespace Jaze.UI.Services
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.JaVis.ToArray();
+        public override List<JaviModel> Search(SearchArgs searchArgs)
+        {
+            var rawKey = searchArgs.SearchKey;
+
+            if (string.IsNullOrWhiteSpace(rawKey))
+            {
+                //return GetAll();
+                return null;
+            }
+            var key = rawKey.Contains("-") ? StringUtil.ConvertRomaji2Katakana(rawKey) : StringUtil.ConvertRomaji2Hiragana(rawKey);
+            List<JaviModel> resultJv = new List<JaviModel>();
+            List<JaviModel> resultHv = new List<JaviModel>();
+            if (StringUtil.IsJapanese(key))
+            {
+                resultJv = base.Search(new SearchArgs(key, searchArgs.Option));
+            }
+
+            if (rawKey.Split(' ').All(StringUtil.IsVietnamese))
+            {
+                //TODO resultHv = SearchHanViet(searchArgs);
+            }
+            return resultJv.Union(resultHv).ToList();
+        }
+
         public override List<JaviModel> SearchExact(string key)
         {
             using (var db = new JazeDatabaseContext())
@@ -262,7 +287,7 @@ namespace Jaze.UI.Services
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.StartsWith(key)) || o.Kana.StartsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.StartsWith(key) || o.Kana.StartsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -277,7 +302,7 @@ namespace Jaze.UI.Services
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.EndsWith(key)) || o.Kana.EndsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.EndsWith(key) || o.Kana.EndsWith(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -292,7 +317,7 @@ namespace Jaze.UI.Services
                 }
                 else
                 {
-                    return db.JaVis.Where(o => (o.Kana != null && o.Word.Contains(key)) || o.Kana.Contains(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
+                    return db.JaVis.Where(o => o.Word.Contains(key) || o.Kana.Contains(key)).ToList().Select(o => JaviModel.Create(o)).ToList();
                 }
             }
         }
@@ -302,6 +327,33 @@ namespace Jaze.UI.Services
             using (var db = new JazeDatabaseContext())
             {
                 return db.JaVis.ToList().Select(o => JaviModel.Create(o)).ToList();
+            }
+        }
+
+        public override void LoadFull(JaviModel model)
+        {
+            if (!model.IsLoadFull)
+            {
+                using (var db = new JazeDatabaseContext())
+                {
+                    model.Means = JsonConvert.DeserializeObject<List<WordMean>>(model.MeanText);
+                    foreach (var mean in model.Means)
+                    {
+                        if (mean.ExampleIds != null)
+                        {
+                            mean.Examples = new List<ExampleModel>();
+                            foreach (var exampleId in mean.ExampleIds)
+                            {
+                                var example = db.JaViExamples.Find(exampleId);
+                                if (example != null)
+                                {
+                                    mean.Examples.Add(ExampleModel.Create(example));
+                                }
+                            }
+                        }
+                    }
+                    model.IsLoadFull = true;
+                }
             }
         }
     }

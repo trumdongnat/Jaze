@@ -1,6 +1,6 @@
 ﻿using Jaze.UI.Definitions;
 
-namespace Jaze.UI.Services
+namespace Jaze.UI.Models
 {
     public class SearchArgs
     {

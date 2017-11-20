@@ -2,7 +2,7 @@
 
 namespace Jaze.UI.Models
 {
-    public class HanVietModel
+    public class HanVietModel : ModelBase
     {
         public int Id { get; set; }
         public string Word { get; set; }

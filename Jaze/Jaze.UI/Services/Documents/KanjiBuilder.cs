@@ -100,7 +100,7 @@ namespace Jaze.UI.Services.Documents
                 {
                     cell.BorderThickness = new Thickness(1);
                     cell.BorderBrush = Brushes.Black;
-                    cell.Padding = new Thickness(3);
+                    cell.Padding = new Thickness(1.5);
                 }
             }
             return table;
@@ -134,7 +134,7 @@ namespace Jaze.UI.Services.Documents
             };
 
             //add list attribute
-            list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
+            //list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
             list.ListItems.Add(BuildAttribute("Cách viết khác: ", kanji.Variant));
             list.ListItems.Add(BuildAttribute("Onyomi: ", kanji.Onyomi));
             list.ListItems.Add(BuildAttribute("Kunyomi: ", kanji.Kunyomi));
