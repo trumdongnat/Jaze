@@ -22,10 +22,22 @@ namespace Jaze.UI.Helper
 
         private static void OnDocumentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var flowDocument = e.NewValue as FlowDocument;
             if (d is RichTextBox richTextBox)
             {
-                var flowDocument = e.NewValue as FlowDocument;
                 richTextBox.Document = flowDocument;
+            }
+            else if (d is FlowDocumentReader viewer)
+            {
+                viewer.Document = flowDocument;
+            }
+            else if (d is FlowDocumentScrollViewer scrollViewer)
+            {
+                scrollViewer.Document = flowDocument;
+            }
+            else if (d is FlowDocumentPageViewer pageViewer)
+            {
+                pageViewer.Document = flowDocument;
             }
         }
     }

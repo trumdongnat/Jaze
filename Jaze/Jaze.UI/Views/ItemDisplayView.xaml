@@ -10,5 +10,5 @@
     d:DesignWidth="300"
     DataContext="{Binding Source={StaticResource Locator}, Path=ItemDisplay}"
     mc:Ignorable="d">
-    <RichTextBox helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsReadOnly="True" />
+    <FlowDocumentScrollViewer helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsToolBarVisible="True" />
 </UserControl>
