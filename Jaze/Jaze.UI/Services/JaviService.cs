@@ -352,6 +352,22 @@ namespace Jaze.UI.Services
                             }
                         }
                     }
+                    //fetch kanji in word
+                    model.Kanjis = new List<KanjiModel>();
+                    var kanjis = StringUtil.FilterCharsInString(model.Word, CharSet.Kanji);
+                    foreach (var c in kanjis)
+                    {
+                        var kanji = c.ToString();
+                        var kanjiEntity = db.Kanjis.FirstOrDefault(e => e.Word == kanji);
+                        if (kanjiEntity != null)
+                        {
+                            model.Kanjis.Add(KanjiModel.Create(kanjiEntity));
+                        }
+                        else
+                        {
+                            model.Kanjis.Add(new KanjiModel { Word = kanji });
+                        }
+                    }
                     model.IsLoadFull = true;
                 }
             }

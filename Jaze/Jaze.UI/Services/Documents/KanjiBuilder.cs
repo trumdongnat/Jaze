@@ -25,7 +25,7 @@ namespace Jaze.UI.Services.Documents
                 PagePadding = new Thickness(10)
             };
             document.Blocks.Add(BuildGeneralInfo(kanji));
-            document.Blocks.Add(BuildWords(kanji.Word, kanji.Kunyomi));
+            document.Blocks.Add(BuildWords(kanji.JaviModels));
             return document;
         }
 
@@ -54,43 +54,27 @@ namespace Jaze.UI.Services.Documents
             return table;
         }
 
-        private Block BuildWords(string kanji, string kunyomi)
+        private Block BuildWords(List<JaviModel> javiModels)
         {
-            if (string.IsNullOrWhiteSpace(kunyomi))
+            if (javiModels == null || javiModels.Count == 0)
             {
                 return new Section();
             }
-
             Table table = new Table() { CellSpacing = 0 };
-            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
-            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-            table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
+            table.Columns.Add(new TableColumn { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(100) });
+            table.Columns.Add(new TableColumn { Width = GridLength.Auto });
             table.RowGroups.Add(new TableRowGroup());
 
-            kunyomi = kunyomi.Replace(" ", "");
-            var kuns = Regex.Split(kunyomi, "、");
-            foreach (var kun in kuns)
+            foreach (var javiModel in javiModels)
             {
-                if (kun.Contains('-'))
-                {
-                    continue;
-                }
-
-                string kana = kun.Replace(".", "");
-                var arr = kun.Split('.');
-                string word = kanji;
-                if (arr.Length == 2)
-                {
-                    word = kanji + arr[1];
-                }
                 table.RowGroups[0].Rows.Add(new TableRow()
                 {
                     Cells =
                     {
-                        new TableCell(new Paragraph(new Run(word))),
-                        new TableCell(new Paragraph(new Run(kana))),
-                        //TODO javi mean
-                        //new TableCell(BuildJaViMean(word,kana))
+                        new TableCell(new Paragraph(new Run(javiModel.Word))),
+                        new TableCell(new Paragraph(new Run(javiModel.Kana))),
+                        new TableCell(BuildJaViMean(javiModel.Means))
                     }
                 });
             }
@@ -106,25 +90,20 @@ namespace Jaze.UI.Services.Documents
             return table;
         }
 
-        //private Block BuildJaViMean(string word, string kana)
-        //{
-        //    var javi = JazeDatabaseContext.Context.JaVis.FirstOrDefault(w => w.Word == word && w.Kana.Contains(kana));
-        //    if (javi != null)
-        //    {
-        //        var means = JsonConvert.DeserializeObject<WordMean[]>(javi.MeanText);
-        //        var paragraph = new Paragraph();
-        //        foreach (var mean in means)
-        //        {
-        //            paragraph.Inlines.Add(new Run("- " + mean.MeanText));
-        //            paragraph.Inlines.Add(new LineBreak());
-        //        }
-        //        return paragraph;
-        //    }
-        //    else
-        //    {
-        //        return new Section();
-        //    }
-        //}
+        private Block BuildJaViMean(List<WordMean> means)
+        {
+            if (means == null || means.Count == 0)
+            {
+                return new Section();
+            }
+            var paragraph = new Paragraph();
+            foreach (var mean in means)
+            {
+                paragraph.Inlines.Add(new Run("- " + mean.Mean));
+                paragraph.Inlines.Add(new LineBreak());
+            }
+            return paragraph;
+        }
 
         private Block BuildAttributeSet(KanjiModel kanji)
         {
@@ -134,7 +113,7 @@ namespace Jaze.UI.Services.Documents
             };
 
             //add list attribute
-            //list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
+            list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
             list.ListItems.Add(BuildAttribute("Cách viết khác: ", kanji.Variant));
             list.ListItems.Add(BuildAttribute("Onyomi: ", kanji.Onyomi));
             list.ListItems.Add(BuildAttribute("Kunyomi: ", kanji.Kunyomi));
@@ -167,58 +146,58 @@ namespace Jaze.UI.Services.Documents
             return item;
         }
 
-        private ListItem BuildKunAttribute(string contain)
-        {
-            ListItem item = new ListItem();
-            var paragragh = new Paragraph()
-            {
-                Inlines =
-                {
-                    new Run("Kunyomi: ")
-                    {
-                        Foreground = Brushes.Gray,
-                        FontSize = 14
-                    }
-                }
-            };
+        //private ListItem BuildKunAttribute(string contain)
+        //{
+        //    ListItem item = new ListItem();
+        //    var paragragh = new Paragraph()
+        //    {
+        //        Inlines =
+        //        {
+        //            new Run("Kunyomi: ")
+        //            {
+        //                Foreground = Brushes.Gray,
+        //                FontSize = 14
+        //            }
+        //        }
+        //    };
 
-            //split contain
-            if (!string.IsNullOrWhiteSpace(contain))
-            {
-                var kuns = Regex.Split(contain, "、 ");
-                foreach (var s in kuns)
-                {
-                    var arr = s.Split('.');
-                    if (arr.Length == 2)
-                    {
-                        paragragh.Inlines.Add(new Run(arr[0])
-                        {
-                            Foreground = Brushes.Blue,
-                            FontSize = 15,
-                            FontWeight = FontWeights.Bold
-                        });
-                        paragragh.Inlines.Add(new Run(arr[1])
-                        {
-                            FontSize = 15
-                        });
-                    }
-                    else
-                    {
-                        paragragh.Inlines.Add(new Run(arr[0])
-                        {
-                            FontSize = 15
-                        });
-                    }
-                    paragragh.Inlines.Add(new Run("、 ")
-                    {
-                        FontSize = 15
-                    });
-                }
-            }
+        //    //split contain
+        //    if (!string.IsNullOrWhiteSpace(contain))
+        //    {
+        //        var kuns = Regex.Split(contain, "、 ");
+        //        foreach (var s in kuns)
+        //        {
+        //            var arr = s.Split('.');
+        //            if (arr.Length == 2)
+        //            {
+        //                paragragh.Inlines.Add(new Run(arr[0])
+        //                {
+        //                    Foreground = Brushes.Blue,
+        //                    FontSize = 15,
+        //                    FontWeight = FontWeights.Bold
+        //                });
+        //                paragragh.Inlines.Add(new Run(arr[1])
+        //                {
+        //                    FontSize = 15
+        //                });
+        //            }
+        //            else
+        //            {
+        //                paragragh.Inlines.Add(new Run(arr[0])
+        //                {
+        //                    FontSize = 15
+        //                });
+        //            }
+        //            paragragh.Inlines.Add(new Run("、 ")
+        //            {
+        //                FontSize = 15
+        //            });
+        //        }
+        //    }
 
-            item.Blocks.Add(paragragh);
-            return item;
-        }
+        //    item.Blocks.Add(paragragh);
+        //    return item;
+        //}
 
         private Block BuildKanjiStroke(string kanji, string hanviet)
         {
@@ -250,8 +229,12 @@ namespace Jaze.UI.Services.Documents
             return section;
         }
 
-        public Block BuildListViMean(string viMean)
+        public static Block BuildListViMean(string viMean)
         {
+            if (string.IsNullOrWhiteSpace(viMean))
+            {
+                return new Section();
+            }
             List list = new List()
             {
                 MarkerStyle = TextMarkerStyle.Square,
@@ -283,7 +266,7 @@ namespace Jaze.UI.Services.Documents
             return list;
         }
 
-        private Dictionary<string, List<string>> AnalyseVimean(string vimean)
+        private static Dictionary<string, List<string>> AnalyseVimean(string vimean)
         {
             var result = new Dictionary<string, List<string>>();
             var matches = Regex.Matches(vimean, "{(.*?)}");

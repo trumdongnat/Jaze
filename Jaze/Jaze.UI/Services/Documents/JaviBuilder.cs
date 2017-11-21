@@ -28,8 +28,7 @@ namespace Jaze.UI.Services.Documents
                 document.Blocks.Add(BuildWordMean(javi.Means, true));
             }
 
-            //TODO kanji in word
-            //document.Blocks.Add(BuilderHelper.BuildWordKanji(javi.Word));
+            document.Blocks.Add(BuildWordKanji(javi.Kanjis));
 
             //TODO verd division
 

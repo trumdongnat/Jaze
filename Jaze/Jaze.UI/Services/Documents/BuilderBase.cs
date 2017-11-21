@@ -97,63 +97,45 @@ namespace Jaze.UI.Services.Documents
             return list;
         }
 
-        //public static Block BuildWordKanji(string word)
-        //{
-        //    if (string.IsNullOrWhiteSpace(word))
-        //    {
-        //        return new Section();
-        //    }
+        public static Block BuildWordKanji(List<KanjiModel> kanjis)
+        {
+            if (kanjis == null || kanjis.Count == 0)
+            {
+                return new Section();
+            }
 
-        //    Table table = new Table() { CellSpacing = 0 };
-        //    table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
-        //    table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-        //    table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-        //    table.RowGroups.Add(new TableRowGroup());
+            var table = new Table() { CellSpacing = 0 };
+            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
+            table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
+            table.RowGroups.Add(new TableRowGroup());
 
-        //    var kanjis = StringUtil.FilterCharsInString(word, CharSet.Kanji);
-        //    foreach (var c in kanjis)
-        //    {
-        //        string s = c.ToString();
-        //        var kanji = JazeDatabaseContext.Context.Kanjis.FirstOrDefault(k => k.Word == s);
-        //        if (kanji != null)
-        //        {
-        //            table.RowGroups[0].Rows.Add(new TableRow()
-        //            {
-        //                Cells =
-        //                    {
-        //                        new TableCell(new Paragraph(new Run(kanji.Word))),
-        //                        new TableCell(new Paragraph(new Run(kanji.HanViet))),
-        //                        new TableCell(KanjiBuilder.BuildListViMean(kanji.VieMeaning))
-        //                    }
-        //            });
-        //        }
-        //        else
-        //        {
-        //            table.RowGroups[0].Rows.Add(new TableRow()
-        //            {
-        //                Cells =
-        //                    {
-        //                        new TableCell(new Paragraph(new Run(s))),
-        //                        new TableCell(),
-        //                        new TableCell()
-        //                    }
-        //            });
-        //        }
-        //    }
+            foreach (var kanji in kanjis)
+            {
+                table.RowGroups[0].Rows.Add(new TableRow()
+                {
+                    Cells =
+                    {
+                        new TableCell(new Paragraph(new Run(kanji.Word))),
+                        new TableCell(new Paragraph(new Run(kanji.HanViet))),
+                        new TableCell(KanjiBuilder.BuildListViMean(kanji.VieMeaning))
+                    }
+                });
+            }
 
-        //    foreach (var row in table.RowGroups[0].Rows)
-        //    {
-        //        foreach (var cell in row.Cells)
-        //        {
-        //            cell.BorderThickness = private newThickness(1);
+            foreach (var row in table.RowGroups[0].Rows)
+            {
+                foreach (var cell in row.Cells)
+                {
+                    cell.BorderThickness = new Thickness(1);
 
-        //            cell.BorderBrush = Brushes.Black;
+                    cell.BorderBrush = Brushes.Black;
 
-        //            cell.Padding = new Thickness(3);
-        //        }
-        //    }
+                    cell.Padding = new Thickness(3);
+                }
+            }
 
-        //    return table;
-        //}
+            return table;
+        }
     }
 }

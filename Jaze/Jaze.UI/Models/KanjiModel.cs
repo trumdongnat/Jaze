@@ -23,9 +23,14 @@ namespace Jaze.UI.Models
 
         public RadicalModel Radical { get; set; }
         public List<PartModel> Parts { get; set; }
+        public List<JaviModel> JaviModels { get; set; }
 
         public static KanjiModel Create(Kanji entity)
         {
+            if (entity == null)
+            {
+                return null;
+            }
             return new KanjiModel
             {
                 Id = entity.Id,

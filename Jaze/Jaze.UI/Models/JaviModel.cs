@@ -10,6 +10,7 @@ namespace Jaze.UI.Models
         public string Kana { get; set; }
         public string MeanText { get; set; }
         public List<WordMean> Means { get; set; }
+        public List<KanjiModel> Kanjis { get; set; }
 
         public static JaviModel Create(JaVi entity)
         {

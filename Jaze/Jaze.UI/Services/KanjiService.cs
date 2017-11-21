@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Documents;
 using Jaze.Domain;
 using Jaze.UI.Models;
 using Jaze.UI.Util;
+using Newtonsoft.Json;
 
 namespace Jaze.UI.Services
 {
@@ -201,6 +204,43 @@ namespace Jaze.UI.Services
 
         public override void LoadFull(KanjiModel model)
         {
+            if (!model.IsLoadFull)
+            {
+                using (var db = new JazeDatabaseContext())
+                {
+                    var kanjiEntity = db.Kanjis.Find(model.Id);
+                    if (kanjiEntity != null)
+                    {
+                        model.Radical = RadicalModel.Create(kanjiEntity.Radical);
+                        model.Parts = kanjiEntity.Parts.ToList().Select(PartModel.Create).ToList();
+                        model.JaviModels = new List<JaviModel>();
+                        var kuns = model.Kunyomi.Replace(" ", "").Split('、');
+                        foreach (var kun in kuns)
+                        {
+                            if (kun.Contains('-'))
+                            {
+                                continue;
+                            }
+
+                            string kana = kun.Replace(".", "");
+                            var arr = kun.Split('.');
+                            var word = model.Word;
+                            if (arr.Length == 2)
+                            {
+                                word = model.Word + arr[1];
+                            }
+                            var javi = db.JaVis.FirstOrDefault(entity => entity.Word == word && entity.Kana == kana);
+                            if (javi != null)
+                            {
+                                var javiModel = JaviModel.Create(javi);
+                                javiModel.Means = JsonConvert.DeserializeObject<List<WordMean>>(javiModel.MeanText);
+                                model.JaviModels.Add(javiModel);
+                            }
+                        }
+                    }
+                    model.IsLoadFull = true;
+                }
+            }
         }
     }
 }
