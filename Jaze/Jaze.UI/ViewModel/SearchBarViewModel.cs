@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -14,8 +15,6 @@ namespace Jaze.UI.ViewModel
     public class SearchBarViewModel : ViewModelBase
     {
         #region ----- Properties -----
-
-        //private DictionaryType _dictionaryType = DictionaryType.HanViet;
 
         #endregion ----- Properties -----
 
@@ -84,6 +83,33 @@ namespace Jaze.UI.ViewModel
         private ISearchService<VijaModel> _vijaService;
 
         #endregion ----- Services -----
+
+        #region ----- Search Key -----
+
+        /// <summary>
+        /// The <see cref="SearchKey" /> property's name.
+        /// </summary>
+        public const string SearchKeyPropertyName = "SearchKey";
+
+        private string _searchKey = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the SearchKey property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public string SearchKey
+        {
+            get
+            {
+                return _searchKey;
+            }
+            set
+            {
+                Set(SearchKeyPropertyName, ref _searchKey, value);
+            }
+        }
+
+        #endregion ----- Search Key -----
 
         #region ----- Search Command -----
 
@@ -154,6 +180,33 @@ namespace Jaze.UI.ViewModel
         }
 
         #endregion ----- Search Command -----
+
+        #region ----- Paste To Search -----
+
+        private RelayCommand _pasteToSearchCommand;
+
+        /// <summary>
+        /// Gets the PasteToSearchCommand.
+        /// </summary>
+        public RelayCommand PasteToSearchCommand
+        {
+            get
+            {
+                return _pasteToSearchCommand
+                    ?? (_pasteToSearchCommand = new RelayCommand(
+                    () =>
+                    {
+                        var key = Clipboard.GetText();
+                        if (SearchCommand.CanExecute(key))
+                        {
+                            SearchKey = key;
+                            SearchCommand.Execute(key);
+                        }
+                    }));
+            }
+        }
+
+        #endregion ----- Paste To Search -----
 
         #region ----- Change Search Option -----
 

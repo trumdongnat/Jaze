@@ -35,7 +35,8 @@
                 controls:TextBoxHelper.Watermark="Enter 漢字、かな、Romaji"
                 FontSize="18"
                 MaxLines="1"
-                Style="{DynamicResource SearchMetroTextBox}">
+                Style="{DynamicResource SearchMetroTextBox}"
+                Text="{Binding SearchKey, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.InputBindings>
                     <KeyBinding
                         Key="Return"
@@ -46,7 +47,8 @@
             <Button
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                VerticalAlignment="Stretch"
+                Command="{Binding PasteToSearchCommand}">
                 <iconPacks:PackIconFontAwesome Kind="Clipboard" />
             </Button>
         </Grid>
