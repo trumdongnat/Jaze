@@ -1,12 +1,12 @@
 ﻿/*
-  In App.xaml:
-  <Application.Resources>
-      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:Jaze.UI.ViewModel"
-                                   x:Key="Locator" />
-  </Application.Resources>
+ In App.xaml:
+ <Application.Resources>
+     <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:Jaze.UI.ViewModel"
+                                  x:Key="Locator" />
+ </Application.Resources>
 
-  In the View:
-  DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
+ In the View:
+ DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
 using GalaSoft.MvvmLight.Ioc;
@@ -53,6 +53,7 @@ namespace Jaze.UI.ViewModel
             SimpleIoc.Default.Register<SearchBarViewModel>();
             SimpleIoc.Default.Register<SearchResultViewModel>();
             SimpleIoc.Default.Register<ItemDisplayViewModel>();
+            SimpleIoc.Default.Register<QuickViewViewModel>();
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
@@ -62,6 +63,8 @@ namespace Jaze.UI.ViewModel
         public SearchResultViewModel SearchResult => ServiceLocator.Current.GetInstance<SearchResultViewModel>();
 
         public ItemDisplayViewModel ItemDisplay => ServiceLocator.Current.GetInstance<ItemDisplayViewModel>();
+
+        public QuickViewViewModel QuickView => ServiceLocator.Current.GetInstance<QuickViewViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.

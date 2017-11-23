@@ -25,8 +25,22 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Popup
+            Width="500"
+            Height="Auto"
+            MaxHeight="500"
+            AllowsTransparency="True"
+            IsOpen="{Binding IsShowQuickView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Placement="MousePoint"
+            PopupAnimation="Scroll"
+            StaysOpen="False">
+            <Border Background="White" BorderThickness="2" BorderBrush="Blue">
+                <view:QuickView />
+            </Border>
+        </Popup>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
@@ -35,13 +49,16 @@
             <view:SearchBar />
             <view:SearchResult Grid.Row="1" />
         </Grid>
-
-        <Grid Grid.Column="1">
+        <GridSplitter
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="90" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border BorderThickness="2" BorderBrush="AntiqueWhite">
+            <Border BorderBrush="AntiqueWhite" BorderThickness="2">
                 <view:ListDictionary />
             </Border>
             <view:ItemDisplayView Grid.Row="1" />

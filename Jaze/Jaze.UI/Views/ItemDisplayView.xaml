@@ -11,6 +11,13 @@
     d:DesignWidth="300"
     DataContext="{Binding Source={StaticResource Locator}, Path=ItemDisplay}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Hyperlink}">
+            <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+            <Setter Property="Command" Value="{Binding HyperlinkClickCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}" />
+        </Style>
+    </UserControl.Resources>
     <tk:BusyIndicator IsBusy="{Binding IsLoading}">
         <FlowDocumentScrollViewer helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsToolBarVisible="True" />
     </tk:BusyIndicator>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Jaze.UI.Util
 {
@@ -8,6 +9,7 @@ namespace Jaze.UI.Util
     {
         //romaji - hiragana - katakana
         private static readonly List<Tuple<string, string, string>> ListTuple = new List<Tuple<string, string, string>>();
+
         private static readonly char[] Vowels;
         private static readonly char[] Consonants;
 
@@ -328,7 +330,7 @@ namespace Jaze.UI.Util
             }
             return text.Where(e => e >= min && e <= max).ToList();
         }
-       
+
         public static string ConvertString(string source, CharSet fromType, CharSet toType)
         {
             string s = source;
@@ -404,24 +406,24 @@ namespace Jaze.UI.Util
 
         public static bool IsContainJapaneseCharacter(string sentence)
         {
-            return sentence!=null && sentence.Any(c => c >= 0x3040);
+            return sentence != null && sentence.Any(c => c >= 0x3040);
         }
 
         public static bool IsJapanese(string s)
         {
-            return s.ToCharArray().All(c =>IsHiragana(c) || IsKatakana(c) || IsKanji(c));
+            return s.ToCharArray().All(c => IsHiragana(c) || IsKatakana(c) || IsKanji(c));
         }
 
-        public static bool IsVietnamese(string s)
+        public static bool IsVietnameseWord(string s)
         {
             s = s.ToLower();
             while (s.Length > 0 && Consonants.Contains(s[0]))
             {
                 s = s.Substring(1);
             }
-            while (s.Length > 0 && Consonants.Contains(s[s.Length-1]))
+            while (s.Length > 0 && Consonants.Contains(s[s.Length - 1]))
             {
-                s = s.Substring(0,s.Length-1);
+                s = s.Substring(0, s.Length - 1);
             }
             return s.Length > 0 && s.ToCharArray().All(c => Vowels.Contains(c));
         }
@@ -429,6 +431,11 @@ namespace Jaze.UI.Util
         public static bool IsContainKanji(string s)
         {
             return !string.IsNullOrWhiteSpace(s) && s.ToCharArray().Any(IsKanji);
+        }
+
+        public static string Trim(string s)
+        {
+            return s == null ? null : Regex.Replace(s.Trim(), @"\s+", " ");
         }
     }
 

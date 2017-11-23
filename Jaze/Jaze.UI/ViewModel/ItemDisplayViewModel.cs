@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Documents;
+using GalaSoft.MvvmLight.Command;
+using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
@@ -30,6 +33,8 @@ namespace Jaze.UI.ViewModel
         #endregion ----- Services -----
 
         #region ----- Properties -----
+
+        private DictionaryType _dictionaryType;
 
         #endregion ----- Properties -----
 
@@ -87,6 +92,49 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Is Loading -----
 
+        #region ----- Hyperlink click command -----
+
+        private RelayCommand<Hyperlink> _hyperlinkClickCommand;
+
+        /// <summary>
+        /// Gets the HyperlinkClickCommand.
+        /// </summary>
+        public RelayCommand<Hyperlink> HyperlinkClickCommand
+        {
+            get
+            {
+                return _hyperlinkClickCommand ?? (_hyperlinkClickCommand = new RelayCommand<Hyperlink>(
+                    ExecuteHyperlinkClickCommand,
+                    CanExecuteHyperlinkClickCommand));
+            }
+        }
+
+        private bool CanExecuteHyperlinkClickCommand(Hyperlink hyperlink)
+        {
+            return true;
+        }
+
+        private void ExecuteHyperlinkClickCommand(Hyperlink hyperlink)
+        {
+            if (hyperlink?.Inlines.FirstInline is Run run)
+            {
+                var s = run.Text;
+                string text = s;
+                if (s.StartsWith("["))
+                {
+                    var match = Regex.Match(s, @"\[.+\]");
+                    text = match.Value;
+                    text = text.Length > 2 ? text.Substring(1, text.Length - 2) : string.Empty;
+                }
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    _messenger.Send(new QuickViewMessage(_dictionaryType, text));
+                }
+            }
+        }
+
+        #endregion ----- Hyperlink click command -----
+
         #region ----- Contructor -----
 
         public ItemDisplayViewModel(IMessenger messenger, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
@@ -124,6 +172,7 @@ namespace Jaze.UI.ViewModel
             switch (message.Item)
             {
                 case KanjiModel kanji:
+                    _dictionaryType = DictionaryType.Kanji;
                     Task.Run(() =>
                     {
                         _kanjiService.LoadFull(kanji);
@@ -135,6 +184,7 @@ namespace Jaze.UI.ViewModel
                     break;
 
                 case GrammarModel grammar:
+                    _dictionaryType = DictionaryType.Grammar;
                     Task.Run(() =>
                     {
                         _grammarService.LoadFull(grammar);
@@ -146,6 +196,7 @@ namespace Jaze.UI.ViewModel
                     break;
 
                 case HanVietModel hanviet:
+                    _dictionaryType = DictionaryType.HanViet;
                     Task.Run(() =>
                     {
                         _hanvietService.LoadFull(hanviet);
@@ -157,6 +208,7 @@ namespace Jaze.UI.ViewModel
                     break;
 
                 case JaenModel jaen:
+                    _dictionaryType = DictionaryType.JaEn;
                     Task.Run(() =>
                     {
                         _jaenService.LoadFull(jaen);
@@ -168,6 +220,7 @@ namespace Jaze.UI.ViewModel
                     break;
 
                 case JaviModel javi:
+                    _dictionaryType = DictionaryType.JaVi;
                     Task.Run(() =>
                     {
                         _javiService.LoadFull(javi);
@@ -179,6 +232,7 @@ namespace Jaze.UI.ViewModel
                     break;
 
                 case VijaModel vija:
+                    _dictionaryType = DictionaryType.ViJa;
                     Task.Run(() =>
                     {
                         _vijaService.LoadFull(vija);

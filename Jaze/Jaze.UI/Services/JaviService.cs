@@ -107,7 +107,7 @@ namespace Jaze.UI.Services
         //        resultJv = SearchJapanese(new SearchArgs(key, searchArgs.Option));
         //    }
 
-        //    if (rawKey.Split(' ').All(StringUtil.IsVietnamese))
+        //    if (rawKey.Split(' ').All(StringUtil.IsVietnameseWord))
         //    {
         //        resultHv = SearchHanViet(searchArgs);
         //    }
@@ -255,7 +255,7 @@ namespace Jaze.UI.Services
                 resultJv = base.Search(new SearchArgs(key, searchArgs.Option));
             }
 
-            if (rawKey.Split(' ').All(StringUtil.IsVietnamese))
+            if (rawKey.Split(' ').All(StringUtil.IsVietnameseWord))
             {
                 //TODO resultHv = SearchHanViet(searchArgs);
             }

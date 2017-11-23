@@ -119,6 +119,7 @@
     <Compile Include="Definitions\SearchOption.cs" />
     <Compile Include="Definitions\SearchStates.cs" />
     <Compile Include="Helper\RichTextBoxHelper.cs" />
+    <Compile Include="Messages\QuickViewMessage.cs" />
     <Compile Include="Messages\SearchMessage.cs" />
     <Compile Include="Messages\ShowItemMessage.cs" />
     <Compile Include="Models\Dictionary.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\QuickViewViewModel.cs" />
     <Compile Include="ViewModel\SearchBarViewModel.cs" />
     <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -171,6 +173,9 @@
     </Compile>
     <Compile Include="Views\ListDictionary.xaml.cs">
       <DependentUpon>ListDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuickView.xaml.cs">
+      <DependentUpon>QuickView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
@@ -220,6 +225,10 @@
     <Page Include="Views\ListDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\QuickView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SearchBar.xaml">
       <SubType>Designer</SubType>
