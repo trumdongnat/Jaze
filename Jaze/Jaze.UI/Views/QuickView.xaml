@@ -38,7 +38,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="FlowDocument">
-                        <RichTextBox helper:RichTextBoxHelper.Document="{Binding}" VerticalScrollBarVisibility="Disabled" IsReadOnly="True" IsDocumentEnabled="True" />
+                        <RichTextBox helper:RichTextBoxHelper.Document="{Binding}" VerticalScrollBarVisibility="Disabled" IsReadOnly="True" IsDocumentEnabled="True" FontSize="16" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

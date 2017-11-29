@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Documents;
+using Jaze.UI.ViewModel;
 
 namespace Jaze.UI.Views
 {
@@ -10,6 +12,17 @@ namespace Jaze.UI.Views
         public ItemDisplayView()
         {
             InitializeComponent();
+        }
+
+        private void Hyperlink_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (sender is Hyperlink hyperlink && DataContext is ItemDisplayViewModel viewmodel)
+            {
+                if (viewmodel.HyperlinkClickCommand.CanExecute(hyperlink))
+                {
+                    viewmodel.HyperlinkClickCommand.Execute(hyperlink);
+                }
+            }
         }
     }
 }

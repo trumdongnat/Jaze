@@ -14,8 +14,7 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
-            <Setter Property="Command" Value="{Binding HyperlinkClickCommand}" />
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            <EventSetter Event="Click" Handler="Hyperlink_Click"></EventSetter>
         </Style>
     </UserControl.Resources>
     <tk:BusyIndicator IsBusy="{Binding IsLoading}">
