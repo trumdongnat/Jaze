@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="clr-namespace:Jaze.UI.Helper"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -14,10 +15,34 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
-            <EventSetter Event="Click" Handler="Hyperlink_Click"></EventSetter>
+            <EventSetter Event="Click" Handler="Hyperlink_Click" />
         </Style>
     </UserControl.Resources>
     <tk:BusyIndicator IsBusy="{Binding IsLoading}">
-        <FlowDocumentScrollViewer helper:RichTextBoxHelper.Document="{Binding ItemDocument}" IsToolBarVisible="True" />
+        <Grid>
+            <Popup
+                Name="MenuPopup"
+                AllowsTransparency="False"
+                IsOpen="False"
+                Placement="MousePoint"
+                StaysOpen="False"
+                VerticalOffset="5">
+                <StackPanel Height="30" Orientation="Horizontal">
+                    <Button Click="QuickViewButton_Click">
+                        <iconPacks:PackIconFontAwesome Kind="Search" />
+                    </Button>
+                    <Button Click="CopyButton_Click">
+                        <iconPacks:PackIconFontAwesome Kind="Clone" />
+                    </Button>
+                </StackPanel>
+            </Popup>
+            <FlowDocumentScrollViewer
+                Name="DocumentViewer"
+                helper:RichTextBoxHelper.Document="{Binding ItemDocument}"
+                IsInactiveSelectionHighlightEnabled="True"
+                IsToolBarVisible="True"
+                PreviewMouseDown="FlowDocumentScrollViewer_PreviewMouseDown"
+                PreviewMouseUp="FlowDocumentScrollViewer_PreviewMouseUp" />
+        </Grid>
     </tk:BusyIndicator>
 </UserControl>

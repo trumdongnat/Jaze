@@ -35,7 +35,6 @@
             AllowsTransparency="True"
             IsOpen="{Binding IsShowQuickView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Placement="MousePoint"
-            PopupAnimation="Scroll"
             StaysOpen="False">
             <Border Background="White" BorderThickness="2" BorderBrush="Blue">
                 <view:QuickView />

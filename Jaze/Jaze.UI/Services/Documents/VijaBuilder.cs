@@ -29,7 +29,7 @@ namespace Jaze.UI.Services.Documents
 
         public override FlowDocument BuildLite(VijaModel model)
         {
-            throw new System.NotImplementedException();
+            return Build(model);
         }
 
         private Block BuildDocumentHeader(string word)

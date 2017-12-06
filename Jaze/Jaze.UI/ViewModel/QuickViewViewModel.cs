@@ -12,6 +12,7 @@ using Jaze.UI.Models;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using Jaze.UI.Util;
+using System.Windows;
 
 namespace Jaze.UI.ViewModel
 {
@@ -122,7 +123,13 @@ namespace Jaze.UI.ViewModel
                 return;
             }
             IsLoading = true;
+
             var word = StringUtil.Trim(message.Word);
+            if (word.StartsWith("•"))
+            {
+                word = word.Remove(0, 1);
+                word = StringUtil.Trim(word);
+            }
             var dictionaryType = message.DictionaryType;
             ItemDocuments = new List<FlowDocument>();
             switch (dictionaryType)
@@ -162,14 +169,97 @@ namespace Jaze.UI.ViewModel
                     //search in kanji dictionary
                     if (word.Length == 1 && StringUtil.IsKanji(word[0]))
                     {
+                        Task.Run(() =>
+                        {
+                            var kanjis = _kanjiService.SearchExact(word);
+                            if (kanjis != null && kanjis.Count > 0)
+                            {
+                                foreach (var hanviet in kanjis)
+                                {
+                                    _kanjiService.LoadFull(hanviet);
+                                }
+                            }
+                            return kanjis;
+                        }).ContinueWith(previous =>
+                        {
+                            var kanjis = previous.Result;
+                            var documents = new List<FlowDocument>();
+                            if (kanjis != null && kanjis.Count > 0)
+                            {
+                                foreach (var kanji in kanjis)
+                                {
+                                    documents.Add(_kanjiBuilder.BuildLite(kanji));
+                                }
+                            }
+                            ItemDocuments = documents;
+                            IsLoading = false;
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                     //search in javi dictionary
                     else if (StringUtil.IsJapanese(word))
                     {
+                        Task.Run(() =>
+                        {
+                            var javis = _javiService.SearchExact(word);
+                            if (javis != null && javis.Count > 0)
+                            {
+                                foreach (var javi in javis)
+                                {
+                                    _javiService.LoadFull(javi);
+                                }
+                            }
+                            return javis;
+                        }).ContinueWith(previous =>
+                        {
+                            var javis = previous.Result;
+                            var documents = new List<FlowDocument>();
+                            if (javis != null && javis.Count > 0)
+                            {
+                                foreach (var javi in javis)
+                                {
+                                    documents.Add(_javiBuilder.BuildLite(javi));
+                                }
+                            }
+                            ItemDocuments = documents;
+                            IsLoading = false;
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                     //search in vija dictionary
-                    if (word.Split(' ').All(StringUtil.IsVietnameseWord))
+                    else if (word.Split(' ').All(StringUtil.IsVietnameseWord))
                     {
+                        Task.Run(() =>
+                        {
+                            var vijas = _vijaService.SearchExact(word);
+                            if (vijas != null && vijas.Count > 0)
+                            {
+                                foreach (var vija in vijas)
+                                {
+                                    _vijaService.LoadFull(vija);
+                                }
+                            }
+                            return vijas;
+                        }).ContinueWith(previous =>
+                        {
+                            var vijas = previous.Result;
+                            var documents = new List<FlowDocument>();
+                            if (vijas != null && vijas.Count > 0)
+                            {
+                                foreach (var vija in vijas)
+                                {
+                                    documents.Add(_vijaBuilder.BuildLite(vija));
+                                }
+                            }
+                            ItemDocuments = documents;
+                            IsLoading = false;
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
+                    else
+                    {
+                        ItemDocuments = new List<FlowDocument>()
+                        {
+                            new FlowDocument(new Paragraph(new Run($"Not found: 「{word}」")))
+                        };
+                        IsLoading = false;
                     }
                     break;
 

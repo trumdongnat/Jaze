@@ -9,6 +9,7 @@ using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
+using System.Windows;
 
 namespace Jaze.UI.ViewModel
 {
@@ -134,6 +135,64 @@ namespace Jaze.UI.ViewModel
         }
 
         #endregion ----- Hyperlink click command -----
+
+        #region ----- Quick View Command -----
+        private RelayCommand<string> _quickViewCommand;
+
+        /// <summary>
+        /// Gets the QuickViewCommand.
+        /// </summary>
+        public RelayCommand<string> QuickViewCommand
+        {
+            get
+            {
+                return _quickViewCommand ?? (_quickViewCommand = new RelayCommand<string>(
+                    ExecuteQuickViewCommand,
+                    CanExecuteQuickViewCommand));
+            }
+        }
+
+        private void ExecuteQuickViewCommand(string parameter)
+        {
+            if (!string.IsNullOrWhiteSpace(parameter))
+            {
+                _messenger.Send(new QuickViewMessage(_dictionaryType, parameter));
+            }
+            
+        }
+
+        private bool CanExecuteQuickViewCommand(string parameter)
+        {
+            return true;
+        }
+        #endregion
+
+        #region ----- Copy Text -----
+        private RelayCommand<string> _copyTextCommand;
+
+        /// <summary>
+        /// Gets the CopyTextCommand.
+        /// </summary>
+        public RelayCommand<string> CopyTextCommand
+        {
+            get
+            {
+                return _copyTextCommand ?? (_copyTextCommand = new RelayCommand<string>(
+                    ExecuteCopyTextCommand,
+                    CanExecuteCopyTextCommand));
+            }
+        }
+
+        private void ExecuteCopyTextCommand(string parameter)
+        {
+            Clipboard.SetText(parameter);
+        }
+
+        private bool CanExecuteCopyTextCommand(string parameter)
+        {
+            return true;
+        }
+        #endregion
 
         #region ----- Contructor -----
 

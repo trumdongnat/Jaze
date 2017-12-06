@@ -24,5 +24,44 @@ namespace Jaze.UI.Views
                 }
             }
         }
+
+        private void FlowDocumentScrollViewer_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if(sender is FlowDocumentScrollViewer viewer)
+            {
+                MenuPopup.IsOpen = !string.IsNullOrWhiteSpace(viewer.Selection?.Text);
+            }
+        }
+
+        private void FlowDocumentScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MenuPopup.IsOpen = false;
+        }
+
+        private void QuickViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+            if(DataContext is ItemDisplayViewModel viewModel)
+            {
+                var text = DocumentViewer.Selection?.Text;
+                if (viewModel.QuickViewCommand.CanExecute(text))
+                {
+                    viewModel.QuickViewCommand.Execute(text);
+                }
+            }
+        }
+
+        private void CopyButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (DataContext is ItemDisplayViewModel viewModel)
+            {
+                var text = DocumentViewer.Selection?.Text;
+                if (viewModel.CopyTextCommand.CanExecute(text))
+                {
+                    viewModel.CopyTextCommand.Execute(text);
+                }
+            }
+
+        }
     }
 }

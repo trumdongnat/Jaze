@@ -160,13 +160,21 @@ namespace Jaze.UI.Services
         {
             using (var db = new JazeDatabaseContext())
             {
-                //at stat
-                var keyStart = key + ",";
-                //at middle
-                var keyMiddle = "," + key + ",";
-                //at end
-                var keyEnd = "," + key;
-                return db.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
+                if (StringUtil.IsVietnameseWord(key))
+                {
+                    //at stat
+                    var keyStart = key + ",";
+                    //at middle
+                    var keyMiddle = "," + key + ",";
+                    //at end
+                    var keyEnd = "," + key;
+                    return db.Kanjis.Where(kanji => kanji.HanViet == key || kanji.HanViet.StartsWith(keyStart) || kanji.HanViet.Contains(keyMiddle) || kanji.HanViet.EndsWith(keyEnd)).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
+                }
+                else
+                {
+                    return db.Kanjis.Where(kanji => kanji.Word == key).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
+                }
+                
             }
         }
 
