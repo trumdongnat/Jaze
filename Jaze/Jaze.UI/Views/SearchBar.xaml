@@ -21,6 +21,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
 
             <TextBox
@@ -50,6 +51,13 @@
                 VerticalAlignment="Stretch"
                 Command="{Binding PasteToSearchCommand}">
                 <iconPacks:PackIconFontAwesome Kind="Clipboard" />
+            </Button>
+            <Button
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Command="{Binding ShowKanjiPartCommand}">
+                <iconPacks:PackIconFontAwesome Kind="Connectdevelop" />
             </Button>
         </Grid>
         <StackPanel

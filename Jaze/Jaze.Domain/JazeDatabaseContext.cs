@@ -9,7 +9,7 @@ namespace Jaze.Domain
         public JazeDatabaseContext()
             : base("name=JazeDatabaseContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<JazeDatabaseContext, Configuration>("JazeDatabaseContext"));
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<JazeDatabaseContext, Configuration>("JazeDatabaseContext"));
         }
 
         public DbSet<JaEnExample> JaEnExamples { get; set; }
@@ -22,18 +22,19 @@ namespace Jaze.Domain
         public DbSet<JaViExample> JaViExamples { get; set; }
         public DbSet<Grammar> Grammars { get; set; }
         public DbSet<ViJa> Vijas { get; set; }
+        public DbSet<KanjiPartMap> KanjiParts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Kanji>().
-                HasMany(k => k.Parts).
-                WithMany(p => p.Kanjis).
-                Map(m =>
-                {
-                    m.MapLeftKey("KanjiId ");
-                    m.MapRightKey("PartId ");
-                    m.ToTable("Kanji_Part");
-                });
+            //modelBuilder.Entity<Kanji>().
+            //    HasMany(k => k.Parts).
+            //    WithMany(p => p.Kanjis).
+            //    Map(m =>
+            //    {
+            //        m.MapLeftKey("KanjiId ");
+            //        m.MapRightKey("PartId ");
+            //        m.ToTable("Kanji_Part");
+            //    });
         }
     }
 }

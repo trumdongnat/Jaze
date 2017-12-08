@@ -39,6 +39,7 @@ namespace Jaze.UI.ViewModel
             SimpleIoc.Default.Register<ISearchService<JaviModel>, JaviService>();
             SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
             SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
+            SimpleIoc.Default.Register<IKanjiPartService, KanjiPartService>();
 
             //document builder
             SimpleIoc.Default.Register<IBuilder<GrammarModel>, GrammarBuilder>();
@@ -54,6 +55,7 @@ namespace Jaze.UI.ViewModel
             SimpleIoc.Default.Register<SearchResultViewModel>();
             SimpleIoc.Default.Register<ItemDisplayViewModel>();
             SimpleIoc.Default.Register<QuickViewViewModel>();
+            SimpleIoc.Default.Register<KanjiPartViewModel>();
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
@@ -65,6 +67,8 @@ namespace Jaze.UI.ViewModel
         public ItemDisplayViewModel ItemDisplay => ServiceLocator.Current.GetInstance<ItemDisplayViewModel>();
 
         public QuickViewViewModel QuickView => ServiceLocator.Current.GetInstance<QuickViewViewModel>();
+
+        public KanjiPartViewModel KanjiPart => ServiceLocator.Current.GetInstance<KanjiPartViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.

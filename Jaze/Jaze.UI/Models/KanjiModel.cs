@@ -50,5 +50,29 @@ namespace Jaze.UI.Models
                 Grade = entity.Grade,
             };
         }
+
+        public void Copy(Kanji entity)
+        {
+            if (entity == null)
+            {
+                return;
+            }
+
+            Id = entity.Id;
+            Word = entity.Word;
+            HanViet = entity.HanViet;
+            Variant = entity.Variant;
+            Onyomi = entity.Onyomi;
+            Kunyomi = entity.Kunyomi;
+            VieMeaning = entity.VieMeaning;
+            EngMeaning = entity.EngMeaning;
+            Stroke = entity.Stroke;
+            StrokeOrder = entity.StrokeOrder;
+            Frequence = entity.Frequence;
+            Similar = entity.Similar;
+            Component = entity.Component;
+            Level = entity.Level;
+            Grade = entity.Grade;
+        }
     }
 }

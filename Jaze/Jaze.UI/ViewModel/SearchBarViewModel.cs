@@ -9,15 +9,14 @@ using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
+using MahApps.Metro.Controls;
+using Jaze.UI.Views;
+using System.Windows.Media;
 
 namespace Jaze.UI.ViewModel
 {
     public class SearchBarViewModel : ViewModelBase
     {
-        #region ----- Properties -----
-
-        #endregion ----- Properties -----
-
         #region ----- List Dictionary -----
 
         /// <summary>
@@ -207,6 +206,50 @@ namespace Jaze.UI.ViewModel
         }
 
         #endregion ----- Paste To Search -----
+
+        #region ----- Show Kanji Part Command -----
+
+        private RelayCommand _showKanjiPartCommand;
+
+        /// <summary>
+        /// Gets the ShowKanjiPartCommand.
+        /// </summary>
+        public RelayCommand ShowKanjiPartCommand
+        {
+            get
+            {
+                return _showKanjiPartCommand ?? (_showKanjiPartCommand = new RelayCommand(
+                    ExecuteShowKanjiPartCommand,
+                    CanExecuteShowKanjiPartCommand));
+            }
+        }
+
+        private KanjiPart kanjiPartView;
+
+        private void ExecuteShowKanjiPartCommand()
+        {
+            var window = new MetroWindow();
+            window.Title = "Kanji Part";
+            if (kanjiPartView == null)
+            {
+                kanjiPartView = new KanjiPart();
+            }
+            window.Content = kanjiPartView;
+            window.Width = 800;
+            window.Height = 600;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            window.BorderThickness = new Thickness(1.0);
+            window.BorderBrush = Brushes.Black;
+
+            window.ShowDialog();
+        }
+
+        private bool CanExecuteShowKanjiPartCommand()
+        {
+            return true;
+        }
+
+        #endregion ----- Show Kanji Part Command -----
 
         #region ----- Change Search Option -----
 

@@ -23,6 +23,8 @@ namespace Jaze.Domain.Entities
         public Grade Grade { get; set; }
 
         public virtual Radical Radical { get; set; }
-        public virtual ICollection<Part> Parts { get; set; }        
+
+        //public virtual ICollection<Part> Parts { get; set; }
+        public virtual ICollection<KanjiPartMap> KanjiParts { get; set; }
     }
 }

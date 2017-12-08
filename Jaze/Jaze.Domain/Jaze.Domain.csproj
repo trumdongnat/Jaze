@@ -55,12 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\KanjiPartMap.cs" />
     <Compile Include="JazeDatabaseContext.cs" />
-    <Compile Include="Migrations\201711151500473_Init.cs" />
-    <Compile Include="Migrations\201711151500473_Init.Designer.cs">
-      <DependentUpon>201711151500473_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Grade.cs" />
     <Compile Include="Entities\Grammar.cs" />
     <Compile Include="Entities\HanViet.cs" />
@@ -73,16 +69,12 @@
     <Compile Include="Entities\Part.cs" />
     <Compile Include="Entities\Radical.cs" />
     <Compile Include="Entities\ViJa.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711151500473_Init.resx">
-      <DependentUpon>201711151500473_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

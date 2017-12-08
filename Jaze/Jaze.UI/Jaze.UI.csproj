@@ -133,6 +133,7 @@
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PartModel.cs" />
     <Compile Include="Models\RadicalModel.cs" />
+    <Compile Include="Models\SelectablePartModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
     <Compile Include="Models\WordMean.cs" />
     <Compile Include="Services\Documents\BuilderBase.cs" />
@@ -145,14 +146,17 @@
     <Compile Include="Services\Documents\VijaBuilder.cs" />
     <Compile Include="Services\GrammarService.cs" />
     <Compile Include="Services\HanVietService.cs" />
+    <Compile Include="Services\IKanjiPartService.cs" />
     <Compile Include="Services\ISearchService.cs" />
     <Compile Include="Services\JaenService.cs" />
     <Compile Include="Services\JaviService.cs" />
+    <Compile Include="Services\KanjiPartService.cs" />
     <Compile Include="Services\KanjiService.cs" />
     <Compile Include="Models\SearchArgs.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\VijaService.cs" />
     <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="ViewModel\KanjiPartViewModel.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\QuickViewViewModel.cs" />
@@ -167,6 +171,9 @@
     </Compile>
     <Compile Include="Views\HanVietViewer.xaml.cs">
       <DependentUpon>HanVietViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KanjiPart.xaml.cs">
+      <DependentUpon>KanjiPart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\KanjiViewer.xaml.cs">
       <DependentUpon>KanjiViewer.xaml</DependentUpon>
@@ -215,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HanVietViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KanjiPart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

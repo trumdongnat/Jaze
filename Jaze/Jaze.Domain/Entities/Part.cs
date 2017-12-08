@@ -11,6 +11,7 @@ namespace Jaze.Domain.Entities
         public string Word { get; set; }
         public int Stroke { get; set; }
 
-        public virtual ICollection<Kanji> Kanjis { get; set; }
+        //public virtual ICollection<Kanji> Kanjis { get; set; }
+        public virtual ICollection<KanjiPartMap> KanjiParts { get; set; }
     }
 }

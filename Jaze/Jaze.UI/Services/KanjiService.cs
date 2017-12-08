@@ -174,7 +174,6 @@ namespace Jaze.UI.Services
                 {
                     return db.Kanjis.Where(kanji => kanji.Word == key).ToList().Select(entity => KanjiModel.Create(entity)).ToList();
                 }
-                
             }
         }
 
@@ -219,8 +218,9 @@ namespace Jaze.UI.Services
                     var kanjiEntity = db.Kanjis.Find(model.Id);
                     if (kanjiEntity != null)
                     {
+                        model.Copy(kanjiEntity);
                         model.Radical = RadicalModel.Create(kanjiEntity.Radical);
-                        model.Parts = kanjiEntity.Parts.ToList().Select(PartModel.Create).ToList();
+                        model.Parts = kanjiEntity.KanjiParts.Select(entity => entity.Part).ToList().Select(PartModel.Create).ToList();
                         model.JaviModels = new List<JaviModel>();
                         var kuns = model.Kunyomi.Replace(" ", "").Split('、');
                         foreach (var kun in kuns)
