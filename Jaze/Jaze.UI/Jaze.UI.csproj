@@ -77,6 +77,7 @@
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -115,13 +116,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Definitions\Contants.cs" />
     <Compile Include="Definitions\DictionaryType.cs" />
     <Compile Include="Definitions\SearchOption.cs" />
     <Compile Include="Definitions\SearchStates.cs" />
+    <Compile Include="Definitions\UriAction.cs" />
     <Compile Include="Helper\RichTextBoxHelper.cs" />
     <Compile Include="Messages\QuickViewMessage.cs" />
     <Compile Include="Messages\SearchMessage.cs" />
     <Compile Include="Messages\ShowItemMessage.cs" />
+    <Compile Include="Messages\ShowPartsMessage.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\GrammarModel.cs" />
     <Compile Include="Models\HanVietModel.cs" />
@@ -154,6 +158,8 @@
     <Compile Include="Services\KanjiService.cs" />
     <Compile Include="Models\SearchArgs.cs" />
     <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\URI\IUriService.cs" />
+    <Compile Include="Services\URI\UriService.cs" />
     <Compile Include="Services\VijaService.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="ViewModel\KanjiPartViewModel.cs" />
