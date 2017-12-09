@@ -122,6 +122,7 @@ namespace Jaze.UI.ViewModel
             {
                 return;
             }
+
             IsLoading = true;
 
             var word = StringUtil.Trim(message.Word);
@@ -130,36 +131,17 @@ namespace Jaze.UI.ViewModel
                 word = word.Remove(0, 1);
                 word = StringUtil.Trim(word);
             }
+            var notFoundDocuments = new List<FlowDocument>()
+            {
+                new FlowDocument(new Paragraph(new Run($"Không tìm thấy: 「{word}」")))
+            };
+
             var dictionaryType = message.DictionaryType;
             ItemDocuments = new List<FlowDocument>();
             switch (dictionaryType)
             {
                 case DictionaryType.HanViet:
-                    Task.Run(() =>
-                    {
-                        var hanviets = _hanvietService.SearchExact(word);
-                        if (hanviets != null && hanviets.Count > 0)
-                        {
-                            foreach (var hanviet in hanviets)
-                            {
-                                _hanvietService.LoadFull(hanviet);
-                            }
-                        }
-                        return hanviets;
-                    }).ContinueWith(previous =>
-                    {
-                        var hanviets = previous.Result;
-                        var documents = new List<FlowDocument>();
-                        if (hanviets != null && hanviets.Count > 0)
-                        {
-                            foreach (var hanviet in hanviets)
-                            {
-                                documents.Add(_hanvietBuilder.BuildLite(hanviet));
-                            }
-                        }
-                        ItemDocuments = documents;
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    SearchAndView<HanVietModel>(_hanvietService, _hanvietBuilder, word, notFoundDocuments);
                     break;
 
                 case DictionaryType.JaVi:
@@ -169,96 +151,21 @@ namespace Jaze.UI.ViewModel
                     //search in kanji dictionary
                     if (word.Length == 1 && StringUtil.IsKanji(word[0]))
                     {
-                        Task.Run(() =>
-                        {
-                            var kanjis = _kanjiService.SearchExact(word);
-                            if (kanjis != null && kanjis.Count > 0)
-                            {
-                                foreach (var hanviet in kanjis)
-                                {
-                                    _kanjiService.LoadFull(hanviet);
-                                }
-                            }
-                            return kanjis;
-                        }).ContinueWith(previous =>
-                        {
-                            var kanjis = previous.Result;
-                            var documents = new List<FlowDocument>();
-                            if (kanjis != null && kanjis.Count > 0)
-                            {
-                                foreach (var kanji in kanjis)
-                                {
-                                    documents.Add(_kanjiBuilder.BuildLite(kanji));
-                                }
-                            }
-                            ItemDocuments = documents;
-                            IsLoading = false;
-                        }, TaskScheduler.FromCurrentSynchronizationContext());
+                        SearchAndView<KanjiModel>(_kanjiService, _kanjiBuilder, word, notFoundDocuments);
                     }
                     //search in javi dictionary
                     else if (StringUtil.IsJapanese(word))
                     {
-                        Task.Run(() =>
-                        {
-                            var javis = _javiService.SearchExact(word);
-                            if (javis != null && javis.Count > 0)
-                            {
-                                foreach (var javi in javis)
-                                {
-                                    _javiService.LoadFull(javi);
-                                }
-                            }
-                            return javis;
-                        }).ContinueWith(previous =>
-                        {
-                            var javis = previous.Result;
-                            var documents = new List<FlowDocument>();
-                            if (javis != null && javis.Count > 0)
-                            {
-                                foreach (var javi in javis)
-                                {
-                                    documents.Add(_javiBuilder.BuildLite(javi));
-                                }
-                            }
-                            ItemDocuments = documents;
-                            IsLoading = false;
-                        }, TaskScheduler.FromCurrentSynchronizationContext());
+                        SearchAndView<JaviModel>(_javiService, _javiBuilder, word, notFoundDocuments);
                     }
                     //search in vija dictionary
                     else if (word.Split(' ').All(StringUtil.IsVietnameseWord))
                     {
-                        Task.Run(() =>
-                        {
-                            var vijas = _vijaService.SearchExact(word);
-                            if (vijas != null && vijas.Count > 0)
-                            {
-                                foreach (var vija in vijas)
-                                {
-                                    _vijaService.LoadFull(vija);
-                                }
-                            }
-                            return vijas;
-                        }).ContinueWith(previous =>
-                        {
-                            var vijas = previous.Result;
-                            var documents = new List<FlowDocument>();
-                            if (vijas != null && vijas.Count > 0)
-                            {
-                                foreach (var vija in vijas)
-                                {
-                                    documents.Add(_vijaBuilder.BuildLite(vija));
-                                }
-                            }
-                            ItemDocuments = documents;
-                            IsLoading = false;
-                        }, TaskScheduler.FromCurrentSynchronizationContext());
+                        SearchAndView<VijaModel>(_vijaService, _vijaBuilder, word, notFoundDocuments);
                     }
                     else
                     {
-                        ItemDocuments = new List<FlowDocument>()
-                        {
-                            new FlowDocument(new Paragraph(new Run($"Not found: 「{word}」")))
-                        };
+                        ItemDocuments = notFoundDocuments;
                         IsLoading = false;
                     }
                     break;
@@ -269,80 +176,39 @@ namespace Jaze.UI.ViewModel
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            //switch (message.Item)
-            //{
-            //    case KanjiModel kanji:
-            //        dictionaryType = DictionaryType.Kanji;
-            //        Task.Run(() =>
-            //        {
-            //            _kanjiService.LoadFull(kanji);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _kanjiBuilder.Build(kanji);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
+        }
 
-            //    case GrammarModel grammar:
-            //        dictionaryType = DictionaryType.Grammar;
-            //        Task.Run(() =>
-            //        {
-            //            _grammarService.LoadFull(grammar);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _grammarBuilder.Build(grammar);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
-
-            //    case HanVietModel hanviet:
-            //        dictionaryType = DictionaryType.HanViet;
-            //        Task.Run(() =>
-            //        {
-            //            _hanvietService.LoadFull(hanviet);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _hanvietBuilder.Build(hanviet);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
-
-            //    case JaenModel jaen:
-            //        dictionaryType = DictionaryType.JaEn;
-            //        Task.Run(() =>
-            //        {
-            //            _jaenService.LoadFull(jaen);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _jaenBuilder.Build(jaen);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
-
-            //    case JaviModel javi:
-            //        dictionaryType = DictionaryType.JaVi;
-            //        Task.Run(() =>
-            //        {
-            //            _javiService.LoadFull(javi);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _javiBuilder.Build(javi);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
-
-            //    case VijaModel vija:
-            //        dictionaryType = DictionaryType.ViJa;
-            //        Task.Run(() =>
-            //        {
-            //            _vijaService.LoadFull(vija);
-            //        }).ContinueWith(previous =>
-            //        {
-            //            ItemDocument = _vijaBuilder.Build(vija);
-            //            IsLoading = false;
-            //        }, TaskScheduler.FromCurrentSynchronizationContext());
-            //        break;
-            //}
+        private void SearchAndView<TModel>(ISearchService<TModel> searcher, IBuilder<TModel> builder, string word, List<FlowDocument> notFoundDocuments) where TModel : new()
+        {
+            Task.Run(() =>
+            {
+                var models = searcher.SearchExact(word);
+                if (models != null && models.Count > 0)
+                {
+                    foreach (var model in models)
+                    {
+                        searcher.LoadFull(model);
+                    }
+                }
+                return models;
+            }).ContinueWith(previous =>
+            {
+                var models = previous.Result;
+                var documents = new List<FlowDocument>();
+                if (models != null && models.Count > 0)
+                {
+                    foreach (var model in models)
+                    {
+                        documents.Add(builder.BuildLite(model));
+                    }
+                    ItemDocuments = documents;
+                }
+                else
+                {
+                    ItemDocuments = notFoundDocuments;
+                }
+                IsLoading = false;
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         #endregion ----- Process Event Messages -----

@@ -29,7 +29,13 @@
                             FontSize="16"
                             IsDocumentEnabled="True"
                             IsReadOnly="True"
-                            VerticalScrollBarVisibility="Disabled" />
+                            VerticalScrollBarVisibility="Disabled">
+                            <RichTextBox.Resources>
+                                <Style TargetType="{x:Type Hyperlink}">
+                                    <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                                </Style>
+                            </RichTextBox.Resources>
+                        </RichTextBox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

@@ -305,6 +305,10 @@ namespace Jaze.UI.Util
 
         public static List<char> FilterCharsInString(string text, CharSet charSet)
         {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return new List<char>();
+            }
             int min = 0, max = 0;
             switch (charSet)
             {

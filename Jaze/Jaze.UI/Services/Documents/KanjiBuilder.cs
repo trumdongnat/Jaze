@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using Jaze.UI.Models;
 using Jaze.UI.Services.URI;
+using Jaze.UI.Util;
 
 namespace Jaze.UI.Services.Documents
 {
@@ -51,7 +52,30 @@ namespace Jaze.UI.Services.Documents
                     new TableCell(BuildKanjiStroke(kanji.Word, kanji.HanViet))
                 }
             });
-
+            //table.RowGroups[0].Rows.Add(new TableRow()
+            //{
+            //    Cells =
+            //    {
+            //        new TableCell(new Paragraph()
+            //        {
+            //            Inlines =
+            //            {
+            //                new Hyperlink(new Run($"Từ bắt đầu bằng {kanji.Word}"))
+            //                {
+            //                    NavigateUri = _uriService.Create(Definitions.UriAction.WordStartWith, kanji.Word)
+            //                },
+            //                new Hyperlink(new Run($"Từ chứa {kanji.Word}"))
+            //                {
+            //                    NavigateUri = _uriService.Create(Definitions.UriAction.WordContain, kanji.Word)
+            //                },
+            //                new Hyperlink(new Run($"Từ kết thúc bằng {kanji.Word}"))
+            //                {
+            //                    NavigateUri = _uriService.Create(Definitions.UriAction.WordEndWith, kanji.Word)
+            //                },
+            //            }
+            //        })
+            //    }
+            //});
             table.RowGroups[0].Rows.Add(new TableRow()
             {
                 Cells =
@@ -123,18 +147,36 @@ namespace Jaze.UI.Services.Documents
 
             //add list attribute
             list.ListItems.Add(BuildAttribute("Bộ thủ: ", $"{kanji.Radical.Word}({kanji.Radical.HanViet})"));
-            list.ListItems.Add(BuildAttribute("Cách viết khác: ", kanji.Variant));
+            list.ListItems.Add(BuildAttributeComponents("Cách viết khác: ", kanji.Variant));
             list.ListItems.Add(BuildAttribute("Onyomi: ", kanji.Onyomi));
-            list.ListItems.Add(BuildAttribute("Kunyomi: ", kanji.Kunyomi));
-            //list.ListItems.Add(BuildKunAttribute(kanji.Kunyomi));
+            list.ListItems.Add(BuildAttributeKunyomi("Kunyomi: ", kanji.Word, kanji.Kunyomi));
             list.ListItems.Add(BuildAttribute("Số nét: ", "" + kanji.Stroke));
             list.ListItems.Add(BuildAttribute("Độ phổ biến: ",
                 kanji.Frequence == int.MaxValue ? "?/2500" : "" + kanji.Frequence + "/2500"));
             list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level.ToString()));
-            list.ListItems.Add(BuildAttribute("Thành phần: ", kanji.Component));
-            list.ListItems.Add(BuildAttribute("Gần giống: ", kanji.Similar));
+            list.ListItems.Add(BuildAttributeComponents("Thành phần: ", kanji.Component));
+            list.ListItems.Add(BuildAttributeComponents("Gần giống: ", kanji.Similar));
             list.ListItems.Add(BuildAttributeParts("Cấu tạo: ", kanji.Parts));
             return list;
+        }
+
+        private ListItem BuildAttribute(string name, string contain)
+        {
+            ListItem item = new ListItem();
+            item.Blocks.Add(new Paragraph()
+            {
+                Inlines =
+                {
+                    new Run(name)
+                    {
+                        Foreground = Brushes.Gray,
+                        FontSize = 14
+                    },
+                    new Run(contain)
+                }
+            });
+
+            return item;
         }
 
         private ListItem BuildAttributeParts(string name, List<PartModel> parts)
@@ -160,10 +202,10 @@ namespace Jaze.UI.Services.Documents
             return item;
         }
 
-        private ListItem BuildAttribute(string name, string contain)
+        private ListItem BuildAttributeKunyomi(string name, string kanji, string contain)
         {
             ListItem item = new ListItem();
-            item.Blocks.Add(new Paragraph()
+            var paragragh = new Paragraph()
             {
                 Inlines =
                 {
@@ -171,79 +213,81 @@ namespace Jaze.UI.Services.Documents
                     {
                         Foreground = Brushes.Gray,
                         FontSize = 14
-                    },
-                    new Run(contain)
+                    }
                 }
-            });
+            };
 
+            //split contain
+            if (!string.IsNullOrWhiteSpace(contain))
+            {
+                var kuns = Regex.Split(contain, "、 ");
+                foreach (var s in kuns)
+                {
+                    if (s.Contains('-'))
+                    {
+                        paragragh.Inlines.Add(new Run(s + "、 "));
+                        continue;
+                    }
+                    var arr = s.Split('.');
+                    if (arr.Length == 2)
+                    {
+                        paragragh.Inlines.Add(new Hyperlink(new Run(s))
+                        {
+                            NavigateUri = _uriService.Create(Definitions.UriAction.QuickView, kanji + arr[1])
+                        });
+                    }
+                    else
+                    {
+                        paragragh.Inlines.Add(new Hyperlink(new Run(s))
+                        {
+                            NavigateUri = _uriService.Create(Definitions.UriAction.QuickView, kanji)
+                        });
+                    }
+                    paragragh.Inlines.Add(new Run("、 ")
+                    {
+                        FontSize = 15
+                    });
+                }
+            }
+
+            item.Blocks.Add(paragragh);
             return item;
         }
 
-        //private ListItem BuildKunAttribute(string contain)
-        //{
-        //    ListItem item = new ListItem();
-        //    var paragragh = new Paragraph()
-        //    {
-        //        Inlines =
-        //        {
-        //            new Run("Kunyomi: ")
-        //            {
-        //                Foreground = Brushes.Gray,
-        //                FontSize = 14
-        //            }
-        //        }
-        //    };
-
-        //    //split contain
-        //    if (!string.IsNullOrWhiteSpace(contain))
-        //    {
-        //        var kuns = Regex.Split(contain, "、 ");
-        //        foreach (var s in kuns)
-        //        {
-        //            var arr = s.Split('.');
-        //            if (arr.Length == 2)
-        //            {
-        //                paragragh.Inlines.Add(new Run(arr[0])
-        //                {
-        //                    Foreground = Brushes.Blue,
-        //                    FontSize = 15,
-        //                    FontWeight = FontWeights.Bold
-        //                });
-        //                paragragh.Inlines.Add(new Run(arr[1])
-        //                {
-        //                    FontSize = 15
-        //                });
-        //            }
-        //            else
-        //            {
-        //                paragragh.Inlines.Add(new Run(arr[0])
-        //                {
-        //                    FontSize = 15
-        //                });
-        //            }
-        //            paragragh.Inlines.Add(new Run("、 ")
-        //            {
-        //                FontSize = 15
-        //            });
-        //        }
-        //    }
-
-        //    item.Blocks.Add(paragragh);
-        //    return item;
-        //}
+        private ListItem BuildAttributeComponents(string name, string content)
+        {
+            ListItem item = new ListItem();
+            var kanjis = StringUtil.FilterCharsInString(content, CharSet.Kanji).Select(c => c.ToString()).ToArray();
+            var paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Run(name)
+            {
+                Foreground = Brushes.Gray,
+                FontSize = 14
+            });
+            foreach (var kanji in kanjis)
+            {
+                paragraph.Inlines.Add(new Hyperlink(new Run(kanji))
+                {
+                    NavigateUri = _uriService.Create(Definitions.UriAction.QuickView, kanji)
+                });
+            }
+            item.Blocks.Add(paragraph);
+            return item;
+        }
 
         private Block BuildKanjiStroke(string kanji, string hanviet)
         {
             Paragraph paragraph = new Paragraph()
             {
                 TextAlignment = TextAlignment.Center,
-                Inlines = { new Run(kanji)
-                {
-                    FontSize = 150,
-                    FontFamily = new FontFamily("KanjiStrokeOrders")
-                } ,
-                new LineBreak(),
-                new Run(hanviet)
+                Inlines = {
+                    new Run(kanji)
+                    {
+                        FontSize = 150,
+                        FontFamily = new FontFamily("KanjiStrokeOrders")
+                    } ,
+                    new LineBreak(),
+                    new Run(hanviet),
                 }
             };
             return paragraph;
