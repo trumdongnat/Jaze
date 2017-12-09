@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:Jaze.UI.Models"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Name="TopParent"
     d:DesignHeight="300"
@@ -25,6 +26,7 @@
                 <dat:PropertyGroupDescription PropertyName="Stroke" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        <system:Double x:Key="ButtonPartSize">30</system:Double>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel>
@@ -59,12 +61,12 @@
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
                                     <ToggleButton
-                                        Width="35"
-                                        Height="35"
+                                        Width="{StaticResource ResourceKey=ButtonPartSize}"
+                                        Height="{StaticResource ResourceKey=ButtonPartSize}"
                                         Margin="1"
                                         IsEnabled="False">
                                         <TextBlock
-                                            FontSize="16"
+                                            FontSize="14"
                                             FontWeight="Normal"
                                             Text="{Binding Items[0].Stroke, StringFormat={}{0}}" />
                                     </ToggleButton>
@@ -80,14 +82,14 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="models:SelectablePartModel">
                             <ToggleButton
-                                Width="35"
-                                Height="35"
+                                Width="{StaticResource ResourceKey=ButtonPartSize}"
+                                Height="{StaticResource ResourceKey=ButtonPartSize}"
                                 Margin="1"
                                 Command="{Binding Path=DataContext.UpdateFilterCommand, ElementName=TopParent}"
                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}">
                                 <TextBlock
-                                    FontSize="16"
+                                    FontSize="14"
                                     FontWeight="Normal"
                                     Text="{Binding Path=Word}" />
                             </ToggleButton>

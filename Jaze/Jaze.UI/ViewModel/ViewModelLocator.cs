@@ -15,6 +15,7 @@ using Jaze.UI.Models;
 using Jaze.UI.Services;
 using GalaSoft.MvvmLight.Messaging;
 using Jaze.UI.Services.Documents;
+using Jaze.UI.Services.URI;
 
 namespace Jaze.UI.ViewModel
 {
@@ -40,6 +41,7 @@ namespace Jaze.UI.ViewModel
             SimpleIoc.Default.Register<ISearchService<KanjiModel>, KanjiService>();
             SimpleIoc.Default.Register<ISearchService<VijaModel>, VijaService>();
             SimpleIoc.Default.Register<IKanjiPartService, KanjiPartService>();
+            SimpleIoc.Default.Register<IUriService, UriService>();
 
             //document builder
             SimpleIoc.Default.Register<IBuilder<GrammarModel>, GrammarBuilder>();

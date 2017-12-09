@@ -10,6 +10,8 @@ using Jaze.UI.Models;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using System.Windows;
+using Jaze.UI.Services.URI;
+using System.Linq;
 
 namespace Jaze.UI.ViewModel
 {
@@ -30,6 +32,7 @@ namespace Jaze.UI.ViewModel
         private readonly IBuilder<JaviModel> _javiBuilder;
         private readonly IBuilder<KanjiModel> _kanjiBuilder;
         private readonly IBuilder<VijaModel> _vijaBuilder;
+        private readonly IUriService _uriService;
 
         #endregion ----- Services -----
 
@@ -104,32 +107,57 @@ namespace Jaze.UI.ViewModel
         {
             get
             {
-                return _hyperlinkClickCommand ?? (_hyperlinkClickCommand = new RelayCommand<Hyperlink>(
-                    ExecuteHyperlinkClickCommand,
-                    CanExecuteHyperlinkClickCommand));
+                return _hyperlinkClickCommand ?? (_hyperlinkClickCommand = new RelayCommand<Hyperlink>(ExecuteHyperlinkClickCommand));
             }
-        }
-
-        private bool CanExecuteHyperlinkClickCommand(Hyperlink hyperlink)
-        {
-            return true;
         }
 
         private void ExecuteHyperlinkClickCommand(Hyperlink hyperlink)
         {
-            if (hyperlink?.Inlines.FirstInline is Run run)
+            if (hyperlink.NavigateUri == null)
             {
-                var s = run.Text;
-                string text = s;
-                if (s.StartsWith("["))
+                if (hyperlink?.Inlines.FirstInline is Run run)
                 {
-                    var match = Regex.Match(s, @"\[.+\]");
-                    text = match.Value;
-                    text = text.Length > 2 ? text.Substring(1, text.Length - 2) : string.Empty;
+                    var s = run.Text;
+                    string text = s;
+                    if (s.StartsWith("["))
+                    {
+                        var match = Regex.Match(s, @"\[.+\]");
+                        text = match.Value;
+                        text = text.Length > 2 ? text.Substring(1, text.Length - 2) : string.Empty;
+                    }
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        _messenger.Send(new QuickViewMessage(_dictionaryType, text));
+                    }
                 }
-                if (!string.IsNullOrWhiteSpace(text))
+            }
+            else
+            {
+                var parsedResult = _uriService.Parse(hyperlink.NavigateUri);
+                var action = parsedResult.Item1;
+                var parameter = parsedResult.Item2;
+                switch (action)
                 {
-                    _messenger.Send(new QuickViewMessage(_dictionaryType, text));
+                    case UriAction.Unknown:
+                        break;
+
+                    case UriAction.QuickView:
+                        if (!string.IsNullOrWhiteSpace(parameter))
+                        {
+                            _messenger.Send(new QuickViewMessage(_dictionaryType, parameter));
+                        }
+                        break;
+
+                    case UriAction.ShowParts:
+                        if (!string.IsNullOrWhiteSpace(parameter))
+                        {
+                            var parts = parameter.ToCharArray().Select(c => c.ToString()).ToList();
+                            _messenger.Send(new ShowPartsMessage(parts));
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
@@ -137,6 +165,7 @@ namespace Jaze.UI.ViewModel
         #endregion ----- Hyperlink click command -----
 
         #region ----- Quick View Command -----
+
         private RelayCommand<string> _quickViewCommand;
 
         /// <summary>
@@ -158,16 +187,17 @@ namespace Jaze.UI.ViewModel
             {
                 _messenger.Send(new QuickViewMessage(_dictionaryType, parameter));
             }
-            
         }
 
         private bool CanExecuteQuickViewCommand(string parameter)
         {
             return true;
         }
-        #endregion
+
+        #endregion ----- Quick View Command -----
 
         #region ----- Copy Text -----
+
         private RelayCommand<string> _copyTextCommand;
 
         /// <summary>
@@ -192,13 +222,15 @@ namespace Jaze.UI.ViewModel
         {
             return true;
         }
-        #endregion
+
+        #endregion ----- Copy Text -----
 
         #region ----- Contructor -----
 
-        public ItemDisplayViewModel(IMessenger messenger, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
+        public ItemDisplayViewModel(IMessenger messenger, IUriService uriService, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
         {
             _messenger = messenger;
+            _uriService = uriService;
             _grammarService = grammarService;
             _hanvietService = hanvietService;
             _jaenService = jaenService;

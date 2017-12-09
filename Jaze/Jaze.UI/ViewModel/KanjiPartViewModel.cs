@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Linq;
 using System.Threading.Tasks;
+using Jaze.UI.Messages;
+using System;
 
 namespace Jaze.UI.ViewModel
 {
@@ -241,6 +243,25 @@ namespace Jaze.UI.ViewModel
             Parts = _kanjiPartService.GetListParts()
                 .Select(SelectablePartModel.Create)
                 .ToList();
+
+            messenger.Register<ShowPartsMessage>(this, ProcessShowPartsMessage);
+        }
+
+        private void ProcessShowPartsMessage(ShowPartsMessage message)
+        {
+            if (message?.Parts != null)
+            {
+                Parts.ForEach(part => { part.IsSelected = false; part.IsEnabled = true; });
+                foreach (var partStr in message.Parts)
+                {
+                    var part = Parts.FirstOrDefault(obj => obj.Word == partStr);
+                    if (part != null)
+                    {
+                        part.IsSelected = true;
+                    }
+                }
+                ExecuteUpdateFilterCommand();
+            }
         }
 
         #endregion ----- Contructor -----

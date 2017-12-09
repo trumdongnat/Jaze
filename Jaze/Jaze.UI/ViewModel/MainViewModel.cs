@@ -1,6 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using Jaze.UI.Messages;
+using Jaze.UI.Views;
+using MahApps.Metro.Controls;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Jaze.UI.ViewModel
 {
@@ -55,7 +59,23 @@ namespace Jaze.UI.ViewModel
             {
                 IsShowQuickView = true;
             });
+            _messenger.Register<ShowPartsMessage>(this, message =>
+            {
+                var window = new MetroWindow();
+                window.Title = "Kanji Part";
+
+                window.Content = kanjiPartView;
+                window.Width = 800;
+                window.Height = 600;
+                window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                window.BorderThickness = new Thickness(1.0);
+                window.BorderBrush = Brushes.Black;
+
+                window.ShowDialog();
+            });
         }
+
+        private KanjiPart kanjiPartView = new KanjiPart();
 
         ////public override void Cleanup()
         ////{

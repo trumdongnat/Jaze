@@ -224,24 +224,25 @@ namespace Jaze.UI.ViewModel
             }
         }
 
-        private KanjiPart kanjiPartView;
+        //private KanjiPart kanjiPartView;
 
         private void ExecuteShowKanjiPartCommand()
         {
-            var window = new MetroWindow();
-            window.Title = "Kanji Part";
-            if (kanjiPartView == null)
-            {
-                kanjiPartView = new KanjiPart();
-            }
-            window.Content = kanjiPartView;
-            window.Width = 800;
-            window.Height = 600;
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            window.BorderThickness = new Thickness(1.0);
-            window.BorderBrush = Brushes.Black;
+            //var window = new MetroWindow();
+            //window.Title = "Kanji Part";
+            //if (kanjiPartView == null)
+            //{
+            //    kanjiPartView = new KanjiPart();
+            //}
+            //window.Content = kanjiPartView;
+            //window.Width = 800;
+            //window.Height = 600;
+            //window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //window.BorderThickness = new Thickness(1.0);
+            //window.BorderBrush = Brushes.Black;
 
-            window.ShowDialog();
+            //window.ShowDialog();
+            _messenger.Send(new ShowPartsMessage(new List<string>()));
         }
 
         private bool CanExecuteShowKanjiPartCommand()

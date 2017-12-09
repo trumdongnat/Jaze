@@ -1,15 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Jaze.UI.Models;
+using Jaze.UI.Services.URI;
 
 namespace Jaze.UI.Services.Documents
 {
     public class KanjiBuilder : BuilderBase<KanjiModel>
     {
+        private IUriService _uriService;
+
+        public KanjiBuilder(IUriService uriService)
+        {
+            _uriService = uriService;
+        }
+
         #region ----- Build Full Infomation -----
 
         public override FlowDocument Build(KanjiModel kanji)
@@ -124,7 +133,31 @@ namespace Jaze.UI.Services.Documents
             list.ListItems.Add(BuildAttribute("Trình độ: ", kanji.Level.ToString()));
             list.ListItems.Add(BuildAttribute("Thành phần: ", kanji.Component));
             list.ListItems.Add(BuildAttribute("Gần giống: ", kanji.Similar));
+            list.ListItems.Add(BuildAttributeParts("Cấu tạo: ", kanji.Parts));
             return list;
+        }
+
+        private ListItem BuildAttributeParts(string name, List<PartModel> parts)
+        {
+            ListItem item = new ListItem();
+            var partsStr = string.Join("", parts.Select(part => part.Word).ToArray());
+            item.Blocks.Add(new Paragraph()
+            {
+                Inlines =
+                {
+                    new Run(name)
+                    {
+                        Foreground = Brushes.Gray,
+                        FontSize = 14
+                    },
+                    new Hyperlink(new Run(partsStr))
+                    {
+                        NavigateUri = _uriService.Create(Definitions.UriAction.ShowParts, partsStr)
+                    }
+                }
+            });
+
+            return item;
         }
 
         private ListItem BuildAttribute(string name, string contain)
