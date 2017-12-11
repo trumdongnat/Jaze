@@ -45,7 +45,7 @@
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0" />
-                                    <Condition Binding="{Binding ElementName=searchingIndicator, Path=IsBusy}" Value="False" />
+                                    <Condition Binding="{Binding IsSearching}" Value="False" />
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
                                     <Setter Property="Template">
