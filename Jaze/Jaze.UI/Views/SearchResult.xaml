@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     d:DesignHeight="300"
     d:DesignWidth="300"
     DataContext="{Binding Source={StaticResource Locator}, Path=SearchResult}"
@@ -17,28 +18,23 @@
         VerticalAlignment="Stretch"
         BusyContent="Đang tìm kiếm"
         IsBusy="{Binding IsSearching}">
-        <DockPanel>
-            <Expander
-                BorderBrush="Gray"
-                BorderThickness="1,0,1,1"
-                DockPanel.Dock="Bottom"
-                FontSize="15"
-                FontWeight="DemiBold"
-                Header="Sort">
-                <StackPanel Margin="20,0,0,0" Orientation="Vertical">
-                    <StackPanel.Resources>
-                        <Style TargetType="RadioButton">
-                            <Setter Property="FontSize" Value="12" />
-                            <Setter Property="FontWeight" Value="DemiBold" />
-                        </Style>
-                    </StackPanel.Resources>
-                </StackPanel>
-            </Expander>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--<StackPanel Grid.Row="0" Orientation="Horizontal">
+                <ComboBox metro:TextBoxHelper.Watermark="Group By">
+                    <ComboBoxItem Content="Trình độ"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>-->
+
             <ListBox
+                Grid.Row="1"
                 HorizontalContentAlignment="Stretch"
                 ItemTemplateSelector="{StaticResource ResourceKey=DataTemplateSelector}"
                 ItemsSource="{Binding ListItems}"
-                SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2">
                 <ListBox.Style>
                     <Style TargetType="{x:Type ListBox}">
                         <Style.Triggers>
@@ -66,6 +62,6 @@
                     </Style>
                 </ListBox.Style>
             </ListBox>
-        </DockPanel>
+        </Grid>
     </tk:BusyIndicator>
 </UserControl>
