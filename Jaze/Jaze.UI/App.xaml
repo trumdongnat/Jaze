@@ -6,7 +6,6 @@
     xmlns:ignore="http://www.galasoft.ch/ignore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Jaze.UI.ViewModel"
-    StartupUri="MainWindow.xaml"
     mc:Ignorable="d ignore">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,11 +17,6 @@
                 <!--  Accent and AppTheme setting  -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-
-                <!--  Global View Model Locator  -->
-                <ResourceDictionary>
-                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-                </ResourceDictionary>
 
                 <ResourceDictionary Source="Resources/DataTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>

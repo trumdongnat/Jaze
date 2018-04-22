@@ -6,10 +6,13 @@
     xmlns:helper="clr-namespace:Jaze.UI.Helper"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
+    d:DataContext="{d:DesignInstance viewModel:QuickViewViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{Binding Source={StaticResource Locator}, Path=QuickView}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <tk:BusyIndicator IsBusy="{Binding IsLoading}">
         <ScrollViewer

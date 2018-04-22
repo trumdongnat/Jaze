@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,7 +12,7 @@ namespace Jaze.UI.Services.Documents
 {
     public class KanjiBuilder : BuilderBase<KanjiModel>
     {
-        private IUriService _uriService;
+        private readonly IUriService _uriService;
 
         public KanjiBuilder(IUriService uriService)
         {

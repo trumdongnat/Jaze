@@ -1,11 +1,4 @@
-﻿using Jaze.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jaze.UI.Models
+﻿namespace Jaze.UI.Models
 {
     public class SelectablePartModel : PartModel
     {
@@ -15,7 +8,7 @@ namespace Jaze.UI.Models
         public bool IsSelected
         {
             get => _isSelected;
-            set => Set(IsSelectedPropertyName, ref _isSelected, value);
+            set => SetProperty(ref _isSelected, value);
         }
 
         public const string IsEnabledPropertyName = "IsEnabled";
@@ -25,7 +18,7 @@ namespace Jaze.UI.Models
         public bool IsEnabled
         {
             get => _isEnabled;
-            set => Set(IsEnabledPropertyName, ref _isEnabled, value);
+            set => SetProperty(ref _isEnabled, value);
         }
 
         public static SelectablePartModel Create(PartModel model)

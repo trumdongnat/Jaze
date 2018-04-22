@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using Jaze.UI.Util;
-using System.Windows;
+using Prism.Events;
 
 namespace Jaze.UI.ViewModel
 {
@@ -20,7 +17,7 @@ namespace Jaze.UI.ViewModel
     {
         #region ----- Services -----
 
-        private readonly IMessenger _messenger;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ISearchService<GrammarModel> _grammarService;
         private readonly ISearchService<HanVietModel> _hanvietService;
         private readonly ISearchService<JaenModel> _jaenService;
@@ -38,63 +35,33 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Item Documents -----
 
-        /// <summary>
-        /// The <see cref="ItemDocuments" /> property's name.
-        /// </summary>
-        public const string ItemDocumentsPropertyName = "ItemDocuments";
-
         private List<FlowDocument> _itemDocuments = new List<FlowDocument>();
 
-        /// <summary>
-        /// Sets and gets the ItemDocuments property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public List<FlowDocument> ItemDocuments
         {
-            get
-            {
-                return _itemDocuments;
-            }
-            set
-            {
-                Set(ItemDocumentsPropertyName, ref _itemDocuments, value);
-            }
+            get => _itemDocuments;
+            set => SetProperty(ref _itemDocuments, value);
         }
 
         #endregion ----- Item Documents -----
 
         #region ----- Is Loading -----
 
-        /// <summary>
-        /// The <see cref="IsLoading" /> property's name.
-        /// </summary>
-        public const string IsLoadingPropertyName = "IsLoading";
-
         private bool _isLoading = false;
 
-        /// <summary>
-        /// Sets and gets the IsLoading property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool IsLoading
         {
-            get
-            {
-                return _isLoading;
-            }
-            set
-            {
-                Set(IsLoadingPropertyName, ref _isLoading, value);
-            }
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
         }
 
         #endregion ----- Is Loading -----
 
         #region ----- Contructor -----
 
-        public QuickViewViewModel(IMessenger messenger, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
+        public QuickViewViewModel(IEventAggregator eventAggregator, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
         {
-            _messenger = messenger;
+            _eventAggregator = eventAggregator;
             _grammarService = grammarService;
             _hanvietService = hanvietService;
             _jaenService = jaenService;
@@ -109,7 +76,7 @@ namespace Jaze.UI.ViewModel
             _vijaBuilder = vijaBuilder;
 
             //register message
-            _messenger.Register<QuickViewMessage>(this, ProcessQuickViewMessage);
+            _eventAggregator.GetEvent<PubSubEvent<QuickViewMessage>>().Subscribe(ProcessQuickViewMessage);
         }
 
         #endregion ----- Contructor -----

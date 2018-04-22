@@ -5,11 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
+    d:DataContext="{d:DesignInstance viewModel:SearchResultViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{Binding Source={StaticResource Locator}, Path=SearchResult}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <tk:BusyIndicator
         Name="SearchingIndicator"
@@ -20,8 +23,8 @@
         IsBusy="{Binding IsSearching}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!--<StackPanel Grid.Row="0" Orientation="Horizontal">
                 <ComboBox metro:TextBoxHelper.Watermark="Group By">
@@ -30,11 +33,12 @@
             </StackPanel>-->
 
             <ListBox
-                Grid.Row="1"
+                Name="ListSearchResult"
+                Grid.Row="0"
                 HorizontalContentAlignment="Stretch"
                 ItemTemplateSelector="{StaticResource ResourceKey=DataTemplateSelector}"
                 ItemsSource="{Binding ListItems}"
-                SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2">
+                SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                 <ListBox.Style>
                     <Style TargetType="{x:Type ListBox}">
                         <Style.Triggers>
@@ -62,6 +66,13 @@
                     </Style>
                 </ListBox.Style>
             </ListBox>
+            <TextBlock Grid.Row="1">
+                <Run Text="Search Result: " />
+                <Bold>
+                    <Run Text="{Binding ElementName=ListSearchResult, Path=Items.Count, Mode=OneWay}" />
+                </Bold>
+                <Run Text="Items" />
+            </TextBlock>
         </Grid>
     </tk:BusyIndicator>
 </UserControl>

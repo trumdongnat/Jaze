@@ -1,65 +1,40 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
-using Jaze.UI.Messages;
+﻿using Jaze.UI.Messages;
 using Jaze.UI.Views;
 using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Media;
+using Prism.Events;
 
 namespace Jaze.UI.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// See http://www.mvvmlight.net
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
         #region ----- Services -----
 
-        private IMessenger _messenger;
+        private readonly IEventAggregator _eventAggregator;
 
         #endregion ----- Services -----
 
         #region ----- Is Show Quick View -----
 
-        /// <summary>
-        /// The <see cref="IsShowQuickView" /> property's name.
-        /// </summary>
-        public const string IsShowQuickViewPropertyName = "IsShowQuickView";
-
         private bool _isShowQuickView = false;
 
-        /// <summary>
-        /// Sets and gets the IsShowQuickView property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool IsShowQuickView
         {
-            get
-            {
-                return _isShowQuickView;
-            }
-            set
-            {
-                Set(IsShowQuickViewPropertyName, ref _isShowQuickView, value);
-            }
+            get => _isShowQuickView;
+            set => SetProperty(ref _isShowQuickView, value);
         }
 
         #endregion ----- Is Show Quick View -----
 
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
-        public MainViewModel(IMessenger messenger)
+        public MainViewModel(IEventAggregator eventAggregator)
         {
-            _messenger = messenger;
-            _messenger.Register<QuickViewMessage>(this, message =>
-            {
-                IsShowQuickView = true;
-            });
-            _messenger.Register<ShowPartsMessage>(this, message =>
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<PubSubEvent<QuickViewMessage>>().Subscribe(message =>
+           {
+               IsShowQuickView = true;
+           });
+            _eventAggregator.GetEvent<PubSubEvent<ShowPartsMessage>>().Subscribe(message =>
             {
                 var window = new MetroWindow();
                 window.Title = "Kanji Part";
@@ -75,13 +50,6 @@ namespace Jaze.UI.ViewModel
             });
         }
 
-        private KanjiPart kanjiPartView = new KanjiPart();
-
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
-
-        ////    base.Cleanup();
-        ////}
+        private readonly KanjiPart kanjiPartView = new KanjiPart();
     }
 }

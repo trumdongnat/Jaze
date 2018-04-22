@@ -6,12 +6,13 @@
     xmlns:ignore="http://www.galasoft.ch/ignore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
     xmlns:view="clr-namespace:Jaze.UI.Views"
     Title="Từ điển"
     Width="800"
     Height="500"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{StaticResource BackgroundKey}"
-    DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d ignore">
 
     <Window.Resources>
@@ -36,7 +37,10 @@
             IsOpen="{Binding IsShowQuickView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Placement="MousePoint"
             StaysOpen="False">
-            <Border Background="White" BorderThickness="2" BorderBrush="Blue">
+            <Border
+                Background="White"
+                BorderBrush="Blue"
+                BorderThickness="2">
                 <view:QuickView />
             </Border>
         </Popup>

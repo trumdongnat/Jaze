@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using Jaze.UI.ViewModel;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 
 namespace Jaze.UI
 {
@@ -15,7 +13,6 @@ namespace Jaze.UI
         public MainWindow()
         {
             InitializeComponent();
-            Closing += (s, e) => ViewModelLocator.Cleanup();
         }
     }
 }

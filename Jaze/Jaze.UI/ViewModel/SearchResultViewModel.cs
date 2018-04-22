@@ -1,9 +1,8 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
-using Jaze.UI.Definitions;
+﻿using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using System;
 using System.Collections.Generic;
+using Prism.Events;
 
 namespace Jaze.UI.ViewModel
 {
@@ -11,7 +10,7 @@ namespace Jaze.UI.ViewModel
     {
         #region ----- Services -----
 
-        private IMessenger _messenger;
+        private readonly IEventAggregator _messenger;
         //private ISearchService<GrammarModel> _grammarService;
         //private ISearchService<HanVietModel> _hanvietService;
         //private ISearchService<JaenModel> _jaenService;
@@ -23,81 +22,39 @@ namespace Jaze.UI.ViewModel
 
         #region ----- IsSearching -----
 
-        /// <summary>
-        /// The <see cref="IsSearching" /> property's name.
-        /// </summary>
-        public const string IsSearchingPropertyName = "IsSearching";
-
         private bool _isSearching = false;
 
-        /// <summary>
-        /// Sets and gets the IsSearching property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool IsSearching
         {
-            get
-            {
-                return _isSearching;
-            }
-            set
-            {
-                Set(IsSearchingPropertyName, ref _isSearching, value);
-            }
+            get => _isSearching;
+            set => SetProperty(ref _isSearching, value);
         }
 
         #endregion ----- IsSearching -----
 
         #region ----- ListItems -----
 
-        /// <summary>
-        /// The <see cref="ListItems" /> property's name.
-        /// </summary>
-        public const string ListItemsPropertyName = "ListItems";
-
         private object _listItem = new List<object>();
 
-        /// <summary>
-        /// Sets and gets the ListItems property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public object ListItems
         {
-            get
-            {
-                return _listItem;
-            }
-            set
-            {
-                Set(ListItemsPropertyName, ref _listItem, value);
-            }
+            get => _listItem;
+            set => SetProperty(ref _listItem, value);
         }
 
         #endregion ----- ListItems -----
 
         #region ----- Current Item -----
 
-        /// <summary>
-        /// The <see cref="SelectedItem" /> property's name.
-        /// </summary>
-        public const string SelectedItemPropertyName = "SelectedItem";
-
         private object _selectedItem = null;
 
-        /// <summary>
-        /// Sets and gets the SelectedItem property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public object SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get => _selectedItem;
             set
             {
-                Set(SelectedItemPropertyName, ref _selectedItem, value);
-                _messenger.Send(new ShowItemMessage(value));
+                SetProperty(ref _selectedItem, value);
+                _messenger.GetEvent<PubSubEvent<ShowItemMessage>>().Publish(new ShowItemMessage(value));
             }
         }
 
@@ -105,10 +62,10 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Constructor -----
 
-        public SearchResultViewModel(IMessenger messenger)
+        public SearchResultViewModel(IEventAggregator messenger)
         {
             _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
-            _messenger.Register<SearchMessage>(this, searchMessage => ProcessSearchMessage(searchMessage));
+            _messenger.GetEvent<PubSubEvent<SearchMessage>>().Subscribe(ProcessSearchMessage);
         }
 
         #endregion ----- Constructor -----

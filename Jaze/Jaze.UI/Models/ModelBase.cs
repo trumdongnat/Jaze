@@ -1,6 +1,8 @@
-﻿namespace Jaze.UI.Models
+﻿using Prism.Mvvm;
+
+namespace Jaze.UI.Models
 {
-    public class ModelBase : GalaSoft.MvvmLight.ObservableObject
+    public class ModelBase : BindableBase
     {
         public bool IsLoadFull { get; set; }
     }

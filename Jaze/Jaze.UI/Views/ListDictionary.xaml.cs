@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Jaze.UI.Models;
+﻿using System.Windows.Controls;
 
 namespace Jaze.UI.Views
 {

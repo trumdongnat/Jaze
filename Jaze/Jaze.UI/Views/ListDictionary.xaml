@@ -5,9 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:Jaze.UI.Models"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{Binding Source={StaticResource Locator}, Path=SearchBar}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    d:DataContext="{d:DesignInstance viewModel:SearchBarViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Path x:Key="IconDicOpen" Data="M20,1.5L20,14.5 14.25,14.5 13.3409719467163,14.734375 12.6294746398926,15.25 12.1657409667969,15.765625 12,16 9,16 8.83425903320313,15.765625 8.37052536010742,15.25 7.65902805328369,14.734375 6.75,14.5 1,14.5 1,1.5 8.75,1.5 9.2023754119873,1.77971243858337 10.2382507324219,2.67240047454834 10.926305770874,1.99460649490356 11.5311813354492,1.64655005931854 12.125,1.5 20,1.5z M9,3.82600021362305L8.47869968414307,3.26354384422302 8,3 2.5,3 2.5,13 7,13 7.625,13.125 8.265625,13.52734375 9,14.375 9,3.82600021362305z M12,14.375L12.734375,13.52734375 13.375,13.125 14,13 18.5,13 18.5,3 13,3 12.5213003158569,3.26354384422302 12,3.82600021362305 12,14.375z" />

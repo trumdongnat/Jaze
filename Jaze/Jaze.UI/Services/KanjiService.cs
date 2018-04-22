@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Documents;
 using Jaze.Domain;
 using Jaze.UI.Models;
 using Jaze.UI.Util;

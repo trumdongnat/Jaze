@@ -9,13 +9,16 @@
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:Jaze.UI.Models"
+    xmlns:prism="http://prismlibrary.com/"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     Name="TopParent"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    DataContext="{Binding Source={StaticResource Locator}, Path=KanjiPart}"
+    d:DataContext="{d:DesignInstance viewModel:KanjiPartViewModel}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionParts" Source="{Binding Parts}">
@@ -143,7 +146,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button Grid.Column="1" Command="{Binding CopyKanjiCommand}">
-                    <iconPacks:PackIconFontAwesome Kind="Clone" />
+                    <iconPacks:PackIconFontAwesome Kind="CloneRegular" />
                 </Button>
             </Grid>
             <!--  kanji content  -->

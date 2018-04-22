@@ -1,9 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Documents;
-using GalaSoft.MvvmLight.Command;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
@@ -12,6 +9,8 @@ using Jaze.UI.Services.Documents;
 using System.Windows;
 using Jaze.UI.Services.URI;
 using System.Linq;
+using Prism.Commands;
+using Prism.Events;
 
 namespace Jaze.UI.ViewModel
 {
@@ -19,7 +18,7 @@ namespace Jaze.UI.ViewModel
     {
         #region ----- Services -----
 
-        private readonly IMessenger _messenger;
+        private readonly IEventAggregator _messenger;
         private readonly ISearchService<GrammarModel> _grammarService;
         private readonly ISearchService<HanVietModel> _hanvietService;
         private readonly ISearchService<JaenModel> _jaenService;
@@ -44,72 +43,33 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Item Document -----
 
-        /// <summary>
-        /// The <see cref="ItemDocument" /> property's name.
-        /// </summary>
-        public const string ItemDocumentPropertyName = "ItemDocument";
-
         private FlowDocument _itemDocument = null;
 
-        /// <summary>
-        /// Sets and gets the ItemDocument property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public FlowDocument ItemDocument
         {
-            get
-            {
-                return _itemDocument;
-            }
-            set
-            {
-                Set(ItemDocumentPropertyName, ref _itemDocument, value);
-            }
+            get => _itemDocument;
+            set => SetProperty(ref _itemDocument, value);
         }
 
         #endregion ----- Item Document -----
 
         #region ----- Is Loading -----
 
-        /// <summary>
-        /// The <see cref="IsLoading" /> property's name.
-        /// </summary>
-        public const string IsLoadingPropertyName = "IsLoading";
-
         private bool _isLoading = false;
 
-        /// <summary>
-        /// Sets and gets the IsLoading property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool IsLoading
         {
-            get
-            {
-                return _isLoading;
-            }
-            set
-            {
-                Set(IsLoadingPropertyName, ref _isLoading, value);
-            }
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
         }
 
         #endregion ----- Is Loading -----
 
         #region ----- Hyperlink click command -----
 
-        private RelayCommand<Hyperlink> _hyperlinkClickCommand;
+        private DelegateCommand<Hyperlink> _hyperlinkClickCommand;
 
-        /// <summary>
-        /// Gets the HyperlinkClickCommand.
-        /// </summary>
-        public RelayCommand<Hyperlink> HyperlinkClickCommand
-        {
-            get
-            {
-                return _hyperlinkClickCommand ?? (_hyperlinkClickCommand = new RelayCommand<Hyperlink>(ExecuteHyperlinkClickCommand));
-            }
-        }
+        public DelegateCommand<Hyperlink> HyperlinkClickCommand => _hyperlinkClickCommand ?? (_hyperlinkClickCommand = new DelegateCommand<Hyperlink>(ExecuteHyperlinkClickCommand));
 
         private void ExecuteHyperlinkClickCommand(Hyperlink hyperlink)
         {
@@ -127,15 +87,13 @@ namespace Jaze.UI.ViewModel
                     }
                     if (!string.IsNullOrWhiteSpace(text))
                     {
-                        _messenger.Send(new QuickViewMessage(_dictionaryType, text));
+                        _messenger.GetEvent<PubSubEvent<QuickViewMessage>>().Publish(new QuickViewMessage(_dictionaryType, text));
                     }
                 }
             }
             else
             {
-                var parsedResult = _uriService.Parse(hyperlink.NavigateUri);
-                var action = parsedResult.Item1;
-                var parameter = parsedResult.Item2;
+                var (action, parameter) = _uriService.Parse(hyperlink.NavigateUri);
                 switch (action)
                 {
                     case UriAction.Unknown:
@@ -144,7 +102,7 @@ namespace Jaze.UI.ViewModel
                     case UriAction.QuickView:
                         if (!string.IsNullOrWhiteSpace(parameter))
                         {
-                            _messenger.Send(new QuickViewMessage(_dictionaryType, parameter));
+                            _messenger.GetEvent<PubSubEvent<QuickViewMessage>>().Publish(new QuickViewMessage(_dictionaryType, parameter));
                         }
                         break;
 
@@ -152,7 +110,7 @@ namespace Jaze.UI.ViewModel
                         if (!string.IsNullOrWhiteSpace(parameter))
                         {
                             var parts = parameter.ToCharArray().Select(c => c.ToString()).ToList();
-                            _messenger.Send(new ShowPartsMessage(parts));
+                            _messenger.GetEvent<PubSubEvent<ShowPartsMessage>>().Publish(new ShowPartsMessage(parts));
                         }
                         break;
 
@@ -166,26 +124,17 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Quick View Command -----
 
-        private RelayCommand<string> _quickViewCommand;
+        private DelegateCommand<string> _quickViewCommand;
 
-        /// <summary>
-        /// Gets the QuickViewCommand.
-        /// </summary>
-        public RelayCommand<string> QuickViewCommand
-        {
-            get
-            {
-                return _quickViewCommand ?? (_quickViewCommand = new RelayCommand<string>(
-                    ExecuteQuickViewCommand,
-                    CanExecuteQuickViewCommand));
-            }
-        }
+        public DelegateCommand<string> QuickViewCommand => _quickViewCommand ?? (_quickViewCommand = new DelegateCommand<string>(
+                                                               ExecuteQuickViewCommand,
+                                                               CanExecuteQuickViewCommand));
 
         private void ExecuteQuickViewCommand(string parameter)
         {
             if (!string.IsNullOrWhiteSpace(parameter))
             {
-                _messenger.Send(new QuickViewMessage(_dictionaryType, parameter));
+                _messenger.GetEvent<PubSubEvent<QuickViewMessage>>().Publish(new QuickViewMessage(_dictionaryType, parameter));
             }
         }
 
@@ -198,20 +147,11 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Copy Text -----
 
-        private RelayCommand<string> _copyTextCommand;
+        private DelegateCommand<string> _copyTextCommand;
 
-        /// <summary>
-        /// Gets the CopyTextCommand.
-        /// </summary>
-        public RelayCommand<string> CopyTextCommand
-        {
-            get
-            {
-                return _copyTextCommand ?? (_copyTextCommand = new RelayCommand<string>(
-                    ExecuteCopyTextCommand,
-                    CanExecuteCopyTextCommand));
-            }
-        }
+        public DelegateCommand<string> CopyTextCommand => _copyTextCommand ?? (_copyTextCommand = new DelegateCommand<string>(
+                                                              ExecuteCopyTextCommand,
+                                                              CanExecuteCopyTextCommand));
 
         private void ExecuteCopyTextCommand(string parameter)
         {
@@ -227,7 +167,7 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Contructor -----
 
-        public ItemDisplayViewModel(IMessenger messenger, IUriService uriService, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
+        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
         {
             _messenger = messenger;
             _uriService = uriService;
@@ -245,7 +185,7 @@ namespace Jaze.UI.ViewModel
             _vijaBuilder = vijaBuilder;
 
             //register message
-            _messenger.Register<ShowItemMessage>(this, ProcessShowItemMessage);
+            _messenger.GetEvent<PubSubEvent<ShowItemMessage>>().Subscribe(ProcessShowItemMessage);
         }
 
         #endregion ----- Contructor -----

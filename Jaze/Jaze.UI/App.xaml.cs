@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Jaze.UI
 {
@@ -8,9 +7,11 @@ namespace Jaze.UI
     /// </summary>
     public partial class App : Application
     {
-        static App()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            DispatcherHelper.Initialize();
+            base.OnStartup(e);
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Run();
         }
     }
 }
