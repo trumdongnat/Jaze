@@ -5,6 +5,7 @@ using System.Windows;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
+using Jaze.UI.Repository;
 using Jaze.UI.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -13,7 +14,15 @@ namespace Jaze.UI.ViewModel
 {
     public class SearchBarViewModel : ViewModelBase
     {
-        #region ----- List Dictionary -----
+        #region ----- Services -----
+
+        private readonly IEventAggregator _eventAggregator;
+
+        private readonly IDictionaryRepository _dictionaryRepository;
+
+        #endregion ----- Services -----
+
+        #region ----- Properties -----
 
         private List<Dictionary> _listDictionary = null;
 
@@ -23,10 +32,6 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _listDictionary, value);
         }
 
-        #endregion ----- List Dictionary -----
-
-        #region ----- Selected Dictionary -----
-
         private Dictionary _selectedDictionary;
 
         public Dictionary SelectedDictionary
@@ -34,22 +39,6 @@ namespace Jaze.UI.ViewModel
             get => _selectedDictionary;
             set => SetProperty(ref _selectedDictionary, value);
         }
-
-        #endregion ----- Selected Dictionary -----
-
-        #region ----- Services -----
-
-        private readonly IEventAggregator _eventAggregator;
-        private readonly ISearchService<GrammarModel> _grammarService;
-        private readonly ISearchService<HanVietModel> _hanvietService;
-        private readonly ISearchService<JaenModel> _jaenService;
-        private readonly ISearchService<JaviModel> _javiService;
-        private readonly ISearchService<KanjiModel> _kanjiService;
-        private readonly ISearchService<VijaModel> _vijaService;
-
-        #endregion ----- Services -----
-
-        #region ----- Search Key -----
 
         private string _searchKey = string.Empty;
 
@@ -59,9 +48,9 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _searchKey, value);
         }
 
-        #endregion ----- Search Key -----
+        #endregion ----- Properties -----
 
-        #region ----- Search Command -----
+        #region ----- Commands -----
 
         private bool _isSearching;
         private DelegateCommand<string> _searchCommand;
@@ -70,59 +59,22 @@ namespace Jaze.UI.ViewModel
                                                             ExecuteSearchCommand,
                                                             CanExecuteSearchCommand));
 
-        private void ExecuteSearchCommand(string key)
+        private async void ExecuteSearchCommand(string key)
         {
             _isSearching = true;
             var dictionaryType = SelectedDictionary.Type;
-            _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Searching, dictionaryType, null));
-            SearchAsync(key, dictionaryType, _searchOption);
+            var pubSub = _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>();
+            pubSub.Publish(new SearchMessage(SearchStates.Searching, dictionaryType, null));
+            //SearchAsync(key, dictionaryType, _searchOption);
+            var result = await _dictionaryRepository.SearchAsync(new SearchArgs(key, _searchOption, dictionaryType));
+            pubSub.Publish(new SearchMessage(SearchStates.Success, dictionaryType, result));
+            _isSearching = false;
         }
 
         private bool CanExecuteSearchCommand(string key)
         {
             return !_isSearching;
         }
-
-        private async void SearchAsync(string key, DictionaryType dictionaryType, SearchOption searchOption)
-        {
-            await Task.Run(() =>
-            {
-                switch (dictionaryType)
-                {
-                    case DictionaryType.JaVi:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _javiService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    case DictionaryType.HanViet:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _hanvietService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    case DictionaryType.Kanji:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _kanjiService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    case DictionaryType.ViJa:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _vijaService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    case DictionaryType.Grammar:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _grammarService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    case DictionaryType.JaEn:
-                        _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Publish(new SearchMessage(SearchStates.Success, dictionaryType, _jaenService.Search(new SearchArgs(key, searchOption))));
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(dictionaryType), dictionaryType, null);
-                }
-                _isSearching = false;
-            });
-        }
-
-        #endregion ----- Search Command -----
-
-        #region ----- Paste To Search -----
 
         private DelegateCommand _pasteToSearchCommand;
 
@@ -131,22 +83,18 @@ namespace Jaze.UI.ViewModel
             get
             {
                 return _pasteToSearchCommand
-                    ?? (_pasteToSearchCommand = new DelegateCommand(
-                    () =>
-                    {
-                        var key = Clipboard.GetText();
-                        if (SearchCommand.CanExecute(key))
-                        {
-                            SearchKey = key;
-                            SearchCommand.Execute(key);
-                        }
-                    }));
+                       ?? (_pasteToSearchCommand = new DelegateCommand(
+                           () =>
+                           {
+                               var key = Clipboard.GetText();
+                               if (SearchCommand.CanExecute(key))
+                               {
+                                   SearchKey = key;
+                                   SearchCommand.Execute(key);
+                               }
+                           }));
             }
         }
-
-        #endregion ----- Paste To Search -----
-
-        #region ----- Show Kanji Part Command -----
 
         private DelegateCommand _showKanjiPartCommand;
 
@@ -164,15 +112,11 @@ namespace Jaze.UI.ViewModel
             return true;
         }
 
-        #endregion ----- Show Kanji Part Command -----
-
-        #region ----- Change Search Option -----
-
         private DelegateCommand<SearchOption?> _searchOptionChange;
         private SearchOption _searchOption;
 
         public DelegateCommand<SearchOption?> ChangeSearchOptionCommand => _searchOptionChange
-                                                                          ?? (_searchOptionChange = new DelegateCommand<SearchOption?>(ExecuteMyCommand));
+                                                                           ?? (_searchOptionChange = new DelegateCommand<SearchOption?>(ExecuteMyCommand));
 
         private void ExecuteMyCommand(SearchOption? option)
         {
@@ -182,20 +126,15 @@ namespace Jaze.UI.ViewModel
             }
         }
 
-        #endregion ----- Change Search Option -----
+        #endregion ----- Commands -----
 
         #region ----- Contructor -----
 
-        public SearchBarViewModel(IEventAggregator eventAggregator, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService)
+        public SearchBarViewModel(IEventAggregator eventAggregator, IDictionaryRepository dictionaryRepository)
         {
             _eventAggregator = eventAggregator;
-            _grammarService = grammarService;
-            _hanvietService = hanvietService;
-            _jaenService = jaenService;
-            _javiService = javiService;
-            _kanjiService = kanjiService;
-            _vijaService = vijaService;
-            ListDictionary = Dictionary.GetDictionarys();
+            _dictionaryRepository = dictionaryRepository;
+            ListDictionary = _dictionaryRepository.GetDictionarys();
             SelectedDictionary = ListDictionary[0];
         }
 

@@ -11,16 +11,10 @@ namespace Jaze.UI.ViewModel
         #region ----- Services -----
 
         private readonly IEventAggregator _messenger;
-        //private ISearchService<GrammarModel> _grammarService;
-        //private ISearchService<HanVietModel> _hanvietService;
-        //private ISearchService<JaenModel> _jaenService;
-        //private ISearchService<JaviModel> _javiService;
-        //private ISearchService<KanjiModel> _kanjiService;
-        //private ISearchService<VijaModel> _vijaService;
 
         #endregion ----- Services -----
 
-        #region ----- IsSearching -----
+        #region ----- Properties -----
 
         private bool _isSearching = false;
 
@@ -30,10 +24,6 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _isSearching, value);
         }
 
-        #endregion ----- IsSearching -----
-
-        #region ----- ListItems -----
-
         private object _listItem = new List<object>();
 
         public object ListItems
@@ -41,10 +31,6 @@ namespace Jaze.UI.ViewModel
             get => _listItem;
             set => SetProperty(ref _listItem, value);
         }
-
-        #endregion ----- ListItems -----
-
-        #region ----- Current Item -----
 
         private object _selectedItem = null;
 
@@ -58,7 +44,7 @@ namespace Jaze.UI.ViewModel
             }
         }
 
-        #endregion ----- Current Item -----
+        #endregion ----- Properties -----
 
         #region ----- Constructor -----
 

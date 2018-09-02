@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
-using Jaze.UI.Models;
-using Jaze.UI.Services;
-using Jaze.UI.Services.Documents;
 using System.Windows;
 using Jaze.UI.Services.URI;
 using System.Linq;
+using Jaze.UI.Repository;
 using Prism.Commands;
 using Prism.Events;
 
@@ -19,18 +17,9 @@ namespace Jaze.UI.ViewModel
         #region ----- Services -----
 
         private readonly IEventAggregator _messenger;
-        private readonly ISearchService<GrammarModel> _grammarService;
-        private readonly ISearchService<HanVietModel> _hanvietService;
-        private readonly ISearchService<JaenModel> _jaenService;
-        private readonly ISearchService<JaviModel> _javiService;
-        private readonly ISearchService<KanjiModel> _kanjiService;
-        private readonly ISearchService<VijaModel> _vijaService;
-        private readonly IBuilder<GrammarModel> _grammarBuilder;
-        private readonly IBuilder<HanVietModel> _hanvietBuilder;
-        private readonly IBuilder<JaenModel> _jaenBuilder;
-        private readonly IBuilder<JaviModel> _javiBuilder;
-        private readonly IBuilder<KanjiModel> _kanjiBuilder;
-        private readonly IBuilder<VijaModel> _vijaBuilder;
+
+        private readonly IDictionaryRepository _dictionaryRepository;
+
         private readonly IUriService _uriService;
 
         #endregion ----- Services -----
@@ -38,10 +27,6 @@ namespace Jaze.UI.ViewModel
         #region ----- Properties -----
 
         private DictionaryType _dictionaryType;
-
-        #endregion ----- Properties -----
-
-        #region ----- Item Document -----
 
         private FlowDocument _itemDocument = null;
 
@@ -51,10 +36,6 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _itemDocument, value);
         }
 
-        #endregion ----- Item Document -----
-
-        #region ----- Is Loading -----
-
         private bool _isLoading = false;
 
         public bool IsLoading
@@ -63,9 +44,9 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _isLoading, value);
         }
 
-        #endregion ----- Is Loading -----
+        #endregion ----- Properties -----
 
-        #region ----- Hyperlink click command -----
+        #region ----- Commands -----
 
         private DelegateCommand<Hyperlink> _hyperlinkClickCommand;
 
@@ -120,10 +101,6 @@ namespace Jaze.UI.ViewModel
             }
         }
 
-        #endregion ----- Hyperlink click command -----
-
-        #region ----- Quick View Command -----
-
         private DelegateCommand<string> _quickViewCommand;
 
         public DelegateCommand<string> QuickViewCommand => _quickViewCommand ?? (_quickViewCommand = new DelegateCommand<string>(
@@ -143,10 +120,6 @@ namespace Jaze.UI.ViewModel
             return true;
         }
 
-        #endregion ----- Quick View Command -----
-
-        #region ----- Copy Text -----
-
         private DelegateCommand<string> _copyTextCommand;
 
         public DelegateCommand<string> CopyTextCommand => _copyTextCommand ?? (_copyTextCommand = new DelegateCommand<string>(
@@ -163,26 +136,15 @@ namespace Jaze.UI.ViewModel
             return true;
         }
 
-        #endregion ----- Copy Text -----
+        #endregion ----- Commands -----
 
         #region ----- Contructor -----
 
-        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
+        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, IDictionaryRepository dictionaryRepository)
         {
             _messenger = messenger;
             _uriService = uriService;
-            _grammarService = grammarService;
-            _hanvietService = hanvietService;
-            _jaenService = jaenService;
-            _javiService = javiService;
-            _kanjiService = kanjiService;
-            _vijaService = vijaService;
-            _grammarBuilder = grammarBuilder;
-            _hanvietBuilder = hanvietBuilder;
-            _jaenBuilder = jaenBuilder;
-            _javiBuilder = javiBuilder;
-            _kanjiBuilder = kanjiBuilder;
-            _vijaBuilder = vijaBuilder;
+            _dictionaryRepository = dictionaryRepository;
 
             //register message
             _messenger.GetEvent<PubSubEvent<ShowItemMessage>>().Subscribe(ProcessShowItemMessage);
@@ -192,88 +154,22 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Process Event Messages -----
 
-        private void ProcessShowItemMessage(ShowItemMessage message)
+        private async void ProcessShowItemMessage(ShowItemMessage message)
         {
             if (message?.Item == null)
             {
                 return;
             }
             IsLoading = true;
+            _dictionaryType = _dictionaryRepository.GetType(message.Item);
+            ItemDocument = await LoadDocumentAsync(message.Item);
+            IsLoading = false;
+        }
 
-            switch (message.Item)
-            {
-                case KanjiModel kanji:
-                    _dictionaryType = DictionaryType.Kanji;
-                    Task.Run(() =>
-                    {
-                        _kanjiService.LoadFull(kanji);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _kanjiBuilder.Build(kanji);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-
-                case GrammarModel grammar:
-                    _dictionaryType = DictionaryType.Grammar;
-                    Task.Run(() =>
-                    {
-                        _grammarService.LoadFull(grammar);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _grammarBuilder.Build(grammar);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-
-                case HanVietModel hanviet:
-                    _dictionaryType = DictionaryType.HanViet;
-                    Task.Run(() =>
-                    {
-                        _hanvietService.LoadFull(hanviet);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _hanvietBuilder.Build(hanviet);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-
-                case JaenModel jaen:
-                    _dictionaryType = DictionaryType.JaEn;
-                    Task.Run(() =>
-                    {
-                        _jaenService.LoadFull(jaen);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _jaenBuilder.Build(jaen);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-
-                case JaviModel javi:
-                    _dictionaryType = DictionaryType.JaVi;
-                    Task.Run(() =>
-                    {
-                        _javiService.LoadFull(javi);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _javiBuilder.Build(javi);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-
-                case VijaModel vija:
-                    _dictionaryType = DictionaryType.ViJa;
-                    Task.Run(() =>
-                    {
-                        _vijaService.LoadFull(vija);
-                    }).ContinueWith(previous =>
-                    {
-                        ItemDocument = _vijaBuilder.Build(vija);
-                        IsLoading = false;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                    break;
-            }
+        private async Task<FlowDocument> LoadDocumentAsync(object item)
+        {
+            await _dictionaryRepository.LoadFullAsync(item);
+            return _dictionaryRepository.GetDocument(item);
         }
 
         #endregion ----- Process Event Messages -----

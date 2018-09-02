@@ -172,6 +172,8 @@
     <Compile Include="Models\SelectablePartModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
     <Compile Include="Models\WordMean.cs" />
+    <Compile Include="Repository\DictionaryRepository.cs" />
+    <Compile Include="Repository\IDictionaryRepository.cs" />
     <Compile Include="Services\Documents\BuilderBase.cs" />
     <Compile Include="Services\Documents\GrammarBuilder.cs" />
     <Compile Include="Services\Documents\HanVietBuilder.cs" />

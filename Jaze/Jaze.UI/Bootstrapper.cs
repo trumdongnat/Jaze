@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Jaze.UI.Models;
+using Jaze.UI.Repository;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using Jaze.UI.Services.URI;
@@ -45,6 +46,8 @@ namespace Jaze.UI
             Container.RegisterType<IBuilder<JaviModel>, JaviBuilder>();
             Container.RegisterType<IBuilder<KanjiModel>, KanjiBuilder>();
             Container.RegisterType<IBuilder<VijaModel>, VijaBuilder>();
+            //repository
+            Container.RegisterType<IDictionaryRepository, DictionaryRepository>();
 
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 

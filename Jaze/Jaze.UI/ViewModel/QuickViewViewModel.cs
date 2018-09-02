@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;
+using Jaze.UI.Repository;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using Jaze.UI.Util;
@@ -18,22 +19,12 @@ namespace Jaze.UI.ViewModel
         #region ----- Services -----
 
         private readonly IEventAggregator _eventAggregator;
-        private readonly ISearchService<GrammarModel> _grammarService;
-        private readonly ISearchService<HanVietModel> _hanvietService;
-        private readonly ISearchService<JaenModel> _jaenService;
-        private readonly ISearchService<JaviModel> _javiService;
-        private readonly ISearchService<KanjiModel> _kanjiService;
-        private readonly ISearchService<VijaModel> _vijaService;
-        private readonly IBuilder<GrammarModel> _grammarBuilder;
-        private readonly IBuilder<HanVietModel> _hanvietBuilder;
-        private readonly IBuilder<JaenModel> _jaenBuilder;
-        private readonly IBuilder<JaviModel> _javiBuilder;
-        private readonly IBuilder<KanjiModel> _kanjiBuilder;
-        private readonly IBuilder<VijaModel> _vijaBuilder;
+
+        private readonly IDictionaryRepository _dictionaryRepository;
 
         #endregion ----- Services -----
 
-        #region ----- Item Documents -----
+        #region ----- Properties -----
 
         private List<FlowDocument> _itemDocuments = new List<FlowDocument>();
 
@@ -43,10 +34,6 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _itemDocuments, value);
         }
 
-        #endregion ----- Item Documents -----
-
-        #region ----- Is Loading -----
-
         private bool _isLoading = false;
 
         public bool IsLoading
@@ -55,25 +42,14 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _isLoading, value);
         }
 
-        #endregion ----- Is Loading -----
+        #endregion ----- Properties -----
 
         #region ----- Contructor -----
 
-        public QuickViewViewModel(IEventAggregator eventAggregator, ISearchService<GrammarModel> grammarService, ISearchService<HanVietModel> hanvietService, ISearchService<JaenModel> jaenService, ISearchService<JaviModel> javiService, ISearchService<KanjiModel> kanjiService, ISearchService<VijaModel> vijaService, IBuilder<GrammarModel> grammarBuilder, IBuilder<HanVietModel> hanvietBuilder, IBuilder<JaenModel> jaenBuilder, IBuilder<JaviModel> javiBuilder, IBuilder<KanjiModel> kanjiBuilder, IBuilder<VijaModel> vijaBuilder)
+        public QuickViewViewModel(IEventAggregator eventAggregator, IDictionaryRepository dictionaryRepository)
         {
             _eventAggregator = eventAggregator;
-            _grammarService = grammarService;
-            _hanvietService = hanvietService;
-            _jaenService = jaenService;
-            _javiService = javiService;
-            _kanjiService = kanjiService;
-            _vijaService = vijaService;
-            _grammarBuilder = grammarBuilder;
-            _hanvietBuilder = hanvietBuilder;
-            _jaenBuilder = jaenBuilder;
-            _javiBuilder = javiBuilder;
-            _kanjiBuilder = kanjiBuilder;
-            _vijaBuilder = vijaBuilder;
+            _dictionaryRepository = dictionaryRepository;
 
             //register message
             _eventAggregator.GetEvent<PubSubEvent<QuickViewMessage>>().Subscribe(ProcessQuickViewMessage);
@@ -83,7 +59,7 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Process Event Messages -----
 
-        private void ProcessQuickViewMessage(QuickViewMessage message)
+        private async void ProcessQuickViewMessage(QuickViewMessage message)
         {
             if (string.IsNullOrWhiteSpace(message.Word))
             {
@@ -108,7 +84,7 @@ namespace Jaze.UI.ViewModel
             switch (dictionaryType)
             {
                 case DictionaryType.HanViet:
-                    SearchAndView<HanVietModel>(_hanvietService, _hanvietBuilder, word, notFoundDocuments);
+                    ItemDocuments = await GetDocumentsAsync(DictionaryType.HanViet, word);
                     break;
 
                 case DictionaryType.JaVi:
@@ -118,22 +94,19 @@ namespace Jaze.UI.ViewModel
                     //search in kanji dictionary
                     if (word.Length == 1 && StringUtil.IsKanji(word[0]))
                     {
-                        SearchAndView<KanjiModel>(_kanjiService, _kanjiBuilder, word, notFoundDocuments);
+                        ItemDocuments = await GetDocumentsAsync(DictionaryType.Kanji, word);
                     }
                     //search in javi dictionary
                     else if (StringUtil.IsJapanese(word))
                     {
-                        SearchAndView<JaviModel>(_javiService, _javiBuilder, word, notFoundDocuments);
+                        ItemDocuments = await GetDocumentsAsync(DictionaryType.JaVi, word);
                     }
                     //search in vija dictionary
                     else if (word.Split(' ').All(StringUtil.IsVietnameseWord))
                     {
-                        SearchAndView<VijaModel>(_vijaService, _vijaBuilder, word, notFoundDocuments);
-                    }
-                    else
-                    {
-                        ItemDocuments = notFoundDocuments;
-                        IsLoading = false;
+                        var documents = await GetDocumentsAsync(DictionaryType.Kanji, word);
+                        documents.AddRange(await GetDocumentsAsync(DictionaryType.ViJa, word));
+                        ItemDocuments = documents;
                     }
                     break;
 
@@ -143,39 +116,20 @@ namespace Jaze.UI.ViewModel
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            if (ItemDocuments == null || ItemDocuments.Count == 0)
+            {
+                ItemDocuments = notFoundDocuments;
+            }
+            IsLoading = false;
         }
 
-        private void SearchAndView<TModel>(ISearchService<TModel> searcher, IBuilder<TModel> builder, string word, List<FlowDocument> notFoundDocuments) where TModel : new()
+        private async Task<List<FlowDocument>> GetDocumentsAsync(DictionaryType dictionaryType, string word)
         {
-            Task.Run(() =>
-            {
-                var models = searcher.SearchExact(word);
-                if (models != null && models.Count > 0)
-                {
-                    foreach (var model in models)
-                    {
-                        searcher.LoadFull(model);
-                    }
-                }
-                return models;
-            }).ContinueWith(previous =>
-            {
-                var models = previous.Result;
-                var documents = new List<FlowDocument>();
-                if (models != null && models.Count > 0)
-                {
-                    foreach (var model in models)
-                    {
-                        documents.Add(builder.BuildLite(model));
-                    }
-                    ItemDocuments = documents;
-                }
-                else
-                {
-                    ItemDocuments = notFoundDocuments;
-                }
-                IsLoading = false;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            var items = await _dictionaryRepository.SearchAsync(new SearchArgs(word, SearchOption.Exact, dictionaryType));
+            var loadFullTasks = items.Select(item => _dictionaryRepository.LoadFullAsync(item));
+            await Task.WhenAll(loadFullTasks);
+            return items.Select(item => _dictionaryRepository.GetQuickViewDocument(item)).ToList();
         }
 
         #endregion ----- Process Event Messages -----
