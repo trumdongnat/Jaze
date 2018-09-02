@@ -1,4 +1,4 @@
-﻿using Jaze.UI.Definitions;
+﻿using System;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
@@ -8,16 +8,16 @@ using System.Windows.Documents;
 using System.Linq;
 using System.Threading.Tasks;
 using Jaze.UI.Messages;
+using Jaze.UI.Notification;
 using Prism.Commands;
-using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Jaze.UI.ViewModel
 {
-    public class KanjiPartViewModel : ViewModelBase
+    public class KanjiPartViewModel : ViewModelBase, IInteractionRequestAware
     {
         #region ----- Services -----
 
-        private readonly IEventAggregator _messenger;
         private readonly ISearchService<KanjiModel> _kanjiService;
         private readonly IBuilder<KanjiModel> _kanjiBuilder;
         private readonly IKanjiPartService _kanjiPartService;
@@ -25,12 +25,6 @@ namespace Jaze.UI.ViewModel
         #endregion ----- Services -----
 
         #region ----- Properties -----
-
-        private DictionaryType _dictionaryType;
-
-        #endregion ----- Properties -----
-
-        #region ----- Parts -----
 
         private List<SelectablePartModel> _parts = new List<SelectablePartModel>();
 
@@ -40,9 +34,33 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _parts, value);
         }
 
-        #endregion ----- Parts -----
+        private FlowDocument _itemDocument = null;
 
-        #region ----- Update Filter Command -----
+        public FlowDocument ItemDocument
+        {
+            get => _itemDocument;
+            set => SetProperty(ref _itemDocument, value);
+        }
+
+        private bool _isLoadingDocument = false;
+
+        public bool IsLoadingDocument
+        {
+            get => _isLoadingDocument;
+            set => SetProperty(ref _isLoadingDocument, value);
+        }
+
+        private bool _isFiltering;
+
+        public bool IsFiltering
+        {
+            get => _isFiltering;
+            set => SetProperty(ref _isFiltering, value);
+        }
+
+        #endregion ----- Properties -----
+
+        #region -----  Commands -----
 
         private DelegateCommand _updateFilterCommand;
 
@@ -50,31 +68,32 @@ namespace Jaze.UI.ViewModel
                                                           ExecuteUpdateFilterCommand,
                                                           CanExecuteUpdateFilterCommand));
 
-        private void ExecuteUpdateFilterCommand()
+        private async void ExecuteUpdateFilterCommand()
         {
+            IsFiltering = true;
             var selectedPart = Parts.Where(part => part.IsSelected).ToArray();
-            FilteredKanjis = _kanjiPartService.GetListKanji(selectedPart);
-            var selectableParts = _kanjiPartService.GetSelectablePart(FilteredKanjis);
+            FilteredKanjis = await Task.Run(() => _kanjiPartService.GetListKanji(selectedPart));
+            var selectableParts = await Task.Run(() => _kanjiPartService.GetSelectablePart(FilteredKanjis));
             foreach (var part in Parts)
             {
                 part.IsEnabled = false;
             }
             foreach (var selectablePart in selectableParts)
             {
-                Parts.FirstOrDefault(part => part.Id == selectablePart.Id).IsEnabled = true;
+                var part = Parts.FirstOrDefault(p => p.Id == selectablePart.Id);
+                if (part != null)
+                {
+                    part.IsEnabled = true;
+                }
             }
+
+            IsFiltering = false;
         }
 
         private bool CanExecuteUpdateFilterCommand()
         {
             return true;
         }
-
-        #endregion ----- Update Filter Command -----
-
-        #region ----- Filtered Kanjis -----
-
-        public const string FilteredKanjisPropertyName = "FilteredKanjis";
 
         private List<KanjiModel> _filteredKanjis = new List<KanjiModel>();
 
@@ -83,10 +102,6 @@ namespace Jaze.UI.ViewModel
             get => _filteredKanjis;
             set => SetProperty(ref _filteredKanjis, value);
         }
-
-        #endregion ----- Filtered Kanjis -----
-
-        #region ----- Show Kanji Command -----
 
         private DelegateCommand<KanjiModel> _showKanjiCommand;
 
@@ -113,38 +128,6 @@ namespace Jaze.UI.ViewModel
             return true;
         }
 
-        #endregion ----- Show Kanji Command -----
-
-        #region ----- Item Document -----
-
-        public const string ItemDocumentPropertyName = "ItemDocument";
-
-        private FlowDocument _itemDocument = null;
-
-        public FlowDocument ItemDocument
-        {
-            get => _itemDocument;
-            set => SetProperty(ref _itemDocument, value);
-        }
-
-        #endregion ----- Item Document -----
-
-        #region ----- Is Loading Document-----
-
-        public const string IsLoadingPropertyName = "IsLoadingDocument";
-
-        private bool _isLoadingDocument = false;
-
-        public bool IsLoadingDocument
-        {
-            get => _isLoadingDocument;
-            set => SetProperty(ref _isLoadingDocument, value);
-        }
-
-        #endregion ----- Is Loading Document-----
-
-        #region ----- Copy Text -----
-
         private DelegateCommand _copyKanjiCommand;
 
         public DelegateCommand CopyKanjiCommand => _copyKanjiCommand
@@ -156,13 +139,12 @@ namespace Jaze.UI.ViewModel
             Clipboard.SetText(words);
         }
 
-        #endregion ----- Copy Text -----
+        #endregion -----  Commands -----
 
         #region ----- Contructor -----
 
-        public KanjiPartViewModel(IEventAggregator messenger, ISearchService<KanjiModel> kanjiService, IBuilder<KanjiModel> kanjiBuilder, IKanjiPartService kanjiPartService)
+        public KanjiPartViewModel(ISearchService<KanjiModel> kanjiService, IBuilder<KanjiModel> kanjiBuilder, IKanjiPartService kanjiPartService)
         {
-            _messenger = messenger;
             _kanjiService = kanjiService;
             _kanjiBuilder = kanjiBuilder;
             _kanjiPartService = kanjiPartService;
@@ -170,27 +152,43 @@ namespace Jaze.UI.ViewModel
             Parts = _kanjiPartService.GetListParts()
                 .Select(SelectablePartModel.Create)
                 .ToList();
-
-            messenger.GetEvent<PubSubEvent<ShowPartsMessage>>().Subscribe(ProcessShowPartsMessage);
         }
 
-        private void ProcessShowPartsMessage(ShowPartsMessage message)
+        private void ShowParts(List<string> parts)
         {
-            if (message?.Parts != null)
+            Parts.ForEach(part => { part.IsSelected = false; part.IsEnabled = true; });
+            foreach (var partStr in parts)
             {
-                Parts.ForEach(part => { part.IsSelected = false; part.IsEnabled = true; });
-                foreach (var partStr in message.Parts)
+                var part = Parts.FirstOrDefault(obj => obj.Word == partStr);
+                if (part != null)
                 {
-                    var part = Parts.FirstOrDefault(obj => obj.Word == partStr);
-                    if (part != null)
-                    {
-                        part.IsSelected = true;
-                    }
+                    part.IsSelected = true;
                 }
-                ExecuteUpdateFilterCommand();
             }
+            ExecuteUpdateFilterCommand();
         }
 
         #endregion ----- Contructor -----
+
+        #region Interaction
+
+        private IShowKanjiPartNotification _kanjiPartNotification;
+
+        public INotification Notification
+        {
+            get => _kanjiPartNotification;
+            set
+            {
+                if (value is IShowKanjiPartNotification notification)
+                {
+                    _kanjiPartNotification = notification;
+                    ShowParts(_kanjiPartNotification.Parts);
+                }
+            }
+        }
+
+        public Action FinishInteraction { get; set; }
+
+        #endregion Interaction
     }
 }

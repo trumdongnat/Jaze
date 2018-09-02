@@ -3,7 +3,10 @@ using Jaze.UI.Views;
 using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Media;
+using Jaze.UI.Notification;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Jaze.UI.ViewModel
 {
@@ -12,6 +15,7 @@ namespace Jaze.UI.ViewModel
         #region ----- Services -----
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IDialogCoordinator _dialogCoordinator;
 
         #endregion ----- Services -----
 
@@ -27,29 +31,25 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Is Show Quick View -----
 
-        public MainViewModel(IEventAggregator eventAggregator)
+        public MainViewModel(IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator)
         {
             _eventAggregator = eventAggregator;
+            _dialogCoordinator = dialogCoordinator;
             _eventAggregator.GetEvent<PubSubEvent<QuickViewMessage>>().Subscribe(message =>
            {
                IsShowQuickView = true;
            });
+            ShowKanjiPartRequest = new InteractionRequest<IShowKanjiPartNotification>();
             _eventAggregator.GetEvent<PubSubEvent<ShowPartsMessage>>().Subscribe(message =>
             {
-                var window = new MetroWindow();
-                window.Title = "Kanji Part";
-
-                window.Content = kanjiPartView;
-                window.Width = 800;
-                window.Height = 600;
-                window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                window.BorderThickness = new Thickness(1.0);
-                window.BorderBrush = Brushes.Black;
-
-                window.ShowDialog();
+                ShowKanjiPartRequest.Raise(new ShowKanjiPartNofitication() { Parts = message.Parts, Title = "Kanji Part" });
             });
         }
 
-        private readonly KanjiPart kanjiPartView = new KanjiPart();
+        #region Interactions
+
+        public InteractionRequest<IShowKanjiPartNotification> ShowKanjiPartRequest { get; set; }
+
+        #endregion Interactions
     }
 }

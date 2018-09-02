@@ -15,9 +15,9 @@
     xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     Name="TopParent"
+    d:DataContext="{d:DesignInstance viewModel:KanjiPartViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    d:DataContext="{d:DesignInstance viewModel:KanjiPartViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -31,133 +31,136 @@
         </CollectionViewSource>
         <system:Double x:Key="ButtonPartSize">30</system:Double>
     </UserControl.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel>
-            <!--  kanji parts  -->
-            <Grid Margin="3">
-                <ItemsControl ItemsSource="{Binding Source={StaticResource ResourceKey=CollectionParts}}">
-                    <ItemsControl.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.Panel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </GroupStyle.Panel>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="GroupItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <ContentPresenter VerticalAlignment="Top" />
-                                                    <ItemsPresenter Grid.Column="1" Margin="5,0,0,0" />
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <ToggleButton
-                                        Width="{StaticResource ResourceKey=ButtonPartSize}"
-                                        Height="{StaticResource ResourceKey=ButtonPartSize}"
-                                        Margin="1"
-                                        IsEnabled="False">
-                                        <TextBlock
-                                            FontSize="14"
-                                            FontWeight="Normal"
-                                            Text="{Binding Items[0].Stroke, StringFormat={}{0}}" />
-                                    </ToggleButton>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ItemsControl.GroupStyle>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="models:SelectablePartModel">
-                            <ToggleButton
-                                Width="{StaticResource ResourceKey=ButtonPartSize}"
-                                Height="{StaticResource ResourceKey=ButtonPartSize}"
-                                Margin="1"
-                                Command="{Binding Path=DataContext.UpdateFilterCommand, ElementName=TopParent}"
-                                IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                IsEnabled="{Binding IsEnabled, Mode=TwoWay}">
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="Normal"
-                                    Text="{Binding Path=Word}" />
-                            </ToggleButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <!--  result  -->
-            <Grid Margin="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                <ItemsControl
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    ItemsSource="{Binding FilteredKanjis}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="models:KanjiModel">
-                            <RadioButton
-                                Width="Auto"
-                                Height="Auto"
-                                Margin="1"
-                                Command="{Binding Path=DataContext.ShowKanjiCommand, ElementName=TopParent}"
-                                CommandParameter="{Binding}"
-                                GroupName="FilteredKanjis"
-                                Style="{StaticResource {x:Type ToggleButton}}">
-                                <TextBlock
-                                    FontSize="16"
-                                    FontWeight="Normal"
-                                    Text="{Binding Path=Word}" />
-                                <RadioButton.ToolTip>
-                                    <ToolTip>
-                                        <TextBlock FontSize="12">
-                                            <TextBlock.Inlines>
-                                                <Run Text="Word: " />
-                                                <Run Text="{Binding Word}" />
-                                                <Run Text=", Hán Việt: " />
-                                                <Run Text="{Binding HanViet}" />
-                                            </TextBlock.Inlines>
-                                        </TextBlock>
-                                    </ToolTip>
-                                </RadioButton.ToolTip>
-                            </RadioButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <Button Grid.Column="1" Command="{Binding CopyKanjiCommand}">
-                    <iconPacks:PackIconFontAwesome Kind="CloneRegular" />
-                </Button>
-            </Grid>
-            <!--  kanji content  -->
-            <tk:BusyIndicator IsBusy="{Binding IsLoadingDocument}">
-                <RichTextBox
-                    Margin="3"
-                    helper:RichTextBoxHelper.Document="{Binding ItemDocument}"
-                    FontSize="14"
-                    IsDocumentEnabled="True"
-                    IsReadOnly="True" />
-            </tk:BusyIndicator>
-        </StackPanel>
-    </ScrollViewer>
+    <tk:BusyIndicator IsBusy="{Binding IsFiltering}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!--  kanji parts  -->
+                <Grid Margin="3">
+                    <ItemsControl ItemsSource="{Binding Source={StaticResource ResourceKey=CollectionParts}}">
+                        <ItemsControl.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.Panel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </GroupStyle.Panel>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="GroupItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ContentPresenter VerticalAlignment="Top" />
+                                                        <ItemsPresenter Grid.Column="1" Margin="5,0,0,0" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <ToggleButton
+                                            Width="{StaticResource ResourceKey=ButtonPartSize}"
+                                            Height="{StaticResource ResourceKey=ButtonPartSize}"
+                                            Margin="1"
+                                            IsEnabled="False">
+                                            <TextBlock
+                                                FontSize="14"
+                                                FontWeight="Normal"
+                                                Text="{Binding Items[0].Stroke, StringFormat={}{0}}" />
+                                        </ToggleButton>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ItemsControl.GroupStyle>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:SelectablePartModel">
+                                <ToggleButton
+                                    Width="{StaticResource ResourceKey=ButtonPartSize}"
+                                    Height="{StaticResource ResourceKey=ButtonPartSize}"
+                                    Margin="1"
+                                    Command="{Binding Path=DataContext.UpdateFilterCommand, ElementName=TopParent}"
+                                    IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}">
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="Normal"
+                                        Text="{Binding Path=Word}" />
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--  result  -->
+                <Grid Margin="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl
+                        Height="Auto"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        ItemsSource="{Binding FilteredKanjis}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:KanjiModel">
+                                <RadioButton
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Margin="1"
+                                    Command="{Binding Path=DataContext.ShowKanjiCommand, ElementName=TopParent}"
+                                    CommandParameter="{Binding}"
+                                    GroupName="FilteredKanjis"
+                                    Style="{StaticResource {x:Type ToggleButton}}">
+                                    <TextBlock
+                                        FontSize="16"
+                                        FontWeight="Normal"
+                                        Text="{Binding Path=Word}" />
+                                    <RadioButton.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock FontSize="12">
+                                                <TextBlock.Inlines>
+                                                    <Run Text="Word: " />
+                                                    <Run Text="{Binding Word}" />
+                                                    <Run Text=", Hán Việt: " />
+                                                    <Run Text="{Binding HanViet}" />
+                                                </TextBlock.Inlines>
+                                            </TextBlock>
+                                        </ToolTip>
+                                    </RadioButton.ToolTip>
+                                </RadioButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Grid.Column="1" Command="{Binding CopyKanjiCommand}">
+                        <iconPacks:PackIconFontAwesome Kind="CloneRegular" />
+                    </Button>
+                </Grid>
+                <!--  kanji content  -->
+                <tk:BusyIndicator IsBusy="{Binding IsLoadingDocument}">
+                    <RichTextBox
+                        Margin="3"
+                        helper:RichTextBoxHelper.Document="{Binding ItemDocument}"
+                        FontSize="14"
+                        IsDocumentEnabled="True"
+                        IsReadOnly="True" />
+                </tk:BusyIndicator>
+            </StackPanel>
+        </ScrollViewer>
+    </tk:BusyIndicator>
 </UserControl>
