@@ -158,6 +158,7 @@
     <Compile Include="Messages\SearchMessage.cs" />
     <Compile Include="Messages\ShowItemMessage.cs" />
     <Compile Include="Messages\ShowPartsMessage.cs" />
+    <Compile Include="Models\CollectionItem.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\GrammarModel.cs" />
     <Compile Include="Models\HanVietModel.cs" />
@@ -171,10 +172,12 @@
     <Compile Include="Models\RadicalModel.cs" />
     <Compile Include="Models\SelectablePartModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
+    <Compile Include="Models\WordCollectionModel.cs" />
     <Compile Include="Models\WordMean.cs" />
     <Compile Include="Notification\IShowKanjiPartNotification.cs" />
     <Compile Include="Notification\ShowKanjiPartNofitication.cs" />
     <Compile Include="Repository\DictionaryRepository.cs" />
+    <Compile Include="Repository\ICollectionRepository.cs" />
     <Compile Include="Repository\IDictionaryRepository.cs" />
     <Compile Include="Services\Documents\BuilderBase.cs" />
     <Compile Include="Services\Documents\GrammarBuilder.cs" />
@@ -200,9 +203,10 @@
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="ViewModel\KanjiPartViewModel.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewModel\QuickViewViewModel.cs" />
     <Compile Include="ViewModel\SearchBarViewModel.cs" />
+    <Compile Include="ViewModel\SearchPanelViewModel.cs" />
     <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\ItemDisplayView.xaml.cs">
@@ -223,10 +227,13 @@
     <Compile Include="Views\SearchResult.xaml.cs">
       <DependentUpon>SearchResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SearchPanel.xaml.cs">
+      <DependentUpon>SearchPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Views\Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -234,8 +241,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\DataTemplate.xaml">
@@ -267,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SearchResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

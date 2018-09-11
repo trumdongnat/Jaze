@@ -3,14 +3,14 @@
 namespace Jaze.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Shell.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class Shell : MetroWindow
     {
         /// <summary>
-        /// Initializes a new instance of the MainWindow class.
+        /// Initializes a new instance of the Shell class.
         /// </summary>
-        public MainWindow()
+        public Shell()
         {
             InitializeComponent();
         }

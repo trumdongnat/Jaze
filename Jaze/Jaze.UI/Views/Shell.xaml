@@ -1,0 +1,92 @@
+﻿<metro:MetroWindow
+    x:Class="Jaze.UI.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:ignore="http://www.galasoft.ch/ignore"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:view="clr-namespace:Jaze.UI.Views"
+    xmlns:viewmodels="clr-namespace:Jaze.UI.ViewModel"
+    Title="Từ điển"
+    Width="800"
+    Height="500"
+    d:DataContext="{d:DesignInstance viewmodels:ShellViewModel}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="{StaticResource BackgroundKey}"
+    mc:Ignorable="d ignore">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ShowKanjiPartRequest, Mode=OneWay}">
+            <prism:PopupWindowAction IsModal="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <view:KanjiPart />
+                </prism:PopupWindowAction.WindowContent>
+                <prism:PopupWindowAction.WindowStyle>
+                    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
+                        <Setter Property="WindowStyle" Value="ToolWindow" />
+                        <Setter Property="Width" Value="800" />
+                        <Setter Property="Height" Value="600" />
+                    </Style>
+                </prism:PopupWindowAction.WindowStyle>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+
+        <Popup
+            Width="500"
+            Height="Auto"
+            MaxHeight="500"
+            AllowsTransparency="True"
+            IsOpen="{Binding IsShowQuickView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Placement="MousePoint"
+            StaysOpen="False">
+            <Border
+                Background="White"
+                BorderBrush="Blue"
+                BorderThickness="2">
+                <view:QuickView />
+            </Border>
+        </Popup>
+        <TabControl metro:TabControlHelper.Underlined="TabPanel" TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="TabItem">
+                    <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="32" />
+                </Style>
+            </TabControl.Resources>
+            <TabItem>
+                <TabItem.Header>
+                    <ContentControl Margin="5">
+                        <iconPacks:PackIconOcticons
+                            Width="24"
+                            Height="24"
+                            Kind="Search" />
+                    </ContentControl>
+                </TabItem.Header>
+                <ContentControl prism:RegionManager.RegionName="SearchPanel" />
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <ContentControl Margin="5">
+                        <iconPacks:PackIconModern
+                            Width="24"
+                            Height="24"
+                            Kind="BookList" />
+                    </ContentControl>
+                </TabItem.Header>
+                <ContentControl prism:RegionManager.RegionName="WordCollectionPanel" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</metro:MetroWindow>

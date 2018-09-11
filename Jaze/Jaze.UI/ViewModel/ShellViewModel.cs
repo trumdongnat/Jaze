@@ -7,10 +7,11 @@ using Jaze.UI.Notification;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class ShellViewModel : ViewModelBase
     {
         #region ----- Services -----
 
@@ -31,7 +32,7 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Is Show Quick View -----
 
-        public MainViewModel(IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator)
+        public ShellViewModel(IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
             _dialogCoordinator = dialogCoordinator;
@@ -44,6 +45,7 @@ namespace Jaze.UI.ViewModel
             {
                 ShowKanjiPartRequest.Raise(new ShowKanjiPartNofitication() { Parts = message.Parts, Title = "Kanji Part" });
             });
+            regionManager.RegisterViewWithRegion("SearchPanel", typeof(SearchPanel));
         }
 
         #region Interactions

@@ -18,7 +18,7 @@ namespace Jaze.UI
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.Resolve<Shell>();
         }
 
         protected override void InitializeShell()
@@ -65,13 +65,14 @@ namespace Jaze.UI
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();
-            ViewModelLocationProvider.Register<MainWindow, MainViewModel>();
+            ViewModelLocationProvider.Register<Shell, ShellViewModel>();
             ViewModelLocationProvider.Register<ItemDisplayView, ItemDisplayViewModel>();
             ViewModelLocationProvider.Register<KanjiPart, KanjiPartViewModel>();
             ViewModelLocationProvider.Register<ListDictionary, SearchBarViewModel>();
             ViewModelLocationProvider.Register<QuickView, QuickViewViewModel>();
             ViewModelLocationProvider.Register<SearchBar, SearchBarViewModel>();
             ViewModelLocationProvider.Register<SearchResult, SearchResultViewModel>();
+            ViewModelLocationProvider.Register<SearchPanel, SearchPanelViewModel>();
         }
     }
 }
