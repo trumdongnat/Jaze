@@ -55,11 +55,7 @@ namespace Jaze.UI
             Container.RegisterType<SearchBarViewModel>(new ContainerControlledLifetimeManager());
 
             //view for navigation
-            //Container.RegisterTypeForNavigation<MangaDetailView>();
-            //Container.RegisterTypeForNavigation<FilterByGenresView>();
-            //Container.RegisterTypeForNavigation<ReadMangaView>();
-            //Container.RegisterTypeForNavigation<ReadChapterView>();
-            //Container.RegisterTypeForNavigation<MangaCatalogView>();
+            Container.RegisterTypeForNavigation<ItemDisplayView>();
         }
 
         protected override void ConfigureViewModelLocator()

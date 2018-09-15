@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:definitions="clr-namespace:Jaze.UI.Definitions"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -53,8 +54,8 @@
                 <RowDefinition Height="70" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ContentControl prism:RegionManager.RegionName="SearchBar" />
-            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="SearchResult" />
+            <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.SearchBar}" />
+            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static definitions:RegionNames.SearchResult}" />
         </Grid>
         <GridSplitter
             Grid.Column="1"
@@ -66,9 +67,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border BorderBrush="AntiqueWhite" BorderThickness="2">
-                <ContentControl prism:RegionManager.RegionName="DictionaryList" />
+                <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.DictionaryList}" />
             </Border>
-            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ItemDisplay" />
+            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static definitions:RegionNames.ItemDisplay}" />
         </Grid>
     </Grid>
 </UserControl>

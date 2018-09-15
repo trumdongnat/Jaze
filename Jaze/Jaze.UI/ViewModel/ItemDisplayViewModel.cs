@@ -9,10 +9,11 @@ using System.Linq;
 using Jaze.UI.Repository;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
 {
-    public class ItemDisplayViewModel : ViewModelBase
+    public class ItemDisplayViewModel : ViewModelBase, INavigationAware
     {
         #region ----- Services -----
 
@@ -145,26 +146,11 @@ namespace Jaze.UI.ViewModel
             _messenger = messenger;
             _uriService = uriService;
             _dictionaryRepository = dictionaryRepository;
-
-            //register message
-            _messenger.GetEvent<PubSubEvent<ShowItemMessage>>().Subscribe(ProcessShowItemMessage);
         }
 
         #endregion ----- Contructor -----
 
-        #region ----- Process Event Messages -----
-
-        private async void ProcessShowItemMessage(ShowItemMessage message)
-        {
-            if (message?.Item == null)
-            {
-                return;
-            }
-            IsLoading = true;
-            _dictionaryType = _dictionaryRepository.GetType(message.Item);
-            ItemDocument = await LoadDocumentAsync(message.Item);
-            IsLoading = false;
-        }
+        #region ----- Show Item -----
 
         private async Task<FlowDocument> LoadDocumentAsync(object item)
         {
@@ -172,6 +158,33 @@ namespace Jaze.UI.ViewModel
             return _dictionaryRepository.GetDocument(item);
         }
 
-        #endregion ----- Process Event Messages -----
+        private async void ShowItem(object item)
+        {
+            IsLoading = true;
+            _dictionaryType = _dictionaryRepository.GetType(item);
+            ItemDocument = await LoadDocumentAsync(item);
+            IsLoading = false;
+        }
+
+        #endregion ----- Show Item -----
+
+        #region Navigation
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            var item = navigationContext.Parameters[ParamNames.Item];
+            ShowItem(item);
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        #endregion Navigation
     }
 }

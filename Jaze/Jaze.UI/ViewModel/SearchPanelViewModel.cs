@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jaze.UI.Definitions;
 using Jaze.UI.Views;
 using Prism.Regions;
 
@@ -12,10 +13,10 @@ namespace Jaze.UI.ViewModel
     {
         public SearchPanelViewModel(IRegionManager regionManager)
         {
-            regionManager.RegisterViewWithRegion("SearchBar", typeof(SearchBar));
-            regionManager.RegisterViewWithRegion("SearchResult", typeof(SearchResult));
-            regionManager.RegisterViewWithRegion("DictionaryList", typeof(ListDictionary));
-            regionManager.RegisterViewWithRegion("ItemDisplay", typeof(ItemDisplayView));
+            regionManager.RegisterViewWithRegion(RegionNames.SearchBar, typeof(SearchBar));
+            regionManager.RegisterViewWithRegion(RegionNames.SearchResult, typeof(SearchResult));
+            regionManager.RegisterViewWithRegion(RegionNames.DictionaryList, typeof(ListDictionary));
+            regionManager.RegisterViewWithRegion(RegionNames.ItemDisplay, typeof(ItemDisplayView));
         }
     }
 }

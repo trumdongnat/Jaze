@@ -3,6 +3,7 @@ using Jaze.UI.Views;
 using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Media;
+using Jaze.UI.Definitions;
 using Jaze.UI.Notification;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Events;
@@ -45,7 +46,7 @@ namespace Jaze.UI.ViewModel
             {
                 ShowKanjiPartRequest.Raise(new ShowKanjiPartNofitication() { Parts = message.Parts, Title = "Kanji Part" });
             });
-            regionManager.RegisterViewWithRegion("SearchPanel", typeof(SearchPanel));
+            regionManager.RegisterViewWithRegion(RegionNames.SearchPanel, typeof(SearchPanel));
         }
 
         #region Interactions

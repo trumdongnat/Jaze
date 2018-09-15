@@ -2,7 +2,9 @@
 using Jaze.UI.Messages;
 using System;
 using System.Collections.Generic;
+using Jaze.UI.Views;
 using Prism.Events;
+using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
 {
@@ -10,7 +12,8 @@ namespace Jaze.UI.ViewModel
     {
         #region ----- Services -----
 
-        private readonly IEventAggregator _messenger;
+        private readonly IEventAggregator _eventAggregator;
+        private IRegionManager _regionManager;
 
         #endregion ----- Services -----
 
@@ -40,7 +43,11 @@ namespace Jaze.UI.ViewModel
             set
             {
                 SetProperty(ref _selectedItem, value);
-                _messenger.GetEvent<PubSubEvent<ShowItemMessage>>().Publish(new ShowItemMessage(value));
+                var parameter = new NavigationParameters
+                {
+                    {ParamNames.Item, value }
+                };
+                _regionManager.RequestNavigate(RegionNames.ItemDisplay, nameof(ItemDisplayView), parameter);
             }
         }
 
@@ -48,10 +55,11 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Constructor -----
 
-        public SearchResultViewModel(IEventAggregator messenger)
+        public SearchResultViewModel(IEventAggregator messenger, IRegionManager regionManager)
         {
-            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
-            _messenger.GetEvent<PubSubEvent<SearchMessage>>().Subscribe(ProcessSearchMessage);
+            _eventAggregator = messenger ?? throw new ArgumentNullException(nameof(messenger));
+            _regionManager = regionManager;
+            _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>().Subscribe(ProcessSearchMessage);
         }
 
         #endregion ----- Constructor -----
