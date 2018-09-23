@@ -7,6 +7,6 @@ namespace Jaze.UI.Models
     {
         public bool IsLoadFull { get; set; }
         public bool IsBookmarked { get; set; }
-        public DateTime? LastView { get; set; }
+        // public DateTime? LastView { get; set; }
     }
 }

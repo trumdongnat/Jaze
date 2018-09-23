@@ -52,6 +52,7 @@ namespace Jaze.UI.ViewModel
             });
             regionManager.RegisterViewWithRegion(RegionNames.SearchPanel, typeof(SearchPanel));
             regionManager.RegisterViewWithRegion(RegionNames.WordGroup, typeof(WordGroupPanel));
+            regionManager.RegisterViewWithRegion(RegionNames.History, typeof(HistoryView));
         }
 
         #region Interactions

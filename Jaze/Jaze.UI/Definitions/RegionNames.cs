@@ -16,5 +16,7 @@ namespace Jaze.UI.Definitions
         public const String ItemDisplay = "ItemDisplay";
         public const String WordGroup = "WordGroup";
         public const String GroupItemDisplay = "GroupItemDisplay";
+        public const String History = "History";
+        public const String HistoryItemDisplay = "HistoryItemDisplay";
     }
 }

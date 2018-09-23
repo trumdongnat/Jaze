@@ -7,7 +7,6 @@ using System.Windows;
 using Jaze.UI.Services.URI;
 using System.Linq;
 using Jaze.Domain.Definitions;
-using Jaze.Domain.Entities;
 using Jaze.UI.Models;
 using Jaze.UI.Notification;
 using Jaze.UI.Repository;
@@ -23,10 +22,9 @@ namespace Jaze.UI.ViewModel
         #region ----- Services -----
 
         private readonly IEventAggregator _messenger;
-
         private readonly IDictionaryRepository _dictionaryRepository;
-
         private readonly IUriService _uriService;
+        private readonly IUserDataRepository _userDataRepository;
 
         #endregion ----- Services -----
 
@@ -193,11 +191,12 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Contructor -----
 
-        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, IDictionaryRepository dictionaryRepository)
+        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, IDictionaryRepository dictionaryRepository, IUserDataRepository userDataRepository)
         {
             _messenger = messenger;
             _uriService = uriService;
             _dictionaryRepository = dictionaryRepository;
+            _userDataRepository = userDataRepository;
             SelectGroupInteractionRequest = new InteractionRequest<ISelectGroupNotification>();
             ShowNotificationInteractionRequest = new InteractionRequest<INotification>();
         }
@@ -215,7 +214,6 @@ namespace Jaze.UI.ViewModel
         private async void ShowItem(object item)
         {
             IsLoading = true;
-            _dictionaryType = _dictionaryRepository.GetType(item);
             ItemDocument = await LoadDocumentAsync(item);
             IsLoading = false;
         }
@@ -228,7 +226,9 @@ namespace Jaze.UI.ViewModel
         {
             var item = navigationContext.Parameters[ParamNames.Item];
             _item = item;
+            _dictionaryType = _dictionaryRepository.GetType(item);
             ShowItem(item);
+            SaveHistory(item);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -241,5 +241,24 @@ namespace Jaze.UI.ViewModel
         }
 
         #endregion Navigation
+
+        private async void SaveHistory(object item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+            var type = _dictionaryRepository.GetType(item);
+            if (type == DictionaryType.Unknown)
+            {
+                return;
+            }
+
+            object id = _item.GetType().GetProperty("Id")?.GetValue(_item);
+            if (id is int idInt)
+            {
+                await _userDataRepository.AddHistory(type, idInt);
+            }
+        }
     }
 }

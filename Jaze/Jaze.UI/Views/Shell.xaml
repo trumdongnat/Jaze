@@ -89,6 +89,20 @@
                 </TabItem.Header>
                 <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.WordGroup}" />
             </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Margin="5">
+                            <iconPacks:PackIconMaterial
+                                Width="16"
+                                Height="16"
+                                Kind="CalendarClock" />
+                        </ContentControl>
+                        <TextBlock VerticalAlignment="Center">History</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.History}" />
+            </TabItem>
         </TabControl>
     </Grid>
 </metro:MetroWindow>

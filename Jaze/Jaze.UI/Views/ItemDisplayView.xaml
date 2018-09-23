@@ -2,7 +2,6 @@
     x:Class="Jaze.UI.Views.ItemDisplayView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converter="clr-namespace:Jaze.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="clr-namespace:Jaze.UI.Helper"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -42,7 +41,6 @@
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
             <EventSetter Event="Click" Handler="Hyperlink_Click" />
         </Style>
-        <converter:FlowDocumentSelectionConverter x:Key="SelectionConverter" />
     </UserControl.Resources>
     <tk:BusyIndicator IsBusy="{Binding IsLoading}">
         <Grid>

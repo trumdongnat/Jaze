@@ -148,7 +148,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Converters\FlowDocumentSelectionConverter.cs" />
+    <Compile Include="Converters\ConverterBase.cs" />
+    <Compile Include="Converters\ReverseTimeConverter.cs" />
+    <Compile Include="Definitions\HistoryTimeRange.cs" />
     <Compile Include="Definitions\ParamNames.cs" />
     <Compile Include="Definitions\RegionNames.cs" />
     <Compile Include="Definitions\SearchOption.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Models\GroupItemModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\HanVietModel.cs" />
+    <Compile Include="Models\HistoryModel.cs" />
     <Compile Include="Models\JaenModel.cs" />
     <Compile Include="Models\ExampleModel.cs" />
     <Compile Include="Models\JaviModel.cs" />
@@ -213,6 +216,7 @@
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="ViewModel\EditGroupViewModel.cs" />
     <Compile Include="ViewModel\AddGroupViewModel.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\KanjiPartViewModel.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
     <Compile Include="ViewModel\NotificationViewModel.cs" />
@@ -229,6 +233,9 @@
     </Compile>
     <Compile Include="Views\AddGroupView.xaml.cs">
       <DependentUpon>AddGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HistoryView.xaml.cs">
+      <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ItemDisplayView.xaml.cs">
       <DependentUpon>ItemDisplayView.xaml</DependentUpon>
@@ -265,6 +272,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AddGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HistoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

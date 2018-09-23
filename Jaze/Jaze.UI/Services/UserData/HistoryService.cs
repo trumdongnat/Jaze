@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Jaze.Domain;
 using Jaze.Domain.Definitions;
 using Jaze.Domain.Entities;
+using Jaze.UI.Models;
 
 namespace Jaze.UI.Services.UserData
 {
@@ -52,6 +54,24 @@ namespace Jaze.UI.Services.UserData
                     db.Histories.Remove(history);
                     db.SaveChanges();
                 }
+            }
+        }
+
+        public List<HistoryModel> GetListHistory()
+        {
+            using (var db = new UserDataContext())
+            {
+                var histories = db.Histories.ToList().Select(history => new HistoryModel(history)).ToList();
+                return histories;
+            }
+        }
+
+        public List<HistoryModel> GetListHistory(DateTime @from)
+        {
+            using (var db = new UserDataContext())
+            {
+                var histories = db.Histories.Where(history => history.LastTime >= from).ToList().Select(history => new HistoryModel(history)).ToList();
+                return histories;
             }
         }
     }

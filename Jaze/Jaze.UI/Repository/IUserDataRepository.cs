@@ -26,10 +26,16 @@ namespace Jaze.UI.Repository
 
         Task LoadFull(GroupItemModel item);
 
+        Task<List<HistoryModel>> GetListHistory();
+
+        Task<List<HistoryModel>> GetListHistory(DateTime from);
+
         Task AddHistory(DictionaryType type, int id);
 
         Task AddHistory(DictionaryType type, int id, DateTime time);
 
         Task RemoveHistory(DictionaryType type, int id);
+
+        Task LoadFull(HistoryModel history);
     }
 }

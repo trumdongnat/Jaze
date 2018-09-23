@@ -86,6 +86,16 @@ namespace Jaze.UI.Repository
             item.IsLoadFull = true;
         }
 
+        public Task<List<HistoryModel>> GetListHistory()
+        {
+            return Task.Run(() => _historyService.GetListHistory());
+        }
+
+        public Task<List<HistoryModel>> GetListHistory(DateTime @from)
+        {
+            return Task.Run(() => _historyService.GetListHistory(from));
+        }
+
         public Task AddHistory(DictionaryType type, int id)
         {
             return Task.Run(() => _historyService.Add(type, id));
@@ -99,6 +109,12 @@ namespace Jaze.UI.Repository
         public Task RemoveHistory(DictionaryType type, int id)
         {
             return Task.Run(() => _historyService.Remove(type, id));
+        }
+
+        public async Task LoadFull(HistoryModel history)
+        {
+            history.Item = await _dictionaryRepository.GetAsync(history.Type, history.Id);
+            history.IsLoadFull = true;
         }
     }
 }
