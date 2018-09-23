@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using System.Diagnostics;
+using MahApps.Metro.Controls;
 
 namespace Jaze.UI
 {
@@ -12,6 +13,7 @@ namespace Jaze.UI
         /// </summary>
         public Shell()
         {
+            Debug.WriteLine("Shell");
             InitializeComponent();
         }
     }

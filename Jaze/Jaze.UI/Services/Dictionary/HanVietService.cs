@@ -67,6 +67,20 @@ namespace Jaze.UI.Services
         //    var context = JazeDatabaseContext.Context;
         //    return context.HanViets.ToArray();
         //}
+        public override HanVietModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.HanViets.Find(id);
+                if (entity != null)
+                {
+                    return HanVietModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<HanVietModel> SearchExact(string key)
         {
             using (var db = new JazeDatabaseContext())

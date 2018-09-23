@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Jaze.UI.ViewModel
     {
         public SearchPanelViewModel(IRegionManager regionManager)
         {
+            Debug.WriteLine("SearchPanelViewModel");
             regionManager.RegisterViewWithRegion(RegionNames.SearchBar, typeof(SearchBar));
             regionManager.RegisterViewWithRegion(RegionNames.SearchResult, typeof(SearchResult));
             regionManager.RegisterViewWithRegion(RegionNames.DictionaryList, typeof(ListDictionary));

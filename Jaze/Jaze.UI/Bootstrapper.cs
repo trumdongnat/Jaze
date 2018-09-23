@@ -4,6 +4,7 @@ using Jaze.UI.Repository;
 using Jaze.UI.Services;
 using Jaze.UI.Services.Documents;
 using Jaze.UI.Services.URI;
+using Jaze.UI.Services.UserData;
 using Jaze.UI.ViewModel;
 using Jaze.UI.Views;
 using MahApps.Metro.Controls.Dialogs;
@@ -38,6 +39,8 @@ namespace Jaze.UI
             Container.RegisterType<ISearchService<VijaModel>, VijaService>();
             Container.RegisterType<IKanjiPartService, KanjiPartService>();
             Container.RegisterType<IUriService, UriService>();
+            Container.RegisterType<IHistoryService, HistoryService>();
+            Container.RegisterType<IGroupService, GroupService>();
 
             //document builder
             Container.RegisterType<IBuilder<GrammarModel>, GrammarBuilder>();
@@ -48,6 +51,7 @@ namespace Jaze.UI
             Container.RegisterType<IBuilder<VijaModel>, VijaBuilder>();
             //repository
             Container.RegisterType<IDictionaryRepository, DictionaryRepository>();
+            Container.RegisterType<IUserDataRepository, UserDataRepository>();
 
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 
@@ -69,6 +73,10 @@ namespace Jaze.UI
             ViewModelLocationProvider.Register<SearchBar, SearchBarViewModel>();
             ViewModelLocationProvider.Register<SearchResult, SearchResultViewModel>();
             ViewModelLocationProvider.Register<SearchPanel, SearchPanelViewModel>();
+            ViewModelLocationProvider.Register<WordGroupPanel, WordGroupViewModel>();
+            ViewModelLocationProvider.Register<SelectGroupView, SelectGroupViewModel>();
+            ViewModelLocationProvider.Register<AddGroupView, AddGroupViewModel>();
+            ViewModelLocationProvider.Register<EditGroupView, EditGroupViewModel>();
         }
     }
 }

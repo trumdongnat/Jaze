@@ -71,6 +71,20 @@ namespace Jaze.UI.Services
         //    var context = JazeDatabaseContext.Context;
         //    return context.JaEns.ToArray();
         //}
+        public override JaenModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.JaEns.Find(id);
+                if (entity != null)
+                {
+                    return JaenModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<JaenModel> Search(SearchArgs searchArgs)
         {
             var key = searchArgs.SearchKey;

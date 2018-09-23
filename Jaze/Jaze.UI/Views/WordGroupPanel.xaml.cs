@@ -13,17 +13,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Prism.Regions;
 
 namespace Jaze.UI.Views
 {
     /// <summary>
-    /// Interaction logic for SearchPanel.xaml
+    /// Interaction logic for WordGroupPanel.xaml
     /// </summary>
-    public partial class SearchPanel : UserControl
+    public partial class WordGroupPanel : UserControl
     {
-        public SearchPanel()
+        public WordGroupPanel()
         {
-            Debug.WriteLine("SearchPanel");
+            Debug.WriteLine("WordGroupPanel");
             InitializeComponent();
         }
     }

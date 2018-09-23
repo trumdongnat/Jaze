@@ -148,7 +148,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Definitions\DictionaryType.cs" />
+    <Compile Include="Converters\FlowDocumentSelectionConverter.cs" />
     <Compile Include="Definitions\ParamNames.cs" />
     <Compile Include="Definitions\RegionNames.cs" />
     <Compile Include="Definitions\SearchOption.cs" />
@@ -159,9 +159,10 @@
     <Compile Include="Messages\SearchMessage.cs" />
     <Compile Include="Messages\ShowItemMessage.cs" />
     <Compile Include="Messages\ShowPartsMessage.cs" />
-    <Compile Include="Models\CollectionItem.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\GrammarModel.cs" />
+    <Compile Include="Models\GroupItemModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\HanVietModel.cs" />
     <Compile Include="Models\JaenModel.cs" />
     <Compile Include="Models\ExampleModel.cs" />
@@ -173,13 +174,17 @@
     <Compile Include="Models\RadicalModel.cs" />
     <Compile Include="Models\SelectablePartModel.cs" />
     <Compile Include="Models\VijaModel.cs" />
-    <Compile Include="Models\WordCollectionModel.cs" />
     <Compile Include="Models\WordMean.cs" />
+    <Compile Include="Notification\AddGroupNotification.cs" />
+    <Compile Include="Notification\EditGroupNotification.cs" />
+    <Compile Include="Notification\ISelectGroupNotification.cs" />
     <Compile Include="Notification\IShowKanjiPartNotification.cs" />
+    <Compile Include="Notification\SelectGroupNotification.cs" />
     <Compile Include="Notification\ShowKanjiPartNofitication.cs" />
     <Compile Include="Repository\DictionaryRepository.cs" />
-    <Compile Include="Repository\ICollectionRepository.cs" />
     <Compile Include="Repository\IDictionaryRepository.cs" />
+    <Compile Include="Repository\IUserDataRepository.cs" />
+    <Compile Include="Repository\UserDataRepository.cs" />
     <Compile Include="Services\Documents\BuilderBase.cs" />
     <Compile Include="Services\Documents\GrammarBuilder.cs" />
     <Compile Include="Services\Documents\HanVietBuilder.cs" />
@@ -201,15 +206,30 @@
     <Compile Include="Services\URI\IUriService.cs" />
     <Compile Include="Services\URI\UriService.cs" />
     <Compile Include="Services\Dictionary\VijaService.cs" />
+    <Compile Include="Services\UserData\GroupService.cs" />
+    <Compile Include="Services\UserData\HistoryService.cs" />
+    <Compile Include="Services\UserData\IGroupService.cs" />
+    <Compile Include="Services\UserData\IHistoryService.cs" />
     <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="ViewModel\EditGroupViewModel.cs" />
+    <Compile Include="ViewModel\AddGroupViewModel.cs" />
     <Compile Include="ViewModel\KanjiPartViewModel.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
+    <Compile Include="ViewModel\NotificationViewModel.cs" />
+    <Compile Include="ViewModel\SelectGroupViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewModel\QuickViewViewModel.cs" />
     <Compile Include="ViewModel\SearchBarViewModel.cs" />
     <Compile Include="ViewModel\SearchPanelViewModel.cs" />
     <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\WordGroupViewModel.cs" />
+    <Compile Include="Views\EditGroupView.xaml.cs">
+      <DependentUpon>EditGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddGroupView.xaml.cs">
+      <DependentUpon>AddGroupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ItemDisplayView.xaml.cs">
       <DependentUpon>ItemDisplayView.xaml</DependentUpon>
     </Compile>
@@ -231,9 +251,27 @@
     <Compile Include="Views\SearchPanel.xaml.cs">
       <DependentUpon>SearchPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SelectGroupView.xaml.cs">
+      <DependentUpon>SelectGroupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\WordGroupPanel.xaml.cs">
+      <DependentUpon>WordGroupPanel.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\EditGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -286,6 +324,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\WordGroupPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -315,11 +357,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Design\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>

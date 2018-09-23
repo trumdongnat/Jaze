@@ -55,7 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\DictionaryType.cs" />
+    <Compile Include="Entities\Group.cs" />
+    <Compile Include="Entities\GroupItem.cs" />
+    <Compile Include="Entities\History.cs" />
     <Compile Include="Entities\KanjiPartMap.cs" />
+    <Compile Include="UserDataContext.cs" />
     <Compile Include="JazeDatabaseContext.cs" />
     <Compile Include="Entities\Grade.cs" />
     <Compile Include="Entities\Grammar.cs" />
@@ -73,7 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

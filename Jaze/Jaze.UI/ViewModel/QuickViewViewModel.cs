@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using Jaze.Domain.Definitions;
 using Jaze.UI.Definitions;
 using Jaze.UI.Messages;
 using Jaze.UI.Models;

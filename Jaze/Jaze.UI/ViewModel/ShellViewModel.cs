@@ -1,4 +1,5 @@
-﻿using Jaze.UI.Messages;
+﻿using System.Diagnostics;
+using Jaze.UI.Messages;
 using Jaze.UI.Views;
 using MahApps.Metro.Controls;
 using System.Windows;
@@ -6,8 +7,10 @@ using System.Windows.Media;
 using Jaze.UI.Definitions;
 using Jaze.UI.Notification;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Logging;
 using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
@@ -33,8 +36,9 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Is Show Quick View -----
 
-        public ShellViewModel(IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator, IRegionManager regionManager)
+        public ShellViewModel(IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator, IRegionManager regionManager, IUnityContainer unityContainer, ILoggerFacade logger)
         {
+            Debug.WriteLine("ShellViewModel");
             _eventAggregator = eventAggregator;
             _dialogCoordinator = dialogCoordinator;
             _eventAggregator.GetEvent<PubSubEvent<QuickViewMessage>>().Subscribe(message =>
@@ -47,6 +51,7 @@ namespace Jaze.UI.ViewModel
                 ShowKanjiPartRequest.Raise(new ShowKanjiPartNofitication() { Parts = message.Parts, Title = "Kanji Part" });
             });
             regionManager.RegisterViewWithRegion(RegionNames.SearchPanel, typeof(SearchPanel));
+            regionManager.RegisterViewWithRegion(RegionNames.WordGroup, typeof(WordGroupPanel));
         }
 
         #region Interactions

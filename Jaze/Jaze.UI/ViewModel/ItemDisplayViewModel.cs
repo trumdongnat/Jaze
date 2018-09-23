@@ -6,9 +6,14 @@ using Jaze.UI.Messages;
 using System.Windows;
 using Jaze.UI.Services.URI;
 using System.Linq;
+using Jaze.Domain.Definitions;
+using Jaze.Domain.Entities;
+using Jaze.UI.Models;
+using Jaze.UI.Notification;
 using Jaze.UI.Repository;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
@@ -28,6 +33,7 @@ namespace Jaze.UI.ViewModel
         #region ----- Properties -----
 
         private DictionaryType _dictionaryType;
+        private object _item;
 
         private FlowDocument _itemDocument = null;
 
@@ -129,7 +135,7 @@ namespace Jaze.UI.ViewModel
 
         private void ExecuteCopyTextCommand(string parameter)
         {
-            Clipboard.SetText(parameter);
+            Clipboard.SetText(parameter ?? string.Empty);
         }
 
         private bool CanExecuteCopyTextCommand(string parameter)
@@ -137,7 +143,53 @@ namespace Jaze.UI.ViewModel
             return true;
         }
 
+        private DelegateCommand _addToGroupCommand;
+
+        public DelegateCommand AddToGroupCommand =>
+            _addToGroupCommand ?? (_addToGroupCommand = new DelegateCommand(ExecuteAddToGroupCommand));
+
+        private void ExecuteAddToGroupCommand()
+        {
+            if (_item != null)
+            {
+                var type = _dictionaryRepository.GetType(_item);
+                object id = _item.GetType().GetProperty("Id")?.GetValue(_item);
+                if (id is int idInt)
+                {
+                    RaiseSelectGroupInteraction(new GroupItemModel() { Type = type, WordId = idInt });
+                }
+            }
+        }
+
         #endregion ----- Commands -----
+
+        #region Interaction
+
+        public InteractionRequest<ISelectGroupNotification> SelectGroupInteractionRequest { get; set; }
+        public InteractionRequest<INotification> ShowNotificationInteractionRequest { get; set; }
+
+        private void RaiseSelectGroupInteraction(GroupItemModel groupItem)
+        {
+            SelectGroupInteractionRequest.Raise(new SelectGroupNotification { Title = "Select Group", GroupItem = groupItem },
+                notification =>
+                {
+                    if (notification.SelectedGroup != null)
+                    {
+                        RaiseShowNotificationInteraction("Added to group", notification.SelectedGroup.Name);
+                    }
+                    else
+                    {
+                        RaiseShowNotificationInteraction("Cancelled");
+                    }
+                });
+        }
+
+        private void RaiseShowNotificationInteraction(string title, string message = "")
+        {
+            ShowNotificationInteractionRequest.Raise(new Prism.Interactivity.InteractionRequest.Notification { Title = title, Content = message });
+        }
+
+        #endregion Interaction
 
         #region ----- Contructor -----
 
@@ -146,6 +198,8 @@ namespace Jaze.UI.ViewModel
             _messenger = messenger;
             _uriService = uriService;
             _dictionaryRepository = dictionaryRepository;
+            SelectGroupInteractionRequest = new InteractionRequest<ISelectGroupNotification>();
+            ShowNotificationInteractionRequest = new InteractionRequest<INotification>();
         }
 
         #endregion ----- Contructor -----
@@ -173,6 +227,7 @@ namespace Jaze.UI.ViewModel
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var item = navigationContext.Parameters[ParamNames.Item];
+            _item = item;
             ShowItem(item);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using Jaze.Domain.Definitions;
 using Jaze.UI.Definitions;
 using Jaze.UI.Models;
 using Jaze.UI.Services;
@@ -43,6 +44,38 @@ namespace Jaze.UI.Repository
         public List<Dictionary> GetDictionarys()
         {
             return Dictionary.GetDictionarys();
+        }
+
+        public Task<object> GetAsync(DictionaryType type, int id)
+        {
+            return Task.Run(() => Get(type, id));
+        }
+
+        private object Get(DictionaryType type, int id)
+        {
+            switch (type)
+            {
+                case DictionaryType.JaVi:
+                    return _javiService.Get(id);
+
+                case DictionaryType.HanViet:
+                    return _hanvietService.Get(id);
+
+                case DictionaryType.Kanji:
+                    return _kanjiService.Get(id);
+
+                case DictionaryType.ViJa:
+                    return _vijaService.Get(id);
+
+                case DictionaryType.Grammar:
+                    return _grammarService.Get(id);
+
+                case DictionaryType.JaEn:
+                    return _jaenService.Get(id);
+
+                default:
+                    return null;
+            }
         }
 
         public Task<List<object>> SearchAsync(SearchArgs args)

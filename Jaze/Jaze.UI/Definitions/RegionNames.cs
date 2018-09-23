@@ -14,6 +14,7 @@ namespace Jaze.UI.Definitions
         public const String SearchResult = "SearchResult";
         public const String DictionaryList = "DictionaryList";
         public const String ItemDisplay = "ItemDisplay";
-        public const String WordCollection = "WordCollection";
+        public const String WordGroup = "WordGroup";
+        public const String GroupItemDisplay = "GroupItemDisplay";
     }
 }

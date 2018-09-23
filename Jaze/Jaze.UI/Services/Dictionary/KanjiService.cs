@@ -105,6 +105,20 @@ namespace Jaze.UI.Services
         //    return db.Kanjis.ToArray();
         //}
 
+        public override KanjiModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.Kanjis.Find(id);
+                if (entity != null)
+                {
+                    return KanjiModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<KanjiModel> Search(SearchArgs searchArgs)
         {
             var key = searchArgs.SearchKey;

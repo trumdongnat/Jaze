@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +16,12 @@ using System.Windows.Shapes;
 namespace Jaze.UI.Views
 {
     /// <summary>
-    /// Interaction logic for SearchPanel.xaml
+    /// Interaction logic for AddGroupView.xaml
     /// </summary>
-    public partial class SearchPanel : UserControl
+    public partial class EditGroupView : UserControl
     {
-        public SearchPanel()
+        public EditGroupView()
         {
-            Debug.WriteLine("SearchPanel");
             InitializeComponent();
         }
     }

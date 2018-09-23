@@ -238,6 +238,20 @@ namespace Jaze.UI.Services
         //{
         //    var db = JazeDatabaseContext.Context;
         //    return db.JaVis.ToArray();
+        public override JaviModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.JaVis.Find(id);
+                if (entity != null)
+                {
+                    return JaviModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<JaviModel> Search(SearchArgs searchArgs)
         {
             var rawKey = searchArgs.SearchKey;
@@ -245,7 +259,7 @@ namespace Jaze.UI.Services
             if (string.IsNullOrWhiteSpace(rawKey))
             {
                 //return GetAll();
-                return null;
+                return new List<JaviModel>();
             }
             var key = rawKey.Contains("-") ? StringUtil.ConvertRomaji2Katakana(rawKey) : StringUtil.ConvertRomaji2Hiragana(rawKey);
             List<JaviModel> resultJv = new List<JaviModel>();

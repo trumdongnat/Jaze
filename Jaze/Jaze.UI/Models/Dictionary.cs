@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Jaze.Domain.Definitions;
 using Jaze.UI.Definitions;
 
 namespace Jaze.UI.Models

@@ -40,15 +40,16 @@ namespace Jaze.UI.ViewModel
         public object SelectedItem
         {
             get => _selectedItem;
-            set
+            set => SetProperty(ref _selectedItem, value, OnSelectedItemChanged);
+        }
+
+        private void OnSelectedItemChanged()
+        {
+            var parameter = new NavigationParameters
             {
-                SetProperty(ref _selectedItem, value);
-                var parameter = new NavigationParameters
-                {
-                    {ParamNames.Item, value }
-                };
-                _regionManager.RequestNavigate(RegionNames.ItemDisplay, nameof(ItemDisplayView), parameter);
-            }
+                {ParamNames.Item, SelectedItem }
+            };
+            _regionManager.RequestNavigate(RegionNames.ItemDisplay, nameof(ItemDisplayView), parameter);
         }
 
         #endregion ----- Properties -----

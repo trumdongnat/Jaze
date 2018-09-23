@@ -1,4 +1,5 @@
-﻿using Jaze.UI.Definitions;
+﻿using Jaze.Domain.Definitions;
+using Jaze.UI.Definitions;
 
 namespace Jaze.UI.Messages
 {

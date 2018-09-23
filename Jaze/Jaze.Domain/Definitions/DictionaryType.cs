@@ -1,4 +1,4 @@
-﻿namespace Jaze.UI.Definitions
+﻿namespace Jaze.Domain.Definitions
 {
     public enum DictionaryType
     {

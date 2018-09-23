@@ -28,7 +28,7 @@
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="5" />

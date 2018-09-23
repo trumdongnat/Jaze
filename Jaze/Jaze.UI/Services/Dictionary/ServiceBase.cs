@@ -7,6 +7,8 @@ namespace Jaze.UI.Services
 {
     public abstract class ServiceBase<TModel> : ISearchService<TModel> where TModel : new()
     {
+        public abstract TModel Get(int id);
+
         public virtual List<TModel> Search(SearchArgs searchArgs)
         {
             if (string.IsNullOrWhiteSpace(searchArgs.SearchKey))

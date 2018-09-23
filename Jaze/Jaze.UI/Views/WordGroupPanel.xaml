@@ -1,0 +1,139 @@
+﻿<UserControl
+    x:Class="Jaze.UI.Views.WordGroupPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:definitions="clr-namespace:Jaze.UI.Definitions"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Jaze.UI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Jaze.UI.Models"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
+    Name="TopParent"
+    d:DataContext="{d:DesignInstance viewModel:WordGroupViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding AddGroupRequest}">
+            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterOwner">
+                <prism:PopupWindowAction.WindowContent>
+                    <local:AddGroupView />
+                </prism:PopupWindowAction.WindowContent>
+                <prism:PopupWindowAction.WindowStyle>
+                    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
+                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Width" Value="400" />
+                        <Setter Property="WindowStyle" Value="ToolWindow" />
+                    </Style>
+                </prism:PopupWindowAction.WindowStyle>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding EditGroupRequest}">
+            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterOwner">
+                <prism:PopupWindowAction.WindowContent>
+                    <local:EditGroupView />
+                </prism:PopupWindowAction.WindowContent>
+                <prism:PopupWindowAction.WindowStyle>
+                    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
+                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Width" Value="400" />
+                        <Setter Property="WindowStyle" Value="ToolWindow" />
+                    </Style>
+                </prism:PopupWindowAction.WindowStyle>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button Margin="2" Command="{Binding AddGroupCommand}">Add</Button>
+                <Button Margin="2" Command="{Binding RefreshGroupCollectionCommand}">Refresh</Button>
+            </StackPanel>
+            <ListBox
+                Grid.Row="1"
+                ItemsSource="{Binding Groups}"
+                SelectedItem="{Binding CurrentGroup, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="models:GroupModel">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Text="{Binding Name}" />
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Padding" Value="1" />
+                                        <Setter Property="VerticalAlignment" Value="Top" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                    </Style>
+                                    <Style TargetType="iconPacks:PackIconFontAwesome">
+                                        <Setter Property="Width" Value="12" />
+                                        <Setter Property="Height" Value="12" />
+                                        <Setter Property="Foreground" Value="{DynamicResource NonActiveWindowTitleColorBrush}" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button Command="{Binding ElementName=TopParent, Path=DataContext.EditGroupCommand}" CommandParameter="{Binding}">
+                                    <iconPacks:PackIconFontAwesome Kind="EditRegular" />
+                                </Button>
+                                <Button Command="{Binding ElementName=TopParent, Path=DataContext.DeleteGroupCommand}" CommandParameter="{Binding}">
+                                    <iconPacks:PackIconFontAwesome Kind="TrashAltRegular" />
+                                </Button>
+                            </StackPanel>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Text="{Binding Items.Count, StringFormat={}{0} Words}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <GridSplitter Grid.Column="0" Width="2" />
+        <tk:BusyIndicator Grid.Column="1" IsBusy="{Binding IsLoadingItems}">
+            <ListBox
+                Name="ListBoxItems"
+                ItemTemplateSelector="{StaticResource DataTemplateSelector}"
+                ItemsSource="{Binding Items}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ShowItemCommand}" CommandParameter="{Binding ElementName=ListBoxItems, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </tk:BusyIndicator>
+
+        <GridSplitter Grid.Column="1" Width="2" />
+        <ContentControl Grid.Column="2" prism:RegionManager.RegionName="{x:Static definitions:RegionNames.GroupItemDisplay}" />
+    </Grid>
+</UserControl>

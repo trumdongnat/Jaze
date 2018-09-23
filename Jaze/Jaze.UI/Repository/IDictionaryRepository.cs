@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Documents;
-using Jaze.UI.Definitions;
+using Jaze.Domain.Definitions;
 using Jaze.UI.Models;
 
 namespace Jaze.UI.Repository
@@ -12,6 +9,8 @@ namespace Jaze.UI.Repository
     public interface IDictionaryRepository
     {
         List<Dictionary> GetDictionarys();
+
+        Task<object> GetAsync(DictionaryType type, int id);
 
         Task<List<object>> SearchAsync(SearchArgs args);
 

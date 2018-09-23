@@ -8,6 +8,20 @@ namespace Jaze.UI.Services
 {
     public class VijaService : ServiceBase<VijaModel>
     {
+        public override VijaModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.Vijas.Find(id);
+                if (entity != null)
+                {
+                    return VijaModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<VijaModel> SearchExact(string key)
         {
             using (var db = new JazeDatabaseContext())

@@ -65,6 +65,20 @@ namespace Jaze.UI.Services
         //    return context.Grammars.ToArray();
         //}
 
+        public override GrammarModel Get(int id)
+        {
+            using (var db = new JazeDatabaseContext())
+            {
+                var entity = db.Grammars.Find(id);
+                if (entity != null)
+                {
+                    return GrammarModel.Create(entity);
+                }
+
+                return null;
+            }
+        }
+
         public override List<GrammarModel> SearchExact(string key)
         {
             using (var db = new JazeDatabaseContext())

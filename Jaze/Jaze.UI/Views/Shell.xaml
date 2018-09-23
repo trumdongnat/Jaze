@@ -13,8 +13,8 @@
     xmlns:view="clr-namespace:Jaze.UI.Views"
     xmlns:viewmodels="clr-namespace:Jaze.UI.ViewModel"
     Title="Từ điển"
-    Width="800"
-    Height="500"
+    Width="1000"
+    Height="600"
     d:DataContext="{d:DesignInstance viewmodels:ShellViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{StaticResource BackgroundKey}"
@@ -60,33 +60,34 @@
                 <view:QuickView />
             </Border>
         </Popup>
-        <TabControl metro:TabControlHelper.Underlined="TabPanel" TabStripPlacement="Left">
-            <TabControl.Resources>
-                <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="TabItem">
-                    <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="32" />
-                </Style>
-            </TabControl.Resources>
+        <TabControl metro:TabControlHelper.Underlined="TabPanel" TabStripPlacement="Top">
             <TabItem>
                 <TabItem.Header>
-                    <ContentControl Margin="5">
-                        <iconPacks:PackIconOcticons
-                            Width="24"
-                            Height="24"
-                            Kind="Search" />
-                    </ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Margin="5">
+                            <iconPacks:PackIconOcticons
+                                Width="16"
+                                Height="16"
+                                Kind="Search" />
+                        </ContentControl>
+                        <TextBlock VerticalAlignment="Center">Search</TextBlock>
+                    </StackPanel>
                 </TabItem.Header>
                 <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.SearchPanel}" />
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <ContentControl Margin="5">
-                        <iconPacks:PackIconModern
-                            Width="24"
-                            Height="24"
-                            Kind="BookList" />
-                    </ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Margin="5">
+                            <iconPacks:PackIconMaterial
+                                Width="16"
+                                Height="16"
+                                Kind="FormatListBulleted" />
+                        </ContentControl>
+                        <TextBlock VerticalAlignment="Center">Word Group</TextBlock>
+                    </StackPanel>
                 </TabItem.Header>
-                <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.WordCollection}" />
+                <ContentControl prism:RegionManager.RegionName="{x:Static definitions:RegionNames.WordGroup}" />
             </TabItem>
         </TabControl>
     </Grid>
