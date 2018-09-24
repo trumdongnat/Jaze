@@ -40,7 +40,7 @@
                 </prism:PopupWindowAction.WindowContent>
                 <prism:PopupWindowAction.WindowStyle>
                     <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
-                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Height" Value="300" />
                         <Setter Property="Width" Value="400" />
                         <Setter Property="WindowStyle" Value="ToolWindow" />
                     </Style>

@@ -49,6 +49,7 @@ namespace Jaze.UI.ViewModel
                 if (value is AddGroupNotification notification)
                 {
                     _addGroupNotification = notification;
+                    GroupName = string.Empty;
                 }
             }
         }

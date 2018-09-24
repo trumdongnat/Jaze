@@ -18,7 +18,7 @@ namespace Jaze.UI.Models
         public GroupModel(Group @group)
         {
             Id = group.Id;
-            Name = group.Name;
+            _name = group.Name;
         }
 
         public int Id { get; set; }
