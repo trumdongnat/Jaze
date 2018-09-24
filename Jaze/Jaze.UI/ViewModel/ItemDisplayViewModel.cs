@@ -171,14 +171,14 @@ namespace Jaze.UI.ViewModel
             SelectGroupInteractionRequest.Raise(new SelectGroupNotification { Title = "Select Group", GroupItem = groupItem },
                 notification =>
                 {
-                    if (notification.SelectedGroup != null)
-                    {
-                        RaiseShowNotificationInteraction("Added to group", notification.SelectedGroup.Name);
-                    }
-                    else
-                    {
-                        RaiseShowNotificationInteraction("Cancelled");
-                    }
+                    //if (notification.SelectedGroup != null)
+                    //{
+                    //    RaiseShowNotificationInteraction("Added to group", notification.SelectedGroup.Name);
+                    //}
+                    //else
+                    //{
+                    //    RaiseShowNotificationInteraction("Cancelled");
+                    //}
                 });
         }
 
