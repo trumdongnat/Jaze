@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Jaze.Domain.Entities;
 using Jaze.UI.Definitions;
 using Jaze.UI.Models;
+using Jaze.UI.Notification;
 using Jaze.UI.Repository;
 using Jaze.UI.Views;
 using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 
 namespace Jaze.UI.ViewModel
@@ -73,13 +75,37 @@ namespace Jaze.UI.ViewModel
             _regionManager.RequestNavigate(RegionNames.HistoryItemDisplay, nameof(ItemDisplayView), parameter);
         }
 
+        private DelegateCommand _addToGroupCommand;
+
+        public DelegateCommand AddToGroupCommand =>
+            _addToGroupCommand ?? (_addToGroupCommand = new DelegateCommand(ExecuteAddToGroupCommand));
+
+        private void ExecuteAddToGroupCommand()
+        {
+            RaiseAddToGroupRequest();
+        }
+
         #endregion Commands
+
+        #region Interaction
+
+        public InteractionRequest<AddToGroupNotification> AddToGroupRequest { get; set; }
+
+        private void RaiseAddToGroupRequest()
+        {
+            var items = HistoryCollection.Select(history =>
+                new GroupItemModel { Type = history.Type, WordId = history.Id, Item = history.Item }).ToList();
+            AddToGroupRequest.Raise(new AddToGroupNotification { Title = "Add To Group", Items = items });
+        }
+
+        #endregion Interaction
 
         public HistoryViewModel(IUserDataRepository userDataRepository, IRegionManager regionManager)
         {
             _userDataRepository = userDataRepository;
             _regionManager = regionManager;
             Init();
+            AddToGroupRequest = new InteractionRequest<AddToGroupNotification>();
         }
 
         private async void Init()

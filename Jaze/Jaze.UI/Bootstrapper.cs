@@ -78,6 +78,7 @@ namespace Jaze.UI
             ViewModelLocationProvider.Register<AddGroupView, AddGroupViewModel>();
             ViewModelLocationProvider.Register<EditGroupView, EditGroupViewModel>();
             ViewModelLocationProvider.Register<HistoryView, HistoryViewModel>();
+            ViewModelLocationProvider.Register<AddToGroupView, AddToGroupViewModel>();
         }
     }
 }
