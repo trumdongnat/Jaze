@@ -14,6 +14,8 @@ namespace Jaze.UI.ViewModel
 {
     public class SearchBarViewModel : ViewModelBase
     {
+        private bool _isDislayingMatchedResult;
+
         #region ----- Services -----
 
         private readonly IEventAggregator _eventAggregator;
@@ -37,7 +39,12 @@ namespace Jaze.UI.ViewModel
         public Dictionary SelectedDictionary
         {
             get => _selectedDictionary;
-            set => SetProperty(ref _selectedDictionary, value);
+            set => SetProperty(ref _selectedDictionary, value, OnSelectedDictionaryChanged);
+        }
+
+        private void OnSelectedDictionaryChanged()
+        {
+            _isDislayingMatchedResult = false;
         }
 
         private string _searchKey = string.Empty;
@@ -45,7 +52,12 @@ namespace Jaze.UI.ViewModel
         public string SearchKey
         {
             get => _searchKey;
-            set => SetProperty(ref _searchKey, value);
+            set => SetProperty(ref _searchKey, value, OnSearchKeyChanged);
+        }
+
+        private void OnSearchKeyChanged()
+        {
+            _isDislayingMatchedResult = false;
         }
 
         #endregion ----- Properties -----
@@ -69,6 +81,7 @@ namespace Jaze.UI.ViewModel
             var result = await _dictionaryRepository.SearchAsync(new SearchArgs(key, _searchOption, dictionaryType));
             pubSub.Publish(new SearchMessage(SearchStates.Success, dictionaryType, result));
             _isSearching = false;
+            _isDislayingMatchedResult = true;
         }
 
         private bool CanExecuteSearchCommand(string key)
@@ -116,13 +129,17 @@ namespace Jaze.UI.ViewModel
         private SearchOption _searchOption;
 
         public DelegateCommand<SearchOption?> ChangeSearchOptionCommand => _searchOptionChange
-                                                                           ?? (_searchOptionChange = new DelegateCommand<SearchOption?>(ExecuteMyCommand));
+                                                                           ?? (_searchOptionChange = new DelegateCommand<SearchOption?>(ExecuteChangeSearchOptionCommand));
 
-        private void ExecuteMyCommand(SearchOption? option)
+        private void ExecuteChangeSearchOptionCommand(SearchOption? option)
         {
             if (option != null)
             {
                 _searchOption = (SearchOption)option;
+                if (_isDislayingMatchedResult)
+                {
+                    ExecuteSearchCommand(SearchKey);
+                }
             }
         }
 
