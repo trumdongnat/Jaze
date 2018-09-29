@@ -44,7 +44,10 @@ namespace Jaze.UI.ViewModel
 
         private void OnSelectedDictionaryChanged()
         {
-            _isDislayingMatchedResult = false;
+            if (_isDislayingMatchedResult)
+            {
+                ExecuteSearchCommand(SearchKey);
+            }
         }
 
         private string _searchKey = string.Empty;
@@ -73,6 +76,7 @@ namespace Jaze.UI.ViewModel
 
         private async void ExecuteSearchCommand(string key)
         {
+            _isDislayingMatchedResult = false;
             _isSearching = true;
             var dictionaryType = SelectedDictionary.Type;
             var pubSub = _eventAggregator.GetEvent<PubSubEvent<SearchMessage>>();
