@@ -45,6 +45,10 @@ namespace Jaze.UI.ViewModel
 
         private void OnSelectedItemChanged()
         {
+            if (SelectedItem == null)
+            {
+                return;
+            }
             var parameter = new NavigationParameters
             {
                 {ParamNames.Item, SelectedItem }
