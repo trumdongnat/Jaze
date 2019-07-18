@@ -16,23 +16,6 @@
     d:DesignWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger SourceObject="{Binding AddToGroupRequest}">
-            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterOwner">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:AddToGroupView />
-                </prism:PopupWindowAction.WindowContent>
-                <prism:PopupWindowAction.WindowStyle>
-                    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
-                        <Setter Property="MinHeight" Value="400" />
-                        <Setter Property="MaxHeight" Value="500" />
-                        <Setter Property="Width" Value="600" />
-                        <Setter Property="WindowStyle" Value="ToolWindow" />
-                    </Style>
-                </prism:PopupWindowAction.WindowStyle>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="310" />

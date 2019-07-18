@@ -8,13 +8,13 @@ using System.Windows.Documents;
 using System.Linq;
 using System.Threading.Tasks;
 using Jaze.UI.Messages;
-using Jaze.UI.Notification;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Services.Dialogs;
 
 namespace Jaze.UI.ViewModel
 {
-    public class KanjiPartViewModel : ViewModelBase, IInteractionRequestAware
+    public class KanjiPartViewModel : DialogViewModelBase
     {
         #region ----- Services -----
 
@@ -152,6 +152,7 @@ namespace Jaze.UI.ViewModel
             Parts = _kanjiPartService.GetListParts()
                 .Select(SelectablePartModel.Create)
                 .ToList();
+            Title = "Kanji Part";
         }
 
         private void ShowParts(List<string> parts)
@@ -170,25 +171,16 @@ namespace Jaze.UI.ViewModel
 
         #endregion ----- Contructor -----
 
-        #region Interaction
+        #region Dialog
 
-        private IShowKanjiPartNotification _kanjiPartNotification;
+        public override event Action<IDialogResult> RequestClose;
 
-        public INotification Notification
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
-            get => _kanjiPartNotification;
-            set
-            {
-                if (value is IShowKanjiPartNotification notification)
-                {
-                    _kanjiPartNotification = notification;
-                    ShowParts(_kanjiPartNotification.Parts);
-                }
-            }
+            var parts = parameters.GetValue<List<string>>("Parts");
+            ShowParts(parts);
         }
 
-        public Action FinishInteraction { get; set; }
-
-        #endregion Interaction
+        #endregion Dialog
     }
 }

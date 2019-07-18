@@ -18,6 +18,8 @@
     d:DataContext="{d:DesignInstance viewModel:KanjiPartViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
+    Height="500"
+    Width="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>

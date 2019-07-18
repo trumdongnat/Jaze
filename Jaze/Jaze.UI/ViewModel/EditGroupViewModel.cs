@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jaze.UI.Models;
-using Jaze.UI.Notification;
+﻿using Jaze.UI.Models;
 using Jaze.UI.Repository;
 using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
+using Prism.Services.Dialogs;
+using System;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Jaze.UI.ViewModel
 {
-    public class EditGroupViewModel : ViewModelBase, IInteractionRequestAware
+    public class EditGroupViewModel : DialogViewModelBase
     {
         private readonly IUserDataRepository _userDataRepository;
         private string _groupName;
@@ -22,6 +18,14 @@ namespace Jaze.UI.ViewModel
         {
             get => _groupName;
             set => SetProperty(ref _groupName, value);
+        }
+
+        private GroupModel _group;
+
+        public GroupModel Group
+        {
+            get { return _group; }
+            set { SetProperty(ref _group, value); }
         }
 
         private ObservableCollection<GroupItemModel> _itemCollection = new ObservableCollection<GroupItemModel>();
@@ -39,15 +43,14 @@ namespace Jaze.UI.ViewModel
 
         private async void ExecuteEditGroupCommand()
         {
-            await _userDataRepository.ChangeGroupName(_editGroupNotification.Group.Id, GroupName);
-            _editGroupNotification.Group.Name = GroupName;
-            _editGroupNotification.Confirmed = true;
-            FinishInteraction.Invoke();
+            await _userDataRepository.ChangeGroupName(Group.Id, GroupName);
+            Group.Name = GroupName;
+            RaiseCloseEvent();
         }
 
         private bool CanExecuteEditGroupCommand()
         {
-            return !string.IsNullOrWhiteSpace(GroupName) && GroupName != _editGroupNotification.Group.Name;
+            return !string.IsNullOrWhiteSpace(GroupName) && GroupName != Group.Name;
         }
 
         private DelegateCommand<IList> _deleteItemsCommand;
@@ -63,25 +66,20 @@ namespace Jaze.UI.ViewModel
                 for (int i = 0; i < items.Length; i++)
                 {
                     var item = items[i];
-                    await _userDataRepository.RemoveWord(_editGroupNotification.Group.Id, item.Type, item.WordId);
+                    await _userDataRepository.RemoveWord(Group.Id, item.Type, item.WordId);
                     ItemCollection.Remove(item);
                 }
             }
         }
 
-        private EditGroupNotification _editGroupNotification;
-
-        public INotification Notification
+        private void RaiseCloseEvent()
         {
-            get => _editGroupNotification; set
-            {
-                if (value is EditGroupNotification notification)
-                {
-                    _editGroupNotification = notification;
-                    SetGroup(notification.Group);
-                }
-            }
+            var parameters = new DialogParameters();
+            parameters.Add("Group", Group);
+            RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
         }
+
+        public override event Action<IDialogResult> RequestClose;
 
         private async void SetGroup(GroupModel group)
         {
@@ -93,6 +91,12 @@ namespace Jaze.UI.ViewModel
             }
 
             ItemCollection = group.Items;
+        }
+
+        public override void OnDialogOpened(IDialogParameters parameters)
+        {
+            Group = parameters.GetValue<GroupModel>("Group");
+            SetGroup(Group);
         }
 
         public Action FinishInteraction { get; set; }

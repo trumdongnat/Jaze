@@ -8,12 +8,16 @@ using Jaze.UI.Services.URI;
 using System.Linq;
 using Jaze.Domain.Definitions;
 using Jaze.UI.Models;
-using Jaze.UI.Notification;
 using Jaze.UI.Repository;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
+using Prism.Services.Dialogs;
+using Jaze.UI.Views;
+using System;
+using System.Collections.Generic;
+using Jaze.UI.Services;
 
 namespace Jaze.UI.ViewModel
 {
@@ -25,6 +29,7 @@ namespace Jaze.UI.ViewModel
         private readonly IDictionaryRepository _dictionaryRepository;
         private readonly IUriService _uriService;
         private readonly IUserDataRepository _userDataRepository;
+        private readonly IDialogService _dialogService;
 
         #endregion ----- Services -----
 
@@ -96,7 +101,7 @@ namespace Jaze.UI.ViewModel
                         if (!string.IsNullOrWhiteSpace(parameter))
                         {
                             var parts = parameter.ToCharArray().Select(c => c.ToString()).ToList();
-                            _messenger.GetEvent<PubSubEvent<ShowPartsMessage>>().Publish(new ShowPartsMessage(parts));
+                            _dialogService.ShowKanjiPartDialog(parts, null);
                         }
                         break;
 
@@ -154,51 +159,23 @@ namespace Jaze.UI.ViewModel
                 object id = _item.GetType().GetProperty("Id")?.GetValue(_item);
                 if (id is int idInt)
                 {
-                    RaiseSelectGroupInteraction(new GroupItemModel() { Type = type, WordId = idInt });
+                    var item = new GroupItemModel() { Type = type, WordId = idInt };
+                    _dialogService.ShowSelectGroupDialog(item, null);
                 }
             }
         }
 
         #endregion ----- Commands -----
 
-        #region Interaction
-
-        public InteractionRequest<ISelectGroupNotification> SelectGroupInteractionRequest { get; set; }
-        public InteractionRequest<INotification> ShowNotificationInteractionRequest { get; set; }
-
-        private void RaiseSelectGroupInteraction(GroupItemModel groupItem)
-        {
-            SelectGroupInteractionRequest.Raise(new SelectGroupNotification { Title = "Select Group", GroupItem = groupItem },
-                notification =>
-                {
-                    //if (notification.SelectedGroup != null)
-                    //{
-                    //    RaiseShowNotificationInteraction("Added to group", notification.SelectedGroup.Name);
-                    //}
-                    //else
-                    //{
-                    //    RaiseShowNotificationInteraction("Cancelled");
-                    //}
-                });
-        }
-
-        private void RaiseShowNotificationInteraction(string title, string message = "")
-        {
-            ShowNotificationInteractionRequest.Raise(new Prism.Interactivity.InteractionRequest.Notification { Title = title, Content = message });
-        }
-
-        #endregion Interaction
-
         #region ----- Contructor -----
 
-        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, IDictionaryRepository dictionaryRepository, IUserDataRepository userDataRepository)
+        public ItemDisplayViewModel(IEventAggregator messenger, IUriService uriService, IDictionaryRepository dictionaryRepository, IUserDataRepository userDataRepository, IDialogService dialogService)
         {
             _messenger = messenger;
             _uriService = uriService;
             _dictionaryRepository = dictionaryRepository;
             _userDataRepository = userDataRepository;
-            SelectGroupInteractionRequest = new InteractionRequest<ISelectGroupNotification>();
-            ShowNotificationInteractionRequest = new InteractionRequest<INotification>();
+            _dialogService = dialogService;
         }
 
         #endregion ----- Contructor -----

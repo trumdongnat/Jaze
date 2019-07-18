@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Jaze.UI.Definitions;
 using Jaze.UI.Models;
-using Jaze.UI.Notification;
 using Jaze.UI.Repository;
+using Jaze.UI.Services;
 using Jaze.UI.Views;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 namespace Jaze.UI.ViewModel
 {
@@ -16,6 +17,7 @@ namespace Jaze.UI.ViewModel
     {
         private readonly IUserDataRepository _userDataRepository;
         private readonly IRegionManager _regionManager;
+        private readonly IDialogService _dialogService;
 
         #region Properties
 
@@ -119,41 +121,33 @@ namespace Jaze.UI.ViewModel
 
         #region Interaction
 
-        public InteractionRequest<AddGroupNotification> AddGroupRequest { get; set; }
-
         private void RaiseAddGroupRequest()
         {
-            AddGroupRequest.Raise(new AddGroupNotification() { Title = "Add Group" }, notification =>
-               {
-                   if (notification.Confirmed)
-                   {
-                       Groups.Add(notification.GroupModel);
-                   }
-               });
+            _dialogService.ShowAddGroupDialog(result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    Groups.Add(result.Parameters.GetValue<GroupModel>("Group"));
+                }
+            });
         }
-
-        public InteractionRequest<EditGroupNotification> EditGroupRequest { get; set; }
 
         private void RaiseEditGroupRequest(GroupModel group)
         {
-            EditGroupRequest.Raise(new EditGroupNotification() { Title = "Edit Group", Group = group }, notification =>
-               {
-                   if (notification.Confirmed)
-                   {
-                       //TODO
-                   }
-               });
+            _dialogService.ShowEditGroupDialog(group, result =>
+            {
+                //TODO
+            });
         }
 
         #endregion Interaction
 
-        public WordGroupViewModel(IRegionManager regionManager, IUserDataRepository userDataRepository)
+        public WordGroupViewModel(IRegionManager regionManager, IUserDataRepository userDataRepository, IDialogService dialogService)
         {
             _userDataRepository = userDataRepository;
             _regionManager = regionManager;
+            _dialogService = dialogService;
             InitGroups();
-            AddGroupRequest = new InteractionRequest<AddGroupNotification>();
-            EditGroupRequest = new InteractionRequest<EditGroupNotification>();
         }
 
         private async void InitGroups()

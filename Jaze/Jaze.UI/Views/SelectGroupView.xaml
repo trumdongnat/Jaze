@@ -10,8 +10,8 @@
     xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     Name="TopParent"
     d:DataContext="{d:DesignInstance viewModel:SelectGroupViewModel}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    MinWidth="500"
+    MinHeight="300"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <Grid>

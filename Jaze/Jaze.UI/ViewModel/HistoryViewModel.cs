@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Jaze.Domain.Entities;
 using Jaze.UI.Definitions;
 using Jaze.UI.Models;
-using Jaze.UI.Notification;
 using Jaze.UI.Repository;
+using Jaze.UI.Services;
 using Jaze.UI.Views;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 namespace Jaze.UI.ViewModel
 {
@@ -20,6 +21,7 @@ namespace Jaze.UI.ViewModel
     {
         private readonly IUserDataRepository _userDataRepository;
         private IRegionManager _regionManager;
+        private IDialogService _dialogService;
 
         #region Properties
 
@@ -89,23 +91,22 @@ namespace Jaze.UI.ViewModel
 
         #region Interaction
 
-        public InteractionRequest<AddToGroupNotification> AddToGroupRequest { get; set; }
-
         private void RaiseAddToGroupRequest()
         {
             var items = HistoryCollection.Select(history =>
                 new GroupItemModel { Type = history.Type, WordId = history.Id, Item = history.Item }).ToList();
-            AddToGroupRequest.Raise(new AddToGroupNotification { Title = "Add To Group", Items = items });
+
+            _dialogService.ShowAddToGroupDialog(items, result => { });
         }
 
         #endregion Interaction
 
-        public HistoryViewModel(IUserDataRepository userDataRepository, IRegionManager regionManager)
+        public HistoryViewModel(IUserDataRepository userDataRepository, IRegionManager regionManager, IDialogService dialogService)
         {
             _userDataRepository = userDataRepository;
             _regionManager = regionManager;
+            _dialogService = dialogService;
             Init();
-            AddToGroupRequest = new InteractionRequest<AddToGroupNotification>();
         }
 
         private async void Init()

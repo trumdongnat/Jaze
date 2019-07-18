@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace Jaze.UI.Views
 {
-    /// <summary>
-    /// Interaction logic for AddGroupView.xaml
-    /// </summary>
     public partial class EditGroupView : UserControl
     {
         public EditGroupView()

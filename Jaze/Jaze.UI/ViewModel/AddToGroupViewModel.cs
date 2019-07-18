@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jaze.UI.Models;
-using Jaze.UI.Notification;
 using Jaze.UI.Repository;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Services.Dialogs;
 
 namespace Jaze.UI.ViewModel
 {
-    public class AddToGroupViewModel : ViewModelBase, IInteractionRequestAware
+    public class AddToGroupViewModel : DialogViewModelBase
     {
         private readonly IUserDataRepository _userDataRepository;
 
@@ -89,8 +89,8 @@ namespace Jaze.UI.ViewModel
             foreach (var item in SelectedItemCollection)
             {
                 await _userDataRepository.AddWord(SelectedGroup.Id, item.Type, item.WordId);
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
             }
-            FinishInteraction.Invoke();
         }
 
         private bool CanExecuteSaveCommand()
@@ -101,21 +101,6 @@ namespace Jaze.UI.ViewModel
         public AddToGroupViewModel(IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
-        }
-
-        private AddToGroupNotification _notification;
-
-        public INotification Notification
-        {
-            get => _notification;
-            set
-            {
-                if (value is AddToGroupNotification notification)
-                {
-                    _notification = notification;
-                    InitData(notification.Items);
-                }
-            }
         }
 
         private async void InitData(List<GroupItemModel> items)
@@ -133,6 +118,12 @@ namespace Jaze.UI.ViewModel
             UnselectedItemCollection.AddRange(items);
         }
 
-        public Action FinishInteraction { get; set; }
+        public override void OnDialogOpened(IDialogParameters parameters)
+        {
+            var items = parameters.GetValue<List<GroupItemModel>>("Items");
+            InitData(items);
+        }
+
+        public override event Action<IDialogResult> RequestClose;
     }
 }

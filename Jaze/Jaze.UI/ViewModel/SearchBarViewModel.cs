@@ -9,6 +9,7 @@ using Jaze.UI.Repository;
 using Jaze.UI.Services;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Services.Dialogs;
 
 namespace Jaze.UI.ViewModel
 {
@@ -21,6 +22,7 @@ namespace Jaze.UI.ViewModel
         private readonly IEventAggregator _eventAggregator;
 
         private readonly IDictionaryRepository _dictionaryRepository;
+        private readonly IDialogService _dialogService;
 
         #endregion ----- Services -----
 
@@ -121,7 +123,7 @@ namespace Jaze.UI.ViewModel
 
         private void ExecuteShowKanjiPartCommand()
         {
-            _eventAggregator.GetEvent<PubSubEvent<ShowPartsMessage>>().Publish(new ShowPartsMessage(new List<string>()));
+            _dialogService.ShowKanjiPartDialog(new List<string>());
         }
 
         private bool CanExecuteShowKanjiPartCommand()
@@ -151,10 +153,11 @@ namespace Jaze.UI.ViewModel
 
         #region ----- Contructor -----
 
-        public SearchBarViewModel(IEventAggregator eventAggregator, IDictionaryRepository dictionaryRepository)
+        public SearchBarViewModel(IEventAggregator eventAggregator, IDictionaryRepository dictionaryRepository, IDialogService dialogService)
         {
             _eventAggregator = eventAggregator;
             _dictionaryRepository = dictionaryRepository;
+            _dialogService = dialogService;
             ListDictionary = _dictionaryRepository.GetDictionarys();
             SelectedDictionary = ListDictionary[0];
         }

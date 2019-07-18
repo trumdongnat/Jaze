@@ -16,26 +16,7 @@
     d:DesignWidth="300"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger SourceObject="{Binding SelectGroupInteractionRequest, Mode=OneWay}">
-            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterOwner">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:SelectGroupView />
-                </prism:PopupWindowAction.WindowContent>
-                <prism:PopupWindowAction.WindowStyle>
-                    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="Window">
-                        <Setter Property="MinHeight" Value="300" />
-                        <Setter Property="MaxHeight" Value="500" />
-                        <Setter Property="Width" Value="400" />
-                        <Setter Property="WindowStyle" Value="ToolWindow" />
-                    </Style>
-                </prism:PopupWindowAction.WindowStyle>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-        <prism:InteractionRequestTrigger SourceObject="{Binding ShowNotificationInteractionRequest, Mode=OneWay}">
-            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterOwner" />
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
+
     <UserControl.Resources>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />

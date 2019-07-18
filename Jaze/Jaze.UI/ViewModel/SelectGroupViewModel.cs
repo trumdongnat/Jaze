@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jaze.UI.Models;
-using Jaze.UI.Notification;
+﻿using Jaze.UI.Models;
 using Jaze.UI.Repository;
 using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
+using Prism.Services.Dialogs;
+using System;
+using System.Collections.ObjectModel;
 
 namespace Jaze.UI.ViewModel
 {
-    public class SelectGroupViewModel : ViewModelBase, IInteractionRequestAware
+    public class SelectGroupViewModel : DialogViewModelBase
     {
         private readonly IUserDataRepository _userDataRepository;
         private GroupItemModel _groupItem;
@@ -32,6 +27,8 @@ namespace Jaze.UI.ViewModel
             set => SetProperty(ref _newGroupName, value);
         }
 
+        public GroupModel SelectedGroup { get; private set; }
+
         private DelegateCommand _addToNewGroupCommand;
 
         public DelegateCommand AddToNewGroupCommand =>
@@ -41,8 +38,8 @@ namespace Jaze.UI.ViewModel
         {
             int id = await _userDataRepository.AddGroup(NewGroupName);
             await _userDataRepository.AddWord(id, _groupItem.Type, _groupItem.WordId);
-            _selectGroupNotification.SelectedGroup = await _userDataRepository.GetGroup(id);
-            FinishInteraction.Invoke();
+            SelectedGroup = await _userDataRepository.GetGroup(id);
+            RaiseCloseEvent();
         }
 
         private bool CanExecuteAddToNewGroupCommand()
@@ -58,33 +55,30 @@ namespace Jaze.UI.ViewModel
         private async void ExecuteAddToGroupCommand(GroupModel group)
         {
             await _userDataRepository.AddWord(group.Id, _groupItem.Type, _groupItem.WordId);
-            _selectGroupNotification.SelectedGroup = group;
-            FinishInteraction.Invoke();
+            SelectedGroup = group;
+            RaiseCloseEvent();
         }
 
-        private ISelectGroupNotification _selectGroupNotification;
-
-        public INotification Notification
+        private void RaiseCloseEvent()
         {
-            get => _selectGroupNotification;
-            set
-            {
-                if (value is ISelectGroupNotification selectGroupNotification)
-                {
-                    _selectGroupNotification = selectGroupNotification;
-                    _groupItem = _selectGroupNotification.GroupItem;
-                    Init();
-                }
-            }
+            var parameters = new DialogParameters();
+            parameters.Add("SelectedGroup", SelectedGroup);
+            RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
         }
+
+        public override void OnDialogOpened(IDialogParameters parameters)
+        {
+            _groupItem = parameters.GetValue<GroupItemModel>("GroupItem");
+            Init();
+        }
+
+        public override event Action<IDialogResult> RequestClose;
 
         private async void Init()
         {
             var groups = await _userDataRepository.GetListGroup();
             GroupCollection = new ObservableCollection<GroupModel>(groups);
         }
-
-        public Action FinishInteraction { get; set; }
 
         public SelectGroupViewModel(IUserDataRepository userDataRepository)
         {
