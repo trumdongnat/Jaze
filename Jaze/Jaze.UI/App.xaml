@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 
                 <ResourceDictionary Source="Resources/DataTemplate.xaml" />
+                <ResourceDictionary Source="Controls/BusyIndicator/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--  Light Theme  -->

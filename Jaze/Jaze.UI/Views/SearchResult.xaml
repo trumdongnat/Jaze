@@ -7,15 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
+    xmlns:tk="clr-namespace:Jaze.UI.Controls"
     d:DataContext="{d:DesignInstance viewModel:SearchResultViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <tk:BusyIndicator
-        Name="SearchingIndicator"
+        x:Name="SearchingIndicator"
         Margin="5,5,0,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
