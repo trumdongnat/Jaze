@@ -7,13 +7,18 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     d:DataContext="{d:DesignInstance viewModel:AddToGroupViewModel}"
-    MinHeight="450"
-    MinWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+    <prism:Dialog.WindowStyle>
+        <Style BasedOn="{StaticResource {x:Type metro:MetroWindow}}" TargetType="metro:MetroWindow">
+            <Setter Property="Height" Value="450" />
+            <Setter Property="Width" Value="800" />
+        </Style>
+    </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

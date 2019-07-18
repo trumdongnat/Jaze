@@ -8,18 +8,17 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Jaze.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:models="clr-namespace:Jaze.UI.Models"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:tk="clr-namespace:Jaze.UI.Controls"
     xmlns:viewModel="clr-namespace:Jaze.UI.ViewModel"
     Name="TopParent"
     d:DataContext="{d:DesignInstance viewModel:KanjiPartViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    Height="500"
-    Width="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -33,6 +32,12 @@
         </CollectionViewSource>
         <system:Double x:Key="ButtonPartSize">30</system:Double>
     </UserControl.Resources>
+    <prism:Dialog.WindowStyle>
+        <Style BasedOn="{StaticResource {x:Type metro:MetroWindow}}" TargetType="metro:MetroWindow">
+            <Setter Property="Height" Value="500" />
+            <Setter Property="Width" Value="800" />
+        </Style>
+    </prism:Dialog.WindowStyle>
     <tk:BusyIndicator IsBusy="{Binding IsFiltering}">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
