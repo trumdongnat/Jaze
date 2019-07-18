@@ -101,6 +101,7 @@ namespace Jaze.UI.ViewModel
         public AddToGroupViewModel(IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
+            Title = "Add To Group";
         }
 
         private async void InitData(List<GroupItemModel> items)

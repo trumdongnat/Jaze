@@ -83,6 +83,7 @@ namespace Jaze.UI.ViewModel
         public SelectGroupViewModel(IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
+            Title = "Select Group";
         }
     }
 }

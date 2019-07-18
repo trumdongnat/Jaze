@@ -104,6 +104,7 @@ namespace Jaze.UI.ViewModel
         public EditGroupViewModel(IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
+            Title = "Edit Group";
         }
     }
 }

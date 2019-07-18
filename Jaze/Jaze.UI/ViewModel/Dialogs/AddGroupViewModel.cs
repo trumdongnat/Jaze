@@ -33,8 +33,6 @@ namespace Jaze.UI.ViewModel
             RaiseCloseEvent(group);
         }
 
-        
-
         private bool CanExecuteAddGroupCommand()
         {
             return !string.IsNullOrWhiteSpace(GroupName);
@@ -48,14 +46,15 @@ namespace Jaze.UI.ViewModel
         }
 
         public override event Action<IDialogResult> RequestClose;
+
         public override void OnDialogOpened(IDialogParameters parameters)
         {
-            
         }
 
         public AddGroupViewModel(IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
+            Title = "Add Group";
         }
     }
 }
