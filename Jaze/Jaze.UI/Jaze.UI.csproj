@@ -210,15 +210,15 @@
     <Compile Include="Services\UserData\IGroupService.cs" />
     <Compile Include="Services\UserData\IHistoryService.cs" />
     <Compile Include="Util\StringUtil.cs" />
-    <Compile Include="ViewModel\AddToGroupViewModel.cs" />
-    <Compile Include="ViewModel\DialogViewModelBase.cs" />
-    <Compile Include="ViewModel\EditGroupViewModel.cs" />
-    <Compile Include="ViewModel\AddGroupViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\AddToGroupViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DialogViewModelBase.cs" />
+    <Compile Include="ViewModel\Dialogs\EditGroupViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\AddGroupViewModel.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
-    <Compile Include="ViewModel\KanjiPartViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\KanjiPartViewModel.cs" />
     <Compile Include="ViewModel\ItemDisplayViewModel.cs" />
     <Compile Include="ViewModel\NotificationViewModel.cs" />
-    <Compile Include="ViewModel\SelectGroupViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\SelectGroupViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewModel\QuickViewViewModel.cs" />
     <Compile Include="ViewModel\SearchBarViewModel.cs" />
@@ -226,16 +226,16 @@
     <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WordGroupViewModel.cs" />
-    <Compile Include="Views\AddToGroupView.xaml.cs">
+    <Compile Include="Views\Dialogs\AddToGroupView.xaml.cs">
       <DependentUpon>AddToGroupView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DialogWindow.xaml.cs">
+    <Compile Include="Views\Dialogs\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditGroupView.xaml.cs">
+    <Compile Include="Views\Dialogs\EditGroupView.xaml.cs">
       <DependentUpon>EditGroupView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddGroupView.xaml.cs">
+    <Compile Include="Views\Dialogs\AddGroupView.xaml.cs">
       <DependentUpon>AddGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HistoryView.xaml.cs">
@@ -244,7 +244,7 @@
     <Compile Include="Views\ItemDisplayView.xaml.cs">
       <DependentUpon>ItemDisplayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\KanjiPart.xaml.cs">
+    <Compile Include="Views\Dialogs\KanjiPart.xaml.cs">
       <DependentUpon>KanjiPart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListDictionary.xaml.cs">
@@ -262,7 +262,7 @@
     <Compile Include="Views\SearchPanel.xaml.cs">
       <DependentUpon>SearchPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SelectGroupView.xaml.cs">
+    <Compile Include="Views\Dialogs\SelectGroupView.xaml.cs">
       <DependentUpon>SelectGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatusBar.xaml.cs">
@@ -271,19 +271,19 @@
     <Compile Include="Views\WordGroupPanel.xaml.cs">
       <DependentUpon>WordGroupPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddToGroupView.xaml">
+    <Page Include="Views\Dialogs\AddToGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DialogWindow.xaml">
+    <Page Include="Views\Dialogs\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditGroupView.xaml">
+    <Page Include="Views\Dialogs\EditGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AddGroupView.xaml">
+    <Page Include="Views\Dialogs\AddGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -291,7 +291,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SelectGroupView.xaml">
+    <Page Include="Views\Dialogs\SelectGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,7 +319,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\KanjiPart.xaml">
+    <Page Include="Views\Dialogs\KanjiPart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
