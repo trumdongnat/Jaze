@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        x:Class="Jaze.Views.SplashWindow"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="Jaze.Views.SplashWindow"
         Title="SplashWindow"
         Width="600"
         Height="300"
@@ -22,7 +22,7 @@
 			FontSize="30"
 			FontWeight="DemiBold"><Run Text="Từ điển tiếng Nhật"/></TextBlock>
 
-        <ProgressBar HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Top"
+        <telerik:RadProgressBar HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Top"
                                 Height ="30"
                                 IsIndeterminate="True"/>
         <TextBlock Grid.Row="2">Đang khởi tạo dữ liệu...</TextBlock>

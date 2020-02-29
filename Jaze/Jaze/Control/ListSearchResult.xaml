@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <tk:BusyIndicator Name="searchingIndicator"
+    <telerik:RadBusyIndicator Name="searchingIndicator"
                                       Margin="5,5,0,0"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                      BusyContent="Đang tìm kiếm">
+                                      BusyContent="Đang tìm kiếm" IsIndeterminate="True">
         <DockPanel>
             <Expander DockPanel.Dock="Bottom" FontSize="15" Header="Sort" BorderThickness="1,0,1,1" FontWeight="DemiBold" BorderBrush="Gray">
                 <StackPanel Orientation="Vertical" Margin="20,0,0,0" Name="sortPanel">
@@ -52,5 +52,5 @@
                 </ListBox.Style>
             </ListBox>
         </DockPanel>
-    </tk:BusyIndicator>
+    </telerik:RadBusyIndicator>
 </UserControl>
