@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jaze.DAO;
-using Jaze.Model;
+using Jaze.Domain;
+using Jaze.Domain.Entities;
 using Jaze.Util;
 
 namespace Jaze.Search
@@ -47,7 +47,7 @@ namespace Jaze.Search
         private static IEnumerable<Kanji> SearchVietNameseSentence(string key)
         {
             var arr = key.Split(' ');
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             var list = new List<Kanji>();
             foreach (var s in arr)
             {
@@ -65,31 +65,31 @@ namespace Jaze.Search
 
         private static IEnumerable<Kanji> LoadKanji(IList<char> arr)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return arr.Select(c => "" + c).Select(s => context.Kanjis.FirstOrDefault(kanji => kanji.Word == s)).ToList();
         }
 
         private static IEnumerable<Kanji> SearchContain(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.Kanjis.Where(kanji => kanji.HanViet.Contains(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchEndWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.Kanjis.Where(kanji => kanji.HanViet.EndsWith(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchStartWith(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.Kanjis.Where(kanji => kanji.HanViet.StartsWith(key)).ToArray();
         }
 
         private static IEnumerable<Kanji> SearchExact(string key)
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             //at stat
             var keyStart = key + ",";
             //at middle
@@ -101,7 +101,7 @@ namespace Jaze.Search
 
         private static IEnumerable<Kanji> GetAll()
         {
-            var context = DatabaseContext.Context;
+            var context = JazeDatabaseContext.Context;
             return context.Kanjis.ToArray();
         }
     }

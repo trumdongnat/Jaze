@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using Jaze.DAO;
+using Jaze.Domain;
 using Jaze.Search;
 using Jaze.Views;
 
@@ -41,8 +41,8 @@ namespace Jaze
 
         private void InitData()
         {
-            DatabaseContext.Context.Radicals.Load();
-            DatabaseContext.Context.Kanjis.Load();
+            JazeDatabaseContext.Context.Radicals.Load();
+            JazeDatabaseContext.Context.Kanjis.Load();
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 var mainWindow = new MainWindow();

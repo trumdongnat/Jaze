@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Jaze.Domain.Entities;
 
 namespace Jaze.Views
 {
@@ -14,23 +15,23 @@ namespace Jaze.Views
         public override DataTemplate SelectTemplate(object item,
                    DependencyObject container)
         {
-            if (item is Model.JaVi || item is Model.JaEn)
+            if (item is JaVi || item is JaEn)
             {
                 return JapaneseDataTemplate;
             }
-            if (item is Model.HanViet)
+            if (item is HanViet)
             {
                 return HanVietDataTemplate;
             }
-            if (item is Model.Kanji)
+            if (item is Kanji)
             {
                 return KanjiDataTemplate;
             }
-            if (item is Model.ViJa)
+            if (item is ViJa)
             {
                 return ViJaTemplate;
             }
-            if (item is Model.Grammar)
+            if (item is Grammar)
             {
                 return GrammarDataTemplate;
             }

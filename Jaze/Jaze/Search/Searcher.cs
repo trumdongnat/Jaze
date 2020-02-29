@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Jaze.Model;
+using Jaze.Domain.Entities;
+using DictionaryType = Jaze.Models.DictionaryType;
 
 namespace Jaze.Search
 {

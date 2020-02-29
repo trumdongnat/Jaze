@@ -1,4 +1,4 @@
-﻿using Jaze.Model;
+﻿using Jaze.Models;
 
 namespace Jaze.Search
 {

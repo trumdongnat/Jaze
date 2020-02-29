@@ -70,61 +70,65 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Telerik.Windows.Controls">
-      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Themes.VisualStudio2013, Version=2015.2.728.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\RCWPF\2015.2.728.45.NoXaml\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Control\KanjiPanel.xaml.cs">
+    <Compile Include="Controls\KanjiPanel.xaml.cs">
       <DependentUpon>KanjiPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\KanjiPartControl.xaml.cs">
+    <Compile Include="Controls\KanjiPartControl.xaml.cs">
       <DependentUpon>KanjiPartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListDictionary.xaml.cs">
+    <Compile Include="Controls\ListDictionary.xaml.cs">
       <DependentUpon>ListDictionary.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListSearchHistory.xaml.cs">
+    <Compile Include="Controls\ListSearchHistory.xaml.cs">
       <DependentUpon>ListSearchHistory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\ListSearchResult.xaml.cs">
+    <Compile Include="Controls\ListSearchResult.xaml.cs">
       <DependentUpon>ListSearchResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\QuickViewControl.xaml.cs">
+    <Compile Include="Controls\QuickViewControl.xaml.cs">
       <DependentUpon>QuickViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\SearchBar.xaml.cs">
+    <Compile Include="Controls\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Document\BuilderHelper.cs" />
-    <Compile Include="Document\Builder.cs" />
-    <Compile Include="Document\GrammarBuilder.cs" />
-    <Compile Include="Document\HanVietBuilder.cs" />
-    <Compile Include="Document\JaEnBuilder.cs" />
-    <Compile Include="Document\JaViBuilder.cs" />
-    <Compile Include="Document\JsonObject\GrammarDetail.cs" />
-    <Compile Include="Document\JsonObject\WordMean.cs" />
-    <Compile Include="Document\KanjiBuilder.cs" />
-    <Compile Include="Document\ViJaBuilder.cs" />
-    <Compile Include="Migrations\201711131245208_init.cs" />
-    <Compile Include="Migrations\201711131245208_init.Designer.cs">
-      <DependentUpon>201711131245208_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\Dictionary.cs" />
+    <Compile Include="Documents\BuilderHelper.cs" />
+    <Compile Include="Documents\Builder.cs" />
+    <Compile Include="Documents\GrammarBuilder.cs" />
+    <Compile Include="Documents\HanVietBuilder.cs" />
+    <Compile Include="Documents\JaEnBuilder.cs" />
+    <Compile Include="Documents\JaViBuilder.cs" />
+    <Compile Include="Documents\JsonObject\GrammarDetail.cs" />
+    <Compile Include="Documents\JsonObject\WordMean.cs" />
+    <Compile Include="Documents\KanjiBuilder.cs" />
+    <Compile Include="Documents\ViJaBuilder.cs" />
+    <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Search\GrammarSearcher.cs" />
     <Compile Include="Search\HanVietSearcher.cs" />
     <Compile Include="Search\JaenSearcher.cs" />
@@ -144,46 +148,35 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DAO\DatabaseContext.cs" />
-    <Compile Include="Model\JaEnExample.cs" />
-    <Compile Include="Model\Grammar.cs" />
-    <Compile Include="Model\HanViet.cs" />
-    <Compile Include="Model\ViJa.cs" />
-    <Compile Include="Model\JaEn.cs" />
-    <Compile Include="Model\JaVi.cs" />
-    <Compile Include="Model\Kanji.cs" />
-    <Compile Include="Model\Part.cs" />
-    <Compile Include="Model\Radical.cs" />
-    <Compile Include="Model\JaViExample.cs" />
-    <Page Include="Control\KanjiPanel.xaml">
+    <Page Include="Controls\KanjiPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\KanjiPartControl.xaml">
+    <Page Include="Controls\KanjiPartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListDictionary.xaml">
+    <Page Include="Controls\ListDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListSearchHistory.xaml">
+    <Page Include="Controls\ListSearchHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\ListSearchResult.xaml">
+    <Page Include="Controls\ListSearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\QuickViewControl.xaml">
+    <Page Include="Controls\QuickViewControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\SearchBar.xaml">
+    <Page Include="Controls\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resource\DataTemplate.xaml">
+    <Page Include="Resources\DataTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,9 +203,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201711131245208_init.resx">
-      <DependentUpon>201711131245208_init.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -249,6 +239,10 @@
     <ProjectReference Include="..\HtmlConverter\HtmlConverter.csproj">
       <Project>{e33dc949-9668-4025-8f3e-b971052126bc}</Project>
       <Name>HtmlConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jaze.Domain\Jaze.Domain.csproj">
+      <Project>{8bf5658a-80e1-45d3-9edc-32ebe8731feb}</Project>
+      <Name>Jaze.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
