@@ -136,9 +136,39 @@ namespace Jaze.UI.ViewModel
                                                               ExecuteCopyTextCommand,
                                                               CanExecuteCopyTextCommand));
 
-        private void ExecuteCopyTextCommand(string parameter)
+        private void ExecuteCopyTextCommand(string text)
         {
-            Clipboard.SetText(parameter ?? string.Empty);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                switch (_item)
+                {
+                    case KanjiModel kanji:
+                        text = kanji.Word;
+                        break;
+
+                    case GrammarModel grammar:
+                        text = grammar.Struct;
+                        break;
+
+                    case HanVietModel hanviet:
+                        text = hanviet.Word;
+                        break;
+
+                    case JaenModel jaen:
+                        text = jaen.Word;
+                        break;
+
+                    case JaviModel javi:
+                        text = javi.Word;
+                        break;
+
+                    case VijaModel vija:
+                        text = vija.Word;
+                        break;
+                }
+            }
+          
+            Clipboard.SetText(text ?? string.Empty);
         }
 
         private bool CanExecuteCopyTextCommand(string parameter)
